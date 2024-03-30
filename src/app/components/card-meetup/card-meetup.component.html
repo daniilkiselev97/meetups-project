@@ -1,0 +1,27 @@
+<div class="card-meetup">
+	<div class="card-meetup__header">
+		<button 
+			class="tui-btn tui-btn_icon"
+			tuiButton
+			type="button"
+			[icon]="getChevron()"
+			size="s"
+			(click)="clickToggleExpanded()"
+			
+		>
+		</button>
+
+	</div> <!-- .card-meetup__header -->
+	<div class="card-meetup__content">
+		<tui-expand [expanded]="expanded">
+			<ng-template tuiExpandContent>
+				<p>
+					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero, consequuntur? Ea natus, at magni vel quae ducimus pariatur perferendis est sint corrupti, quia ipsam! Assumenda totam facilis aliquid suscipit laudantium.
+				</p>
+			 
+			</ng-template>
+	
+	</tui-expand>
+
+	</div> <!-- .card-meetup__content -->
+</div> <!-- .card-meetup -->
