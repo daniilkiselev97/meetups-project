@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="navbar-brand">
+        <h2>MeetUps</h2>
+      </div>
+        <div class="navbar-nav">
+          <a class="nav-link" [routerLink]="['/all-meetups']" routerLinkActive="current" >Все митапы</a>
+          <a class="nav-link" [routerLink]="['/my-meetups']" routerLinkActive="current" >Мои митапы</a>
+          <a class="nav-link" [routerLink]="['/users']" routerLinkActive="current" >Пользователи</a>
+        </div>
+      <div>
+        <img class="logout-icon" src="../../assets/img/logout.svg" alt="logout">
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,45 @@
+.navbar-brand{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 76px;
+    cursor: pointer;
+}
+
+.navbar-nav{
+    gap: 10px;
+}
+
+.nav-link{
+    font-family: "Cherry Bomb One", system-ui;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.logout-icon{
+    cursor: pointer;
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: #08e329c7;
+  width: 0;
+  transition: 0.3s;
+}
+
+.nav-link:hover:after {
+    width: 100%;
+  }
+
+
