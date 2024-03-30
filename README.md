@@ -1,6 +1,8 @@
 # MeetupsProject
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.6.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.6. 
+
+run the project on version node.js v20.12.0
 
 ## Development server
 
