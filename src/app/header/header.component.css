@@ -1,4 +1,4 @@
-.navbar-brand{
+.navbar-brand h2{
     font-family: "Open Sans", sans-serif;
     font-weight: 700;
     font-size: 56px;
@@ -6,8 +6,20 @@
     cursor: pointer;
 }
 
+.navbar {
+	background-color: rgba(94, 93, 93, 0.237);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.container{
+	padding: 30px;
+}
+
 .navbar-nav{
-    gap: 10px;
+	display: flex;
+  gap: 15px;
 }
 
 .nav-link{
@@ -15,6 +27,9 @@
     font-weight: 400;
     font-size: 24px;
     line-height: 24px;
+		text-decoration: none;
+		color: rgb(86, 83, 83);
+
 }
 
 .logout-icon{
@@ -29,7 +44,7 @@
   position: absolute;
   content: "";
   left: 0;
-  bottom: 0;
+  bottom: -5px;
   display: block;
   width: 100%;
   height: 3px;
