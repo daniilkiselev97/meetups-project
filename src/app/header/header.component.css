@@ -1,9 +1,14 @@
-.navbar-brand h2{
-    font-family: "Open Sans", sans-serif;
-    font-weight: 700;
-    font-size: 56px;
-    line-height: 76px;
-    cursor: pointer;
+.navbar-brand h2 {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 700;
+	font-size: 56px;
+	line-height: 76px;
+	cursor: pointer;
+}
+
+
+.current-link {
+	color: rgb(24, 23, 23) !important;
 }
 
 .navbar {
@@ -13,48 +18,46 @@
 	justify-content: space-between;
 }
 
-.container{
+.container {
 	padding: 30px;
 }
 
-.navbar-nav{
+.navbar-nav {
 	display: flex;
-  gap: 15px;
-}
-
-.nav-link{
-    font-family: "Cherry Bomb One", system-ui;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 24px;
-		text-decoration: none;
-		color: rgb(86, 83, 83);
-
-}
-
-.logout-icon{
-    cursor: pointer;
+	gap: 15px;
 }
 
 .nav-link {
-    position: relative;
+	font-family: "Cherry Bomb One", system-ui;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 24px;
+	text-decoration: none;
+	cursor: pointer;
+	color: rgb(86, 83, 83);
+}
+
+.logout-icon {
+	cursor: pointer;
+}
+
+.nav-link {
+	position: relative;
 }
 
 .nav-link::after {
-  position: absolute;
-  content: "";
-  left: 0;
-  bottom: -5px;
-  display: block;
-  width: 100%;
-  height: 3px;
-  background: #08e329c7;
-  width: 0;
-  transition: 0.3s;
+	position: absolute;
+	content: "";
+	left: 0;
+	bottom: -5px;
+	display: block;
+	width: 100%;
+	height: 3px;
+	background: #08e329c7;
+	width: 0;
+	transition: 0.3s;
 }
 
 .nav-link:hover:after {
-    width: 100%;
-  }
-
-
+	width: 100%;
+}

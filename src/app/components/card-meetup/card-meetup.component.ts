@@ -11,6 +11,8 @@ export class CardMeetupComponent {
   private chevronDown: string = 'tuiIconChevronDown';
   private chevronUp: string = 'tuiIconChevronUp';
   public expanded: boolean = false;
+	public user: string = 'tuiIconUserLarge'
+
 
   constructor() {
 
@@ -22,6 +24,10 @@ export class CardMeetupComponent {
 
 	public clickToggleExpanded(): void {
 		this.expanded = !this.expanded;
+	}
+
+	public clickAction(): void {
+		alert('Я пойду')
 	}
 
 

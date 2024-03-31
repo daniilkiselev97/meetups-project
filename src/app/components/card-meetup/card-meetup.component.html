@@ -1,15 +1,59 @@
-<div class=" container card-meetup">
+<div class="container card-meetup bg-color-main">
 	<div class="card-meetup__header">
-		<button 
-			class="tui-btn tui-btn_icon"
-			tuiButton
-			type="button"
-			[icon]="getChevron()"
-			size="s"
-			(click)="clickToggleExpanded()"
-			
-		>
-		</button>
+			<div class="card-meetup__header-info">
+				<div class="card-meetup__header-info-item">
+					<span class="card-meetup__header-info-title">Angular vs react</span>
+					<span class="card-meetup__header-info-followers">321 подписчик</span>
+				</div>
+				<div class="card-meetup__header-info-item">
+					<p class="card-meetup__header-info-paragraph">Расскажу о том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом.</p>
+				</div>
+				<div class="card-meetup__header-info-item card-meetup__header-actions-item_gap">
+					<button 
+					size="xs"
+					tuiButton
+					class="tui-btn tui-btn_icon"
+					[icon]="user"
+					appearance="flat"
+					>
+					</button>
+					<span class="card-meetup__header-info-author">Александр Козаченко</span>
+				</div>
+			</div>
+
+			<div class="card-meetup__header-actions">
+				<div class="card-meetup__header-actions-item">
+					<div class="card-meetup__header-actions-title">14.08.22 13:00</div>
+				</div>
+				<div class="card-meetup__header-actions-item">
+					<div class="card-meetup__header-actions-location">Переговорная 14</div>
+				</div>
+				<div class="card-meetup__header-actions-item card-meetup__header-actions-item_gap">
+					<button 
+						class="tui-btn"
+						tuiButton
+						type="button"
+						appearance="accent"
+						shape = "rounded"
+						size="s"
+						(click)="clickAction()"
+					>
+						Я пойду
+					</button>
+					<button 
+						class="tui-btn tui-btn_icon"
+						tuiButton
+						type="button"
+						[icon]="getChevron()"
+						size="s"
+						(click)="clickToggleExpanded()"
+						
+					>
+					</button>
+				</div>
+			</div>
+		
+		
 
 	</div> <!-- .card-meetup__header -->
 	<div class="card-meetup__content">

@@ -1,0 +1,61 @@
+.card-meetup__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.card-meetup__header-info {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+
+.card-meetup__header-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+
+.card-meetup__header-actions-item_gap {
+	display: flex;
+	gap: 10px;
+}
+
+
+.card-meetup__header-info-title {
+	font-family: "Cherry Bomb One", system-ui;
+	color: rgba(165, 42, 42, 0.759);
+	font-size: 24px;
+	margin-right: 10px;
+}
+
+.card-meetup__header-info-paragraph {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(148, 131, 99, 0.85)
+}
+
+.card-meetup__header-info-followers {
+	font-family: "Open Sans", sans-serif;
+	font-size: 18px;
+	color: rgb(10, 147, 147);
+
+}
+
+.card-meetup__header-actions-location {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.742);
+
+}
+
+.card-meetup__header-info-author {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.742);
+}

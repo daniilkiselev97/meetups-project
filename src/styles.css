@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-*, *::after, *::before {
+*,
+*::after,
+*::before {
 	box-sizing: border-box;
 }
 
@@ -12,11 +14,27 @@
 }
 
 .container {
-  margin: 0 auto;
-  padding: 70px;
-  background-color: #f2f2f2;
+	margin: 0 auto;
+	padding: 50px;
+	
 }
 
+/* Taiga UI */
 .tui-btn_icon .t-left {
 	margin-right: 0 !important;
+}
+
+.tui-btn_title .t-left {
+	display: none !important;
+}
+/* Taiga UI */
+
+.bg-color-main {
+	background-color: #f2f2f2;
+}
+
+.error {
+	color: var(--tui-negative, red);
+	margin-top: 0.25rem;
+  white-space: pre-line;
 }
