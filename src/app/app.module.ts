@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import {TuiExpandModule, TuiButtonModule, TuiErrorModule} from '@taiga-ui/core';
-import {TuiInputModule, TuiFieldErrorPipeModule} from '@taiga-ui/kit';
+import {TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule} from '@taiga-ui/kit';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -17,6 +17,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthorizationComponent } from "./pages/authorization/authorization.component";
+import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AuthorizationComponent } from "./pages/authorization/authorization.comp
     MyMeetupsComponent,
     UsersComponent,
     CardMeetupComponent,
-		AuthorizationComponent
+		AuthorizationComponent,
+  	EditMeetupComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { AuthorizationComponent } from "./pages/authorization/authorization.comp
 		HttpClientModule,
 		TuiInputModule,
 		TuiErrorModule,
-		TuiFieldErrorPipeModule
+		TuiFieldErrorPipeModule,
+		TuiInputDateModule
 ],
   providers: [
 		{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},

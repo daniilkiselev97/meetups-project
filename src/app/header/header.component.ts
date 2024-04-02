@@ -14,9 +14,9 @@ import { User } from '../models/user.models';
 })
 export class HeaderComponent {
 	public authUser$: Observable<User | null> = this._authService.authUser$.pipe(
-		tap(console.log)
+		// tap(console.log)
 	)
-  public isAuth$: Observable<boolean> = this._authService.isAuth$;
+  public isAuth$: Observable<boolean> = this._authService.isAuth$
 
 
 	constructor(

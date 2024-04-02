@@ -40,4 +40,3 @@ export class AuthorizationComponent {
   }
 }
 
-//Beh Sub хранить состояние(next|.value) и слушать это состояние 

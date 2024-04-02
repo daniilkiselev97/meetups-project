@@ -1,71 +1,104 @@
-<div class="container card-meetup bg-color-main">
-	<div class="card-meetup__header">
-			<div class="card-meetup__header-info">
-				<div class="card-meetup__header-info-item">
-					<span class="card-meetup__header-info-title">Angular vs react</span>
-					<span class="card-meetup__header-info-followers">321 подписчик</span>
-				</div>
-				<div class="card-meetup__header-info-item">
-					<p class="card-meetup__header-info-paragraph">Расскажу о том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом.</p>
-				</div>
-				<div class="card-meetup__header-info-item card-meetup__header-actions-item_gap">
-					<button 
-					size="xs"
-					tuiButton
-					class="tui-btn tui-btn_icon"
-					[icon]="user"
-					appearance="flat"
-					>
-					</button>
-					<span class="card-meetup__header-info-author">Александр Козаченко</span>
-				</div>
-			</div>
+<div class="container card-meetup">
+	<div class="card-meetup__header bg-color-main">
+		<div class="card-meetup__header-info">
+			<div class="card-meetup__header-info-item">
+				<span class="card-meetup__header-info-title card-meetup__header-item_color">Angular vs react</span>
+				<span class="card-meetup__header-info-followers">321 подписчик</span>
+			</div> <!-- .card-meetup__header-info-item-->
+			<div class="card-meetup__header-info-item">
+				<p class="card-meetup__header-info-paragraph">Расскажу о том, об этом. О том, об этом. О том, об этом. О том, об
+					этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом.</p>
+			</div> <!-- .card-meetup__header-info-item-->
+			<div class="card-meetup__header-info-item card-meetup__header-actions-item_gap">
+				<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="user" appearance="flat">
+				</button>
+				<span class="card-meetup__header-info-author">Александр Козаченко</span>
+			</div> <!-- .card-meetup__header-info-item-->
+		</div> <!-- .card-meetup__header-info -->
 
-			<div class="card-meetup__header-actions">
-				<div class="card-meetup__header-actions-item">
-					<div class="card-meetup__header-actions-title">14.08.22 13:00</div>
-				</div>
-				<div class="card-meetup__header-actions-item">
-					<div class="card-meetup__header-actions-location">Переговорная 14</div>
-				</div>
-				<div class="card-meetup__header-actions-item card-meetup__header-actions-item_gap">
-					<button 
-						class="tui-btn"
-						tuiButton
-						type="button"
-						appearance="accent"
-						shape = "rounded"
-						size="s"
-						(click)="clickAction()"
-					>
-						Я пойду
-					</button>
-					<button 
-						class="tui-btn tui-btn_icon"
-						tuiButton
-						type="button"
-						[icon]="getChevron()"
-						size="s"
-						(click)="clickToggleExpanded()"
-						
-					>
-					</button>
-				</div>
+		<div class="card-meetup__header-actions">
+			<div class="card-meetup__header-actions-item">
+				<div class="card-meetup__header-actions-title card-meetup__header-item_color">14.08.22 13:00</div>
+			</div> <!-- .card-meetup__header-actions-item -->
+			<div class="card-meetup__header-actions-item">
+				<div class="card-meetup__header-actions-location">Переговорная 14</div>
 			</div>
-		
-		
+			<div class="card-meetup__header-actions-item card-meetup__header-actions-item_gap">
+				<button class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
+					(click)="clickAction()">
+					Я пойду
+				</button>
+				<button class="tui-btn tui-btn_icon" tuiButton type="button" [icon]="getChevron()" size="s"
+					(click)="clickToggleExpanded()">
+				</button>
+			</div>
+		</div> <!-- .card-meetup__header-actions -->
 
 	</div> <!-- .card-meetup__header -->
-	<div class="card-meetup__content">
+	<div [hidden]="hidden" class="card-meetup__content bg-color-main">
 		<tui-expand [expanded]="expanded">
 			<ng-template tuiExpandContent>
-				<p>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero, consequuntur? Ea natus, at magni vel quae ducimus pariatur perferendis est sint corrupti, quia ipsam! Assumenda totam facilis aliquid suscipit laudantium.
-				</p>
-			 
+				<div class="card-meetup__content-info">
+					<div class="card-meetup__content-info-item">
+						<span class="card-meetup__content-info-title card-meetup__content-item_color">Ангуляр против реакта</span>
+						<span class="card-meetup__content-info-followers">321 подписчик</span>
+					</div> <!-- .card-meetup__header-info-item-->
+					<div class="card-meetup__content-info-item">
+						<p class="card-meetup__content-info-paragraph">А здесь я ещё более подробно напишу об том, отб этом. О том,
+							об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. А
+							здесь я ещё более подробно напишу об том, отб этом. О том, об этом. О том, об этом. О том, об этом. О том,
+							об этом. О том, об этом. О том, об этом. О том, об этом. А здесь я ещё более подробно напишу об том, отб
+							этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О
+							том, об этом. </p>
+					</div> <!-- .card-meetup__content-info-item-->
+
+					<div class="card-meetup__content-info-item">
+						<div class="card-meetup__content-info-list">Целевая аудитория
+							<div class="card-meetup__content-info-list-answers">разрабы, аналитики, и проч</div>
+						</div>
+					</div> <!-- .card-meetup__content-info-item-->
+
+					<div class="card-meetup__content-info-item">
+						<div class="card-meetup__content-info-list">Что надо знать?
+							<div class="card-meetup__content-info-list-answers">Вот это</div>
+							<div class="card-meetup__content-info-list-answers">Вот это</div>
+							<div class="card-meetup__content-info-list-answers">Вот это</div>
+							<div class="card-meetup__content-info-list-answers">Вот это</div>
+						</div>
+					</div> <!-- .card-meetup__content-info-item-->
+
+					<div class="card-meetup__content-info-item">
+						<div class="card-meetup__content-info-list">Что будет?
+							<div class="card-meetup__content-info-list-answers">вот этому научу</div>
+							<div class="card-meetup__content-info-list-answers">вот это расскажу</div>
+							<div class="card-meetup__content-info-list-answers">вот этому научу</div>
+							<div class="card-meetup__content-info-list-answers">вот это расскажу</div>
+						</div>
+					</div> <!-- .card-meetup__content-info-item-->
+
+					<div class="card-meetup__content-info-item">
+						<div class="card-meetup__content-info-list">Почему надо обязательно прийти?
+							<div class="card-meetup__content-info-list-answers">У меня красный пояс по C++</div>
+						</div>
+					</div> <!-- .card-meetup__content-info-item-->
+
+					<div class="card-meetup__content-info-item card-meetup__content-actions-item_gap">
+						<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="user" appearance="flat">
+						</button>
+						<span class="card-meetup__content-info-author">Александр Козаченко</span>
+					</div> <!-- .card-meetup__content-info-item-->
+
+				</div> <!--card-meetup__content-info-->
+
 			</ng-template>
-	
-	</tui-expand>
+
+		</tui-expand>
 
 	</div> <!-- .card-meetup__content -->
+	<div class="card-meetup__btn-create">
+		<button (click)="clickCreating()" class="tui-btn" tuiButton size="m" appearance="secondary">
+			Создать митап
+		</button>
+	</div> <!-- .card-meetup__btn-create -->
+
 </div> <!-- .card-meetup -->

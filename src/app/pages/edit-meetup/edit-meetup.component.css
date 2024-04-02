@@ -1,0 +1,41 @@
+/* edit-meetup-item */
+
+.edit-meetup-item-title {
+	font-family: "Cherry Bomb One", system-ui;
+	font-weight: 400;
+	font-size: 24px;
+	color: rgb(86, 83, 83);
+}
+
+.edit-meetup-item-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.edit-meetup {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.edit-meetup-item-input {
+	padding-top: 0 !important;
+}
+
+.edit-meetup-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+}
+
+.b-form {
+	width: 50%;
+}
+
+.edit-meetup-item__info {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+}

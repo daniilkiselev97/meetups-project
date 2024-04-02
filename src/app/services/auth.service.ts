@@ -74,8 +74,8 @@ export class AuthService {
 
 	private _syncLogin(token: string, updatedLocalStorage: boolean): void {
 		const userBackend = this._getUserFromToken(token);
+		// console.log(userBackend)
 		const user = this._convertUserBackendToUser(userBackend);
-
 
 		this._stateAuthUser.next(user)
 		if (updatedLocalStorage === true) {
@@ -90,6 +90,7 @@ export class AuthService {
 		};
 
 		const roleNames = userBackend.roles.map(role => role.name);
+
 
 		for (const roleName of roleNames) {
 			if (roleName === 'ADMIN') {

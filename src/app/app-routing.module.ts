@@ -4,6 +4,7 @@ import { AllMeetupsComponent } from './pages/all-meetups/all-meetups.component';
 import { MyMeetupsComponent } from './pages/my-meetups/my-meetups.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthorizationComponent } from './pages/authorization/authorization.component';
+import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
     path: 'login',
     component: AuthorizationComponent,
   },
+	{
+		path: 'edit',
+		component: EditMeetupComponent
+	}
   
 ];
 
