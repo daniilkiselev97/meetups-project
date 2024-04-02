@@ -16,7 +16,7 @@
 .container {
 	margin: 0 auto;
 	padding: 50px;
-	
+
 }
 
 /* Taiga UI */
@@ -28,6 +28,12 @@
 	display: none !important;
 }
 
+/* .clock-form .t-icons {
+	background-color: blue;
+	cursor: pointer!important;
+	pointer-events: auto;
+} */
+
 
 /* Taiga UI */
 
@@ -38,5 +44,5 @@
 .error {
 	color: var(--tui-negative, red);
 	margin-top: 0.25rem;
-  white-space: pre-line;
+	white-space: pre-line;
 }
