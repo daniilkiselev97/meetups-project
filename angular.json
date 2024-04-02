@@ -55,9 +55,8 @@
               }
             ],
             "styles": [
-              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-fonts.less",
-              "src/styles.css"
+							"src/styles/styles.css",
+							"src/styles/taiga.less"
             ],
             "scripts": []
           },
@@ -120,7 +119,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/styles.css",
+							"src/styles/taiga.less"
             ],
             "scripts": []
           }

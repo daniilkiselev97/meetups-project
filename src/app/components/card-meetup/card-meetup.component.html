@@ -35,9 +35,10 @@
 		</div> <!-- .card-meetup__header-actions -->
 
 	</div> <!-- .card-meetup__header -->
-	<div [hidden]="hidden" class="card-meetup__content bg-color-main">
-		<tui-expand [expanded]="expanded">
-			<ng-template tuiExpandContent>
+	
+	<tui-expand [expanded]="expanded">
+		<ng-template tuiExpandContent>
+			<div class="card-meetup__content bg-color-main">
 				<div class="card-meetup__content-info">
 					<div class="card-meetup__content-info-item">
 						<span class="card-meetup__content-info-title card-meetup__content-item_color">Ангуляр против реакта</span>
@@ -89,12 +90,10 @@
 					</div> <!-- .card-meetup__content-info-item-->
 
 				</div> <!--card-meetup__content-info-->
+			</div>
+		</ng-template>
+	</tui-expand>
 
-			</ng-template>
-
-		</tui-expand>
-
-	</div> <!-- .card-meetup__content -->
 	<div class="card-meetup__btn-create">
 		<button (click)="clickCreating()" class="tui-btn" tuiButton size="m" appearance="secondary">
 			Создать митап

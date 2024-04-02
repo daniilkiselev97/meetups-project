@@ -12,7 +12,6 @@ export class CardMeetupComponent {
 	private chevronDown: string = 'tuiIconChevronDown';
 	private chevronUp: string = 'tuiIconChevronUp';
 	public expanded: boolean = false;
-	public hidden: boolean = true
 	public user: string = 'tuiIconUserLarge'
 
 	constructor(
@@ -27,7 +26,6 @@ export class CardMeetupComponent {
 
 	public clickToggleExpanded(): void {
 		this.expanded = !this.expanded;
-		this.hidden = !this.hidden
 	}
 
 	public clickAction(): void {

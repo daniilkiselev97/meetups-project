@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import {TuiExpandModule, TuiButtonModule, TuiErrorModule} from '@taiga-ui/core';
-import {TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextAreaModule} from '@taiga-ui/kit';
+import {TuiExpandModule, TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule} from '@taiga-ui/core';
+import {TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule} from '@taiga-ui/kit';
 
 
 //TUI_INPUT_TIME_OPTIONS
@@ -48,7 +48,10 @@ import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
 		TuiFieldErrorPipeModule,
 		TuiInputDateModule,
 		TuiInputTimeModule,
-		TuiTextAreaModule
+		TuiTextareaModule,
+		TuiTextfieldControllerModule,
+		TuiPrimitiveTextfieldModule
+		
 ],
   providers: [
 		{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},

@@ -22,12 +22,12 @@ export class EditMeetupComponent {
 		date: new FormControl(new TuiDay(2025, 3, 2)),
 		time: new FormControl(null),
 		location: new FormControl(''),
-		short_description: new FormControl('', Validators.required),
-		detailed_description: new FormControl('', Validators.required),
-		target_audience: new FormControl('Аналитики, тестировщики, зумеры...', Validators.required),
-		what_need_to_know: new FormControl('', Validators.required),
-		what_will_happen: new FormControl('', Validators.required),
-		why_do_i_have_to_come: new FormControl('', Validators.required),
+		shortDescription: new FormControl('', Validators.required),
+		detailedDescription: new FormControl('', Validators.required),
+		targetAudience: new FormControl('', Validators.required),
+		whatNeedToKnow: new FormControl('', Validators.required),
+		whatWillHappen: new FormControl('', Validators.required),
+		haveToCome: new FormControl('', Validators.required),
 	});
 
 	items1 = tuiCreateTimePeriods();
