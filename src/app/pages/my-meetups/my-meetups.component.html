@@ -1,3 +1,22 @@
-<div class="cards-wrapper bg-color-main">
-	<card-meetup></card-meetup>
+<div class="section-cards bg-color-main">
+
+	<div class="container">
+
+		<ng-container *ngIf="myMeetups$ | async as myMeetups">
+			<div class="cards-wrapper">
+				<ng-container *ngFor="let myMeetup of myMeetups">
+					<card-meetup-my [meetup]="myMeetup"></card-meetup-my>
+				</ng-container>
+			</div>
+		</ng-container>
+	
+		<div class="card-meetup__btn-create">
+			<button (click)="clickCreateMeetup()" class="tui-btn" tuiButton size="m" appearance="secondary">
+				Создать митап
+			</button>
+		</div> <!-- .card-meetup__btn-create -->
+
+	</div>
+
+
 </div>

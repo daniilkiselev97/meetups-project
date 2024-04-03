@@ -17,10 +17,14 @@
 
 		<div class="form__item">
 
-			<tui-input [formControl]="myForm.controls.password">
-				<span>Password</span>
-				<input tuiTextfield type="password" />
-			</tui-input>
+			<tui-input-password
+        [formControl]="myForm.controls.password"
+        tuiHintAppearance="onDark"
+        tuiHintContent
+        tuiHintDirection="right"
+    >
+        Type a password
+    </tui-input-password>
 			<div class="error" *ngIf="myForm.controls.password.hasError('required') && myForm.controls.password.touched">
 				Поле обязательно для заполнения
 			</div>

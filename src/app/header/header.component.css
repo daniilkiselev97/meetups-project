@@ -1,5 +1,7 @@
-.container {
-	padding: 40px;
+.header {
+	padding: 40px 0;
+	background-color: rgba(94, 93, 93, 0.237);
+
 }
 
 .navbar-brand h2 {
@@ -15,8 +17,7 @@
 	color: rgb(24, 23, 23) !important;
 }
 
-.navbar {
-	background-color: rgba(94, 93, 93, 0.237);
+.header__wrapper {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -25,7 +26,6 @@
 .navbar-brand_logo {
 	cursor: pointer;
 }
-
 
 
 .navbar-nav {

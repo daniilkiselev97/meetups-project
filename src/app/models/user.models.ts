@@ -5,6 +5,13 @@ export interface User  {
   roles: UserRoles;
 }
 
+export interface MeetupBackendUser {
+	id: number;
+	email: string;
+	password: string;
+	fio: string;
+}
+
 export interface UserRoles {
 	isUser: boolean;
 	isAdmin: boolean;

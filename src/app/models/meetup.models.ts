@@ -1,4 +1,4 @@
-import { User } from "./user.models";
+import { MeetupBackendUser, User } from "./user.models";
 
 export interface MeetupBackend {
 	id: number;
@@ -12,11 +12,14 @@ export interface MeetupBackend {
 	time: Date;
 	duration: number;
 	createdBy: number;
-	owner: User;
-	users: User[];
+	owner: MeetupBackendUser;
+	users: MeetupBackendUser[];
+	createdAt: string;
 }
 
-export interface MeetupForAuthUser extends MeetupBackend {
+
+
+export interface Meetup extends MeetupBackend {
 	authUser: User | null,
 	authUserIsOwner: boolean;
 	registeredForMeetup: boolean;

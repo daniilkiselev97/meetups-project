@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import {TuiSvgModule,TuiExpandModule, TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiLinkModule} from '@taiga-ui/core';
-import {TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiRadioLabeledModule} from '@taiga-ui/kit';
+import { TuiSvgModule, TuiExpandModule, TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiLinkModule } from '@taiga-ui/core';
+import { TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiRadioLabeledModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 
 
 //TUI_INPUT_TIME_OPTIONS
@@ -23,27 +23,33 @@ import { AuthorizationComponent } from "./pages/authorization/authorization.comp
 import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
 import { CardUserComponent } from './components/card-user/card-user.component';
 import { EditingDataComponent } from './pages/editing-data/editing-data.component';
+import { CardMeetupAtomComponent } from './components/card-meetup-atom/card-meetup-atom.component';
+import { CardMeetupMyComponent } from './components/card-meetup-my/card-meetup-my.component';
+import { CardDatePipe } from './pipes/card-date.pipe';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    AllMeetupsComponent,
-    MyMeetupsComponent,
-    UsersComponent,
-    CardMeetupComponent,
+	declarations: [
+		AppComponent,
+		HeaderComponent,
+		AllMeetupsComponent,
+		MyMeetupsComponent,
+		UsersComponent,
+		CardMeetupComponent,
 		AuthorizationComponent,
-  	EditMeetupComponent,
-   	CardUserComponent,
-    EditingDataComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    TuiRootModule,
-    TuiExpandModule, 
-    TuiButtonModule,
+		EditMeetupComponent,
+		CardUserComponent,
+		EditingDataComponent,
+  CardMeetupAtomComponent,
+  CardMeetupMyComponent,
+  CardDatePipe
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		TuiRootModule,
+		TuiExpandModule,
+		TuiButtonModule,
 		ReactiveFormsModule,
 		FormsModule,
 		HttpClientModule,
@@ -57,15 +63,17 @@ import { EditingDataComponent } from './pages/editing-data/editing-data.componen
 		TuiPrimitiveTextfieldModule,
 		TuiSvgModule,
 		TuiRadioLabeledModule,
-		TuiLinkModule
-		
-],
-  providers: [
-		{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-		
-		
+		TuiLinkModule,
+		TuiInputPasswordModule
+
 	],
-  bootstrap: [AppComponent]
+	providers: [
+		{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+	
+
+
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
