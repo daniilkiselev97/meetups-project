@@ -26,8 +26,6 @@ export class MeetupsService {
 		this._init();
 	}
 
-
-
 	public getAll(): Observable<Meetup[]> { //слушает все митапы и будет заново делать запрос если авт пользователь меняется
 		// return combineLatest([  //слушает 2 потока и если что то изменяется в одном из потоков то заново запускает subscribe
 		// 	this._http.get<MeetupBackend[]>(this._baseUrl), //при старте все потоки должны испустить значение
@@ -40,7 +38,7 @@ export class MeetupsService {
 		// 		))
 		// 	)
 		// );
-		return this._stateUpdateMeetupsTrigger.pipe( //
+		return this._stateUpdateMeetupsTrigger.pipe(
 			switchMap(() => this._authService.authUser$),  //переключить на другой поток
 			switchMap((authUser) => combineLatest([
 				this._http.get<MeetupBackend[]>(this._baseUrl),
@@ -51,6 +49,7 @@ export class MeetupsService {
 					authUser, meetupForBackend
 				))
 			)
+			// tap(console.log)
 		)
 	}
 
@@ -76,7 +75,7 @@ export class MeetupsService {
 				idUser: user.id
 			}
 		}).pipe(
-			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
+			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)) // ??
 		)
 
 	}

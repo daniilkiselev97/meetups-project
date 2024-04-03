@@ -6,5 +6,10 @@
 }
 
 .section-cards {
-	padding-top: 40px;
+	padding: 40px 0;
+}
+
+.card-meetup__btn-create {
+	display: flex;
+	justify-content: center;
 }
