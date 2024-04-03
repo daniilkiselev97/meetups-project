@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'users',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent {
+	constructor(private _router: Router){}
+
+	goEditingData() {
+		this._router.navigateByUrl('editing-data')
+	}
 
 }

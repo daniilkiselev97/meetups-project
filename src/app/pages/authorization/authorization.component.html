@@ -11,12 +11,12 @@
 			<div class="error" *ngIf="myForm.controls.email.hasError('required') && myForm.controls.email.touched">
 				Поле обязательно для заполнения
 			</div>
-	
-	
+
+
 		</div>
-	
+
 		<div class="form__item">
-	
+
 			<tui-input [formControl]="myForm.controls.password">
 				<span>Password</span>
 				<input tuiTextfield type="password" />
@@ -24,14 +24,14 @@
 			<div class="error" *ngIf="myForm.controls.password.hasError('required') && myForm.controls.password.touched">
 				Поле обязательно для заполнения
 			</div>
-	
+
 		</div>
-	
+
 		<div class="form__item form__item_actions">
 			<a icon="tuiIconSettings" tuiLink [pseudo]="true" mode="positive">
 				How to create account ?
 			</a>
-			<button tuiButton type="submit" class="tui-btn" [disabled]="!myForm.valid">
+			<button size="l" tuiButton type="submit" class="tui-btn" [disabled]="!myForm.valid">
 				LOG IN
 			</button>
 		</div>

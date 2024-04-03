@@ -1,31 +1,30 @@
 <nav class="container navbar">
-		<ng-container *ngIf="{
+	<ng-container *ngIf="{
 			authUser: authUser$ | async,
 			isAuth: isAuth$ | async
 		} as obs">
-			<div class="navbar-brand">
-				<h2>MeetUps</h2>
-			</div>
-			<div class="navbar-nav">
-				<a class="nav-link" [routerLink]="['/all-meetups']" routerLinkActive="current-link">Все митапы</a>
-				<ng-container *ngIf="obs.isAuth">
-					<a class="nav-link" [routerLink]="['/my-meetups']" routerLinkActive="current-link">Мои митапы</a>
-				</ng-container>
-				<ng-container *ngIf="obs.authUser?.roles?.isAdmin">
-					<a class="nav-link" [routerLink]="['/users']" routerLinkActive="current-link">Пользователи</a>
-				</ng-container>
-			</div>
-			<div>
-				<ng-container *ngIf="!obs.isAuth">
-					<a class="nav-link" [routerLink]="['/login']" routerLinkActive="current-link">Войти</a>
-				</ng-container>
-				<ng-container *ngIf="obs.isAuth">
-					<div class="navbar-nav__links">
-						<span class="navbar-nav__links-email">{{obs.authUser?.email}}</span>
-						<a class="nav-link" (click)="logout()">Выйти</a>
-					</div>
-				</ng-container>
-			</div>
-		</ng-container>
+		<div class="navbar-brand">
+			<img class="navbar-brand_logo" src="../../assets/img/logo.svg" alt="logo">
+		</div>
+		<div class="navbar-nav">
+			<a class="nav-link" [routerLink]="['/all-meetups']" routerLinkActive="current-link">Все митапы</a>
+			<ng-container *ngIf="obs.isAuth">
+				<a class="nav-link" [routerLink]="['/my-meetups']" routerLinkActive="current-link">Мои митапы</a>
+			</ng-container>
+			<ng-container *ngIf="obs.authUser?.roles?.isAdmin">
+				<a class="nav-link" [routerLink]="['/users']" routerLinkActive="current-link">Пользователи</a>
+			</ng-container>
+		</div>
+		<div>
+			<ng-container *ngIf="!obs.isAuth">
+				<a class="nav-link" [routerLink]="['/login']" routerLinkActive="current-link">Войти</a>
+			</ng-container>
+			<ng-container *ngIf="obs.isAuth">
+				<div class="navbar-nav__links">
+					<span class="navbar-nav__links-email">{{obs.authUser?.email}}</span>
+					<a class="nav-link" (click)="logout()">Выйти</a>
+				</div>
+			</ng-container>
+		</div>
+	</ng-container>
 </nav>
-
