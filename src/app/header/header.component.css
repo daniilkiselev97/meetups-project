@@ -61,3 +61,17 @@
 .nav-link:hover:after {
 	width: 100%;
 }
+
+.navbar-nav__links {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+
+}
+
+.navbar-nav__links-email {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 25px;
+}

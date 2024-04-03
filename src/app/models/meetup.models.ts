@@ -17,7 +17,7 @@ export interface MeetupBackend {
 }
 
 export interface MeetupForAuthUser extends MeetupBackend {
-	authUser: User;
+	authUser: User | null,
 	authUserIsOwner: boolean;
 	registeredForMeetup: boolean;
 }

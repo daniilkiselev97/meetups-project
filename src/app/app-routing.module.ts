@@ -5,6 +5,7 @@ import { MyMeetupsComponent } from './pages/my-meetups/my-meetups.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthorizationComponent } from './pages/authorization/authorization.component';
 import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
+import { EditingDataComponent } from './pages/editing-data/editing-data.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
 	{
 		path: 'edit',
 		component: EditMeetupComponent
+	},
+	{
+		path: 'editing-data',
+		component: EditingDataComponent
 	}
   
 ];

@@ -1,0 +1,39 @@
+/* user-card */
+.user-card {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid rgba(114, 110, 110, 0.71);
+	border-radius: 10px;
+}
+
+
+.user-card__item {
+	display: flex;
+	border-right: 2px solid black;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 80px;
+	padding-right: 80px;
+	box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.user-card__item:last-child {
+	border-right: none;
+}
+
+
+.user-card__item-actions {
+	display: flex;
+	gap: 10px;
+}
+
+.user-card__item-actions-edit {
+	color: green;
+	cursor: pointer;
+}
+
+.user-card__item-actions-delete {
+	color: red;
+	cursor: pointer;
+}

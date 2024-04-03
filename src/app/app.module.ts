@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import {TuiExpandModule, TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule} from '@taiga-ui/core';
-import {TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule} from '@taiga-ui/kit';
+import {TuiSvgModule,TuiExpandModule, TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiLinkModule} from '@taiga-ui/core';
+import {TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiRadioLabeledModule} from '@taiga-ui/kit';
 
 
 //TUI_INPUT_TIME_OPTIONS
@@ -21,6 +21,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { AuthorizationComponent } from "./pages/authorization/authorization.component";
 import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
+import { CardUserComponent } from './components/card-user/card-user.component';
+import { EditingDataComponent } from './pages/editing-data/editing-data.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
     UsersComponent,
     CardMeetupComponent,
 		AuthorizationComponent,
-  	EditMeetupComponent
+  	EditMeetupComponent,
+   	CardUserComponent,
+    EditingDataComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,10 @@ import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
 		TuiInputTimeModule,
 		TuiTextareaModule,
 		TuiTextfieldControllerModule,
-		TuiPrimitiveTextfieldModule
+		TuiPrimitiveTextfieldModule,
+		TuiSvgModule,
+		TuiRadioLabeledModule,
+		TuiLinkModule
 		
 ],
   providers: [

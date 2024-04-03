@@ -4,7 +4,7 @@ import { TuiDay } from '@taiga-ui/cdk';
 import { TUI_INPUT_TIME_OPTIONS, tuiCreateTimePeriods, tuiInputTimeOptionsProvider } from '@taiga-ui/kit';
 
 @Component({
-	selector: 'app-edit-meetup',
+	selector: 'edit-meetup',
 	templateUrl: './edit-meetup.component.html',
 	styleUrls: ['./edit-meetup.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

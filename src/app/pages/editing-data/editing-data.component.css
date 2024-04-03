@@ -1,0 +1,23 @@
+.edit-user {
+	display: flex;
+	flex-direction: column;
+	max-width: 60%;
+	/* align-items: center; */
+	/* justify-content: center; */
+	gap: 20px;
+}
+
+.edit-user__item {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.b-form__input-center {
+	padding-top: 0 !important;
+}
+
+.form-container {
+	height: 100vh;
+  width: 100vw;
+}

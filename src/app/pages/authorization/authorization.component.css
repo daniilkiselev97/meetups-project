@@ -4,7 +4,7 @@
 	gap: 15px;
 	padding: 15px;
 	margin: 0 auto;
-	margin-top: 100px;
+	/* margin-top: 100px; */
 	border-radius: 15px;
 	max-width: 500px;
 	width: 100%;
@@ -17,3 +17,10 @@
 	gap: 30px;
 }
 
+.form__item_actions a {
+	font-size: 20px;
+}
+
+.form-container-center {
+	padding-top: 100px;
+}

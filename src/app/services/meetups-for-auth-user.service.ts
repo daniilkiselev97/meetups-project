@@ -58,18 +58,17 @@ export class MeetupsForAuthUser {
 	}
 
 	private _convertMeetupForBackendToMeetupForAuthUser(authUser: User | null, meetupForBackend: MeetupBackend): MeetupForAuthUser {
-		const authUserIsOwner = this._whetherUserIsOwnerOfMeetup(authUser, meetupForBackend);
-		const registeredForMeetup = this._isUserRegisteredForMeetup(authUser, meetupForBackend);
+		const authUserIsOwner = authUser ? this._whetherUserIsOwnerOfMeetup(authUser, meetupForBackend) : false
+		const registeredForMeetup = authUser ? this._isUserRegisteredForMeetup(authUser, meetupForBackend) : false
 
 		return {
 			...meetupForBackend,
-			authUser,
+			authUser : authUser ? authUser : null,
 			authUserIsOwner,
 			registeredForMeetup
 		}
 	}
 
-	//if authUser === null то функцию не вызываем 
 
 	private _init(): void {
 

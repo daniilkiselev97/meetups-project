@@ -27,7 +27,6 @@
 	justify-content: space-between;
 	align-items: center;
 	width: 60%;
-	/* margin: 0.5rem; */
 }
 
 .b-form {
@@ -55,7 +54,5 @@ textarea {
 	box-shadow: 1px 1px 1px #999;
 	border-radius: 15px;
 	box-shadow: 0px 1px 1px 1px rgba(128, 128, 128, 0.264);
-
 	font-size: 16px;
-
 }

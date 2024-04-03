@@ -29,13 +29,6 @@
 	display: none !important;
 }
 
-/* .clock-form .t-icons {
-	background-color: blue;
-	cursor: pointer!important;
-	pointer-events: auto;
-} */
-
-
 /* Taiga UI */
 
 .bg-color-main {
@@ -46,4 +39,17 @@
 	color: var(--tui-negative, red);
 	margin-top: 0.25rem;
 	white-space: pre-line;
+}
+
+.cards-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	height: 100vh;
+	width: 100vw;
+}
+
+.form-container {
+	height: 100vh;
+	width: 100vw;
 }
