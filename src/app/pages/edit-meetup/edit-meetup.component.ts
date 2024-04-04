@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk';
-import { TUI_INPUT_TIME_OPTIONS, tuiCreateTimePeriods, tuiInputTimeOptionsProvider } from '@taiga-ui/kit';
+import { tuiCreateTimePeriods, tuiInputTimeOptionsProvider } from '@taiga-ui/kit';
+
 
 @Component({
 	selector: 'edit-meetup',
@@ -31,7 +32,5 @@ export class EditMeetupComponent {
 	});
 
 	items1 = tuiCreateTimePeriods();
-
-
 
 }

@@ -17,12 +17,21 @@
 	padding-top: 0 !important;
 }
 
-.form-container {
+/* .form-container {
 	height: 100vh;
 	width: 100vw;
-}
+} */
 
 .form-container__btn {
 	display: flex;
-	justify-content: center;
+	justify-content: end;
+}
+
+.container {
+	margin: 0;
+}
+
+.section-form {
+	padding: 10px;
+	border-radius: 10px;
 }

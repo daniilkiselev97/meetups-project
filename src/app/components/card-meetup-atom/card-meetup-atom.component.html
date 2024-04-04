@@ -40,7 +40,7 @@
 
 				</ng-container>
 				<ng-container *ngIf="isMyMeetupComponent === true">
-					<button class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
+					<button (click)="showDialog()" class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
 						>
 						Редактировать
 					</button>

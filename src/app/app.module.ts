@@ -7,6 +7,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { TuiSvgModule, TuiExpandModule, TuiButtonModule, TuiErrorModule, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiLinkModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiRadioLabeledModule, TuiInputPasswordModule } from '@taiga-ui/kit';
+import { TuiDialogModule } from '@taiga-ui/core';
+import { of } from 'rxjs';
+import { TUI_DIALOG_CLOSES_ON_BACK } from '@taiga-ui/cdk';
+import { CommonModule } from '@angular/common';
+import { TuiAutoFocusModule } from '@taiga-ui/cdk';
+import {
+	TuiDataListModule,
+} from '@taiga-ui/core';
+import {
+	TuiDataListWrapperModule,
+	TuiSelectModule,
+	TuiSliderModule,
+} from '@taiga-ui/kit';
+
 
 
 //TUI_INPUT_TIME_OPTIONS
@@ -39,9 +53,9 @@ import { CardDatePipe } from './pipes/card-date.pipe';
 		EditMeetupComponent,
 		CardUserComponent,
 		EditingDataComponent,
-  CardMeetupAtomComponent,
-  CardMeetupMyComponent,
-  CardDatePipe
+		CardMeetupAtomComponent,
+		CardMeetupMyComponent,
+		CardDatePipe
 	],
 	imports: [
 		BrowserModule,
@@ -64,14 +78,27 @@ import { CardDatePipe } from './pipes/card-date.pipe';
 		TuiSvgModule,
 		TuiRadioLabeledModule,
 		TuiLinkModule,
-		TuiInputPasswordModule
+		TuiInputPasswordModule,
+		CommonModule,
+		TuiAutoFocusModule,
+		TuiDataListModule,
+		TuiDataListWrapperModule,
+		TuiSelectModule,
+		TuiSliderModule,
+		TuiDialogModule
 
 	],
 	providers: [
 		{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-	
-
+		{
+			provide: TUI_SANITIZER,
+			useClass: NgDompurifySanitizer,
+		},
+		{
+			provide: TUI_DIALOG_CLOSES_ON_BACK,
+			useValue: of(true),
+		},
 
 	],
 	bootstrap: [AppComponent]

@@ -24,14 +24,14 @@ const routes: Routes = [
     path: 'login',
     component: AuthorizationComponent,
   },
-	{
-		path: 'edit',
-		component: EditMeetupComponent
-	},
-	{
-		path: 'editing-data',
-		component: EditingDataComponent
-	}
+	// {
+	// 	path: 'edit',
+	// 	component: EditMeetupComponent
+	// },
+	// {
+	// 	path: 'editing-data',
+	// 	component: EditingDataComponent
+	// }
   
 ];
 
