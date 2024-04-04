@@ -6,7 +6,7 @@ import { MeetupsService } from 'src/app/services/meetups.service';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
-import { EditMeetupComponent } from 'src/app/pages/edit-meetup/edit-meetup.component';
+import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 
 
 
@@ -17,14 +17,7 @@ import { EditMeetupComponent } from 'src/app/pages/edit-meetup/edit-meetup.compo
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardMeetupAtomComponent { //компонент общий для card-meetup и можно делать разные виды card-meetup
-	private readonly dialog = this.dialogs.open<number>(
-		new PolymorpheusComponent(EditMeetupComponent, this.injector),
-		{
-			data: 237,
-			dismissible: false,
-			size: 'l',
-		},
-	);
+	
 
 
 	@Input({ required: true }) public meetup!: Meetup; //компонент не запустится если не передается переменная
@@ -37,20 +30,31 @@ export class CardMeetupAtomComponent { //компонент общий для ca
 	public user: string = 'tuiIconUserLarge';
 
 	constructor(
-		@Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
-		@Inject(Injector) private readonly injector: Injector,
+		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
+		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _meetupsService: MeetupsService
 	) {
 
 	}
 
-	showDialog(): void {
-		this.dialog.subscribe({
+	openEditPopup(meetup: Meetup): void {
+		const dialog = this._tuiDialogService.open<void>(
+			new PolymorpheusComponent(PopupEditMeetupComponent, this._injector),
+			{
+				dismissible: false,
+				size: 'l',
+				data: meetup
+			},
+		);
+
+		const subs = dialog.subscribe({
 			next: data => {
 				console.log(`Dialog emitted data = ${data}`);
+				subs.unsubscribe();
 			},
 			complete: () => {
 				console.log('Dialog closed');
+				subs.unsubscribe();
 			},
 		});
 	}

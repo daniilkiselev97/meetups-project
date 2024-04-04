@@ -34,13 +34,14 @@ import { CardMeetupComponent } from './components/card-meetup/card-meetup.compon
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { AuthorizationComponent } from "./pages/authorization/authorization.component";
-import { EditMeetupComponent } from './pages/edit-meetup/edit-meetup.component';
+import { PopupEditMeetupComponent } from './components/popup-edit-meetup/popup-edit-meetup.component';
 import { CardUserComponent } from './components/card-user/card-user.component';
 import { EditingDataComponent } from './pages/editing-data/editing-data.component';
 import { CardMeetupAtomComponent } from './components/card-meetup-atom/card-meetup-atom.component';
 import { CardMeetupMyComponent } from './components/card-meetup-my/card-meetup-my.component';
 import { CardDatePipe } from './pipes/card-date.pipe';
 import { RegistrationComponent } from './pages/registration/registration.component';
+import { PopupCreateMeetupComponent } from './components/popup-create-meetup/popup-create-meetup.component';
 
 @NgModule({
 	declarations: [
@@ -51,13 +52,14 @@ import { RegistrationComponent } from './pages/registration/registration.compone
 		UsersComponent,
 		CardMeetupComponent,
 		AuthorizationComponent,
-		EditMeetupComponent,
+		PopupEditMeetupComponent,
 		CardUserComponent,
 		EditingDataComponent,
 		CardMeetupAtomComponent,
 		CardMeetupMyComponent,
 		CardDatePipe,
-  RegistrationComponent
+		RegistrationComponent,
+		PopupCreateMeetupComponent
 	],
 	imports: [
 		BrowserModule,

@@ -15,7 +15,7 @@ export class CardDatePipe implements PipeTransform {
     const hours: string = ('0' + date.getHours()).slice(-2);
     const minutes: string = ('0' + date.getMinutes()).slice(-2);
 
-    return `${year}.${month}.${day} ${hours}:${minutes}`;
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
   }
 
 }

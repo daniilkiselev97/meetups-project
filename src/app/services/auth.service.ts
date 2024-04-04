@@ -15,6 +15,7 @@ export class AuthService {
 	private readonly _localStorageKey: string = 'token';
 	private readonly _baseUrl: string = `${environment.backendOrigin}/auth`;
 	private readonly _stateAuthUser: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+	private readonly _stateToken: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 	public readonly authUser$: Observable<User | null> = this._stateAuthUser.asObservable();
 	public readonly isAuth$: Observable<boolean> = this._stateAuthUser.pipe(
 		map((user) => {
@@ -23,6 +24,7 @@ export class AuthService {
 			return true;
 		})
 	);
+	public token$: Observable<string | null> = this._stateToken.asObservable();
 
 	get token(): string | null {
 		return this._localStorageService.get<string>(this._localStorageKey);
@@ -59,6 +61,7 @@ export class AuthService {
 
 	public logout(): void {
 		this._stateAuthUser.next(null);
+		this._stateToken.next(null);
 		this._localStorageService.delete(this._localStorageKey);
 		this._router.navigateByUrl('login');
 	}
@@ -77,7 +80,9 @@ export class AuthService {
 		// console.log(userBackend)
 		const user = this._convertUserBackendToUser(userBackend);
 
-		this._stateAuthUser.next(user)
+		this._stateAuthUser.next(user);
+		this._stateToken.next(token);
+
 		if (updatedLocalStorage === true) {
 			this._localStorageService.set(this._localStorageKey, token);
 		}

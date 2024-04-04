@@ -9,7 +9,7 @@ export interface MeetupBackend {
 	need_to_know: string;
 	will_happen: string;
 	reason_to_come: string;
-	time: Date;
+	time: string;
 	duration: number;
 	createdBy: number;
 	owner: MeetupBackendUser;

@@ -1,10 +1,10 @@
-<form [tuiTextfieldCleaner]="true" [formGroup]="myForm" class="bg-color-main container edit-meetup">
-	<h3 class="edit-meetup-item-title tui-text_h1">Создание митапа</h3>
+<form [tuiTextfieldCleaner]="true" (submit)="saveMeetup()" [formGroup]="myForm" class="bg-color-main container edit-meetup">
+	<h3 class="edit-meetup-item-title tui-text_h1">Редактирование митапа</h3>
 
 	<div class="edit-meetup-item">
 		<span class="edit-meetup-item__info">Название:</span>
 		<div class="b-form">
-			<tui-input [formControl]="myForm.controls.title">
+			<tui-input [formControl]="myForm.controls.name">
 				<input class="edit-meetup-item-input" tuiTextfield type="text" />
 			</tui-input>
 		</div> <!--.b-form-->
@@ -23,9 +23,15 @@
 	<div class="edit-meetup-item">
 		<span class="edit-meetup-item__info">Время:</span>
 		<div class="b-form">
-			<tui-input-time [formControl]="myForm.controls.time" [items]="items1" class="clock-form">
+			<tui-input-time mode="HH:MM"
+			[formControl]="myForm.controls.time"
+        tuiUnfinishedValidator
+    >
+        Выберите время
+    </tui-input-time>
+			<!-- <tui-input-time [formControl]="myForm.controls.time" [items]="timePeriods" class="clock-form">
 				Выберите время
-			</tui-input-time>
+			</tui-input-time> -->
 		</div> <!--.b-form-->
 	</div> <!--.edit-meetup-item-->
 
@@ -88,8 +94,15 @@
 		</div> <!--.b-form-->
 	</div> <!--.edit-meetup-item-->
 
-	<button appearance="primary" tuiButton size="m" type="button" class="tui-space_top-3 tui-space_bottom-3">
-		Создать
+	<button 
+		appearance="primary" 
+		[disabled]="disabledForm"
+		tuiButton 
+		size="m" 
+		type="submit" 
+		class="tui-space_top-3 tui-space_bottom-3"
+	>
+			Сохранить
 	</button>
 
 </form> <!--.edit-meetup-->

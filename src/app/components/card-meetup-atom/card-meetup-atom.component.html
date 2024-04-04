@@ -1,5 +1,5 @@
 <div class="card-meetup ">
-	
+
 	<div class="card-meetup__header bg-color-main">
 		<div class="card-meetup__header-info">
 			<div class="card-meetup__header-info-item">
@@ -18,7 +18,8 @@
 
 		<div class="card-meetup__header-actions">
 			<div class="card-meetup__header-actions-item">
-				<div class="card-meetup__header-actions-date card-meetup__header-item_color">{{meetup.createdAt | cardDate }}</div>
+				<div class="card-meetup__header-actions-date card-meetup__header-item_color">{{meetup.time | cardDate }}
+				</div>
 			</div> <!-- .card-meetup__header-actions-item -->
 			<div class="card-meetup__header-actions-item">
 				<div class="card-meetup__header-actions-location">{{meetup.location}}</div>
@@ -40,8 +41,8 @@
 
 				</ng-container>
 				<ng-container *ngIf="isMyMeetupComponent === true">
-					<button (click)="showDialog()" class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
-						>
+					<button (click)="openEditPopup(meetup)" class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded"
+						size="s">
 						Редактировать
 					</button>
 				</ng-container>
@@ -57,8 +58,8 @@
 			<div class="card-meetup__content bg-color-main">
 				<div class="card-meetup__content-info">
 					<div class="card-meetup__content-info-item">
-						<span class="card-meetup__content-info-title card-meetup__content-item_color">Ангуляр против реакта</span>
-						<span class="card-meetup__content-info-followers">321 подписчик</span>
+						<span class="card-meetup__content-info-title card-meetup__content-item_color">{{meetup.name}}</span>
+						<span class="card-meetup__content-info-followers">{{meetup.users.length}} подписчик</span>
 					</div> <!-- .card-meetup__header-info-item-->
 					<div class="card-meetup__content-info-item">
 						<p class="card-meetup__content-info-paragraph">А здесь я ещё более подробно напишу об том, отб этом. О том,
@@ -71,42 +72,42 @@
 
 					<div class="card-meetup__content-info-item">
 						<div class="card-meetup__content-info-list">Целевая аудитория
-							<div class="card-meetup__content-info-list-answers">разрабы, аналитики, и проч</div>
-						</div>
-					</div> <!-- .card-meetup__content-info-item-->
+							<div class="card-meetup__content-info-list-answers">{{meetup.target_audience}}</div>
+							</div>
+						</div> <!-- .card-meetup__content-info-item-->
 
-					<div class="card-meetup__content-info-item">
-						<div class="card-meetup__content-info-list">Что надо знать?
+						<div class="card-meetup__content-info-item">
+							<div class="card-meetup__content-info-list">Что надо знать?
+								<div class="card-meetup__content-info-list-answers">{{meetup.need_to_know}}</div>
+								<!-- <div class="card-meetup__content-info-list-answers">Вот это</div>
 							<div class="card-meetup__content-info-list-answers">Вот это</div>
-							<div class="card-meetup__content-info-list-answers">Вот это</div>
-							<div class="card-meetup__content-info-list-answers">Вот это</div>
-							<div class="card-meetup__content-info-list-answers">Вот это</div>
-						</div>
-					</div> <!-- .card-meetup__content-info-item-->
+							<div class="card-meetup__content-info-list-answers">Вот это</div> -->
+							</div>
+						</div> <!-- .card-meetup__content-info-item-->
 
-					<div class="card-meetup__content-info-item">
-						<div class="card-meetup__content-info-list">Что будет?
-							<div class="card-meetup__content-info-list-answers">вот этому научу</div>
-							<div class="card-meetup__content-info-list-answers">вот это расскажу</div>
-							<div class="card-meetup__content-info-list-answers">вот этому научу</div>
-							<div class="card-meetup__content-info-list-answers">вот это расскажу</div>
-						</div>
-					</div> <!-- .card-meetup__content-info-item-->
+						<div class="card-meetup__content-info-item">
+							<div class="card-meetup__content-info-list">Что будет?
+								<div class="card-meetup__content-info-list-answers">{{meetup.will_happen}}</div>
+								<!-- <div class="card-meetup__content-info-list-answers">вот это расскажу</div>
+								<div class="card-meetup__content-info-list-answers">вот этому научу</div>
+								<div class="card-meetup__content-info-list-answers">вот это расскажу</div> -->
+							</div>
+						</div> <!-- .card-meetup__content-info-item-->
 
-					<div class="card-meetup__content-info-item">
-						<div class="card-meetup__content-info-list">Почему надо обязательно прийти?
-							<div class="card-meetup__content-info-list-answers">У меня красный пояс по C++</div>
-						</div>
-					</div> <!-- .card-meetup__content-info-item-->
+						<div class="card-meetup__content-info-item">
+							<div class="card-meetup__content-info-list">Почему надо обязательно прийти?
+								<div class="card-meetup__content-info-list-answers">{{meetup.reason_to_come}}</div>
+							</div>
+						</div> <!-- .card-meetup__content-info-item-->
 
-					<div class="card-meetup__content-info-item card-meetup__content-actions-item_gap">
-						<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="user" appearance="flat">
-						</button>
-						<span class="card-meetup__content-info-author">Александр Козаченко</span>
-					</div> <!-- .card-meetup__content-info-item-->
+						<div class="card-meetup__content-info-item card-meetup__content-actions-item_gap">
+							<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="user" appearance="flat">
+							</button>
+							<span class="card-meetup__content-info-author">{{meetup.owner.fio}}</span>
+						</div> <!-- .card-meetup__content-info-item-->
 
-				</div> <!--card-meetup__content-info-->
-			</div>
+					</div> <!--card-meetup__content-info-->
+				</div>
 		</ng-template>
 	</tui-expand>
 

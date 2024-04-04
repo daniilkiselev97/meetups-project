@@ -46,7 +46,12 @@ export class RegistrationComponent {
 	}
 
 	public handleSubmit(): void {
-		if (this.myForm.controls.email.value === null || this.myForm.controls.password.value === null || this.myForm.controls.surname.value === null || this.myForm.controls.name.value === null) return;
+		if (
+			this.myForm.controls.email.value === null || 
+			this.myForm.controls.password.value === null || 
+			this.myForm.controls.surname.value === null || 
+			this.myForm.controls.name.value === null
+		) return;
 
 		const userLogin = {
 			email: this.myForm.controls.email.value,

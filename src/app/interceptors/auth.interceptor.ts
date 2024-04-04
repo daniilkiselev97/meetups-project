@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -16,18 +16,20 @@ export class AuthInterceptor implements HttpInterceptor {
     private readonly _authService: AuthService
   ) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const token: string | null = this._authService.token;
-    const isApiUrl = request.url.startsWith(environment.backendOrigin);
+  intercept(request: HttpRequest<unknown>, next: HttpHandler) {
+		
+		return this._authService.token$.pipe(
+			tap((token) => {
+				const isApiUrl = request.url.startsWith(environment.backendOrigin);
 
-    // console.log(token, 'token')
-    // console.log(isApiUrl, 'isApiUrl')
+				if (token && isApiUrl) {
+					request = request.clone({
+						setHeaders: { Authorization: `Bearer ${token}` },
+					})
+				}
 
-    if (token && isApiUrl) {
-      request = request.clone({
-        setHeaders: { Authorization: `Bearer ${token}` },
-      })
-    }
-    return next.handle(request);
+			}),
+			switchMap(() => next.handle(request))
+		)
   }
 }
