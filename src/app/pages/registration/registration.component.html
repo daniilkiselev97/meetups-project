@@ -17,26 +17,42 @@
 
 		<div class="form__item">
 
-			<tui-input-password
-        [formControl]="myForm.controls.password"
-        tuiHintAppearance="onDark"
-        tuiHintContent
-        tuiHintDirection="right"
-    >
-        Type a password
-    </tui-input-password>
+			<tui-input-password [formControl]="myForm.controls.password" tuiHintAppearance="onDark" tuiHintContent
+				tuiHintDirection="right">
+				Type a password
+			</tui-input-password>
 			<div class="error" *ngIf="myForm.controls.password.hasError('required') && myForm.controls.password.touched">
 				Поле обязательно для заполнения
 			</div>
 
 		</div>
 
+		<div class="form__item">
+			<tui-input [formControl]="myForm.controls.surname">
+				<span>Фамилия</span>
+				<input tuiTextfield type="text" />
+			</tui-input>
+			
+			<div class="error" *ngIf="myForm.controls.surname.hasError('required') && myForm.controls.surname.touched">
+				Поле обязательно для заполнения
+			</div>
+		</div>
+
+		<div class="form__item">
+			<tui-input [formControl]="myForm.controls.email">
+				<span>Имя</span>
+				<input tuiTextfield type="text" />
+			</tui-input>
+			
+			<div class="error" *ngIf="myForm.controls.name.hasError('required') && myForm.controls.name.touched">
+				Поле обязательно для заполнения
+			</div>
+		</div>
+		
+
 		<div class="form__item form__item_actions">
-			<a [routerLink]="['/registration']" routerLinkActive="current-link" icon="tuiIconSettings" tuiLink [pseudo]="true" mode="positive">
-				How to create account ?
-			</a>
 			<button size="l" tuiButton type="submit" class="tui-btn" [disabled]="!myForm.valid">
-				LOG IN
+				SIGN UP
 			</button>
 		</div>
 	</form>

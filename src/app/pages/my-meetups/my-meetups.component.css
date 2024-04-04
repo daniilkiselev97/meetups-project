@@ -6,9 +6,8 @@
 }
 
 .section-cards {
-	padding: 40px 0;
-	height: 100vh;
-	width: 100vw;
+	padding: 40px;
+	
 }
 
 .card-meetup__btn-create {

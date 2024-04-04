@@ -40,6 +40,7 @@ import { EditingDataComponent } from './pages/editing-data/editing-data.componen
 import { CardMeetupAtomComponent } from './components/card-meetup-atom/card-meetup-atom.component';
 import { CardMeetupMyComponent } from './components/card-meetup-my/card-meetup-my.component';
 import { CardDatePipe } from './pipes/card-date.pipe';
+import { RegistrationComponent } from './pages/registration/registration.component';
 
 @NgModule({
 	declarations: [
@@ -55,7 +56,8 @@ import { CardDatePipe } from './pipes/card-date.pipe';
 		EditingDataComponent,
 		CardMeetupAtomComponent,
 		CardMeetupMyComponent,
-		CardDatePipe
+		CardDatePipe,
+  RegistrationComponent
 	],
 	imports: [
 		BrowserModule,

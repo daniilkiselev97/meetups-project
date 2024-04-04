@@ -5,12 +5,14 @@
 					authUser: authUser$ | async,
 					isAuth: isAuth$ | async
 				} as obs">
-				<div class="navbar-brand">
-					<img class="navbar-brand_logo" src="../../assets/img/logo.svg" alt="logo">
-				</div>
+						<ng-container *ngIf="obs.isAuth">
+							<div [routerLink]="['/all-meetups']" class="navbar-brand">
+								<img class="navbar-brand_logo" src="../../assets/img/logo.svg" alt="logo">
+							</div>
+						</ng-container>
 				<div class="navbar-nav">
-					<a class="nav-link" [routerLink]="['/all-meetups']" routerLinkActive="current-link">Все митапы</a>
 					<ng-container *ngIf="obs.isAuth">
+						<a class="nav-link" [routerLink]="['/all-meetups']" routerLinkActive="current-link">Все митапы</a>
 						<a class="nav-link" [routerLink]="['/my-meetups']" routerLinkActive="current-link">Мои митапы</a>
 					</ng-container>
 					<ng-container *ngIf="obs.authUser?.roles?.isAdmin">
