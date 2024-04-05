@@ -5,6 +5,7 @@ export interface User  {
   roles: UserRoles;
 }
 
+
 export interface MeetupBackendUser {
 	id: number;
 	email: string;
@@ -17,25 +18,32 @@ export interface UserRoles {
 	isAdmin: boolean;
 }
 
-export interface UserBackend {
+export interface UserAuthBackend {
   id: number;
   email: string;
   password: string;
-  roles: UserBackendRoleItem[];
+  roles: UserBackendAuthRoleItem[];
 }
 
-export interface UserBackendRoleItem {
-  UserRole: UserBackendRole;
+export interface UserBackendAuthRoleItem {
+  UserRole: UserBackendAuthRole;
   createdAt: Date;
   id: number;
   name: string;
   updatedAt: Date;
 }
 
-export interface UserBackendRole {
+export interface UserBackendAuthRole {
   createdAt: Date;
   updatedAt: Date;
   id: number;
   roleId: number;
   userId: number
+}
+
+export interface UserBackend {
+	id: number;
+  email: string;
+  password: string;
+  fio: string;
 }

@@ -85,4 +85,9 @@ export class CardMeetupAtomComponent { //компонент общий для ca
 		});
 	}
 
+	public deleteMeetup(meetup: Meetup): void {
+		const subs = this._meetupsService.deleteMeetup(meetup.id).subscribe(() => {
+			subs.unsubscribe();
+		})
+	}
 }

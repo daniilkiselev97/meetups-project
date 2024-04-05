@@ -70,12 +70,13 @@ export class PopupEditMeetupComponent {
 		if (this.myForm.controls.whatNeedToKnow.value === null) return;
 		if (this.myForm.controls.whatWillHappen.value === null) return;
 		if (this.myForm.controls.haveToCome.value === null) return;
+		if (this.myForm.controls.duration.value === null) return;
 
 		const date = this.myForm.controls.date.value
 		const time = this.myForm.controls.time.value
 		const savedDate = new Date(date.year, date.month, date.day, time.hours, time.minutes)
-		console.log(savedDate)
-		console.log(savedDate.toISOString())
+		// console.log(savedDate)
+		// console.log(savedDate.toISOString())
 
 		const savedMeetup: MeetupBackend = {
 			name: this.myForm.controls.name.value,
@@ -86,13 +87,18 @@ export class PopupEditMeetupComponent {
 			need_to_know: this.myForm.controls.whatNeedToKnow.value,
 			will_happen: this.myForm.controls.whatWillHappen.value,
 			reason_to_come: this.myForm.controls.haveToCome.value,
+			duration: this.myForm.controls.duration.value,
 			id: this.meetup.id,
-			duration: this.meetup.duration,
 			createdBy: this.meetup.createdBy,
 			owner: this.meetup.owner,
 			createdAt: this.meetup.createdAt,
 			users: this.meetup.users
 		}
+
+		const subs = this._meetupsService.changeMeetup(savedMeetup, savedMeetup.id ).subscribe(() => {
+			subs.unsubscribe()
+			this.context.completeWith()
+		})
 	}
 
 
@@ -110,6 +116,7 @@ export class PopupEditMeetupComponent {
 			name: new FormControl(meetup.name, [Validators.required]),
 			date: new FormControl(new TuiDay(year, month, day), [Validators.required]),
 			time: new FormControl(new TuiTime(hours, minutes), [Validators.required]),
+			duration: new FormControl(meetup.duration, [Validators.required]),
 			location: new FormControl(meetup.location, [Validators.required]),
 			shortDescription: new FormControl(meetup.description, [Validators.required]),
 			detailedDescription: new FormControl(meetup.description, [Validators.required]),

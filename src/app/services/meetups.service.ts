@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, of, switchMap, tap, withLatestFrom, zip } from 'rxjs';
-import { MeetupBackend, Meetup } from '../models/meetup.models';
+import { MeetupBackend, Meetup, MeetupCreated } from '../models/meetup.models';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -30,7 +30,6 @@ export class MeetupsService {
 
 		return this._stateUpdateMeetupsTrigger.pipe(
 			switchMap(() => this._authService.authUser$),  //переключить на другой поток 
-			// filter(authUser => authUser !== null),
 			tap(console.log),
 			switchMap((authUser) => combineLatest([ //чтобы в следующем pipe map ,были 2 переменные
 				this._meetupsApiService.getAll(),
@@ -65,6 +64,26 @@ export class MeetupsService {
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)) 
 		);
 
+	}
+
+	public changeMeetup(meetup: MeetupBackend, id: string): Observable<MeetupBackend> {
+		return this._meetupsApiService.changeMeetup(meetup, id).pipe(
+			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
+			tap(console.log)
+		);
+	}
+
+	public createMeetup(meetup: MeetupCreated): Observable<MeetupBackend> {
+		return this._meetupsApiService.createMeetup(meetup).pipe(
+			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
+			tap(console.log)
+		);
+	}
+
+	public deleteMeetup(idMeetup: string): Observable<MeetupBackend> {
+		return this._meetupsApiService.deleteMeetup(idMeetup).pipe(
+			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
+		);
 	}
 
 	private _getAllAndUpdateState(): Observable<Meetup[]> {

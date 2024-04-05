@@ -14,6 +14,34 @@
 	border: none;
 }
 
+root, tui-root {
+	display: block;
+	height: 100%;
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+.page__item {
+	
+}
+
+.section {
+	padding: 40px;
+	height: 100%;
+
+}
+
+.page__item_fluid {
+	flex: 1;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 0px 1fr;
+}
+
 .container {
 	width: 100%;
 	max-width: 1094px;
@@ -35,6 +63,14 @@
 
 .tui-btn_title .t-left {
 	display: none !important;
+}
+
+.tui-btn_red [tuiWrapper] {
+	background-color: #c82333 !important;
+}
+
+.tui-btn_red [tuiWrapper]:hover:not(._no-hover) {
+	background-color: rgb(255, 141, 141) !important;
 }
 
 /* Taiga UI */

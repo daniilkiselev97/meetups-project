@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Meetup, MeetupBackend } from '../models/meetup.models';
+import { Meetup, MeetupBackend, MeetupCreated } from '../models/meetup.models';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { User } from '../models/user.models';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class MeetupsApiService {
 
 	private readonly _baseUrl: string = `${environment.backendOrigin}/meetup`;
 
-  constructor(
+	constructor(
 		private readonly _http: HttpClient,
 	) { }
 
@@ -37,5 +37,17 @@ export class MeetupsApiService {
 			}
 		});
 
+	}
+
+	public changeMeetup(meetup: MeetupBackend, id: string): Observable<MeetupBackend> {
+		return this._http.put<MeetupBackend>(`${this._baseUrl}/${id}`, meetup);
+	}
+
+	public createMeetup(meetup: MeetupCreated): Observable<MeetupBackend> {
+		return this._http.post<MeetupBackend>(this._baseUrl, meetup);
+	}
+
+	public deleteMeetup(idMeetup: string): Observable<MeetupBackend> {
+		return this._http.delete<MeetupBackend>(`${this._baseUrl}/${idMeetup}`);
 	}
 }

@@ -4,7 +4,7 @@ import { Meetup } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import {  PopupEditMeetupComponent } from '../../components/popup-edit-meetup/popup-edit-meetup.component';
+import { PopupCreateMeetupComponent } from 'src/app/components/popup-create-meetup/popup-create-meetup.component';
 
 
 @Component({
@@ -15,33 +15,35 @@ import {  PopupEditMeetupComponent } from '../../components/popup-edit-meetup/po
 
 })
 export class MyMeetupsComponent {
-	private readonly dialog = this.dialogs.open<number>(
-		new PolymorpheusComponent(PopupEditMeetupComponent, this.injector),
-		{
-			data: 237,
-			dismissible: false,
-			size: 'l',
-		},
-	);
-
 	public myMeetups$: Observable<Meetup[]> = this._myMeetupsService.getAllMy();
 
 	constructor(
-		@Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
-		@Inject(Injector) private readonly injector: Injector,
+		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
+		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _myMeetupsService: MeetupsService
 	) { }
 
-	showDialog(): void {
-		this.dialog.subscribe({
+	openCreatePopup(): void {
+		const dialog = this._tuiDialogService.open<void>(
+			new PolymorpheusComponent(PopupCreateMeetupComponent, this._injector),
+			{
+				dismissible: false,
+				size: 'l',
+			},
+		);
+
+		const subs = dialog.subscribe({
 			next: data => {
 				console.log(`Dialog emitted data = ${data}`);
+				subs.unsubscribe();
 			},
 			complete: () => {
 				console.log('Dialog closed');
+				subs.unsubscribe();
 			},
 		});
 	}
 
+	
 
 }

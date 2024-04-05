@@ -1,13 +1,9 @@
+
+
 .cards-wrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
-
-}
-
-.section-cards {
-	padding: 40px;
-	
 }
 
 .card-meetup__btn-create {

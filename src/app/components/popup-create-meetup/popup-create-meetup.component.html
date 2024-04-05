@@ -1,1 +1,117 @@
-<p>popup-create-meetup works!</p>
+<form  [tuiTextfieldCleaner]="true" (submit)="createMeetup()"  [formGroup]="myForm" class="bg-color-main container edit-meetup">
+	<h3 class="edit-meetup-item-title tui-text_h1">Создание митапа</h3>
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Название:</span>
+		<div class="b-form">
+			<tui-input [formControl]="myForm.controls.name">
+				<input class="edit-meetup-item-input" tuiTextfield type="text" />
+			</tui-input>
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Дата:</span>
+		<div class="b-form">
+			<tui-input-date [formControl]="myForm.controls.date" tuiUnfinishedValidator="Finish filling the field">
+				Выберите дату
+			</tui-input-date>
+			<tui-error [formControl]="myForm.controls.date" [error]="[] | tuiFieldError | async"></tui-error>
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Время:</span>
+		<div class="b-form">
+			<tui-input-time mode="HH:MM"
+			[formControl]="myForm.controls.time"
+        tuiUnfinishedValidator
+    >
+        Выберите время
+    </tui-input-time>
+			<!-- <tui-input-time [formControl]="myForm.controls.time" [items]="timePeriods" class="clock-form">
+				Выберите время
+			</tui-input-time> -->
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Продолжительность(мин):</span>
+		<div class="b-form">
+			<tui-input [formControl]="myForm.controls.duration">
+				<input class="edit-meetup-item-input" tuiTextfield type="text" />
+			</tui-input>
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Место:</span>
+		<div class="b-form">
+			<tui-input [formControl]="myForm.controls.location">
+				<input class="edit-meetup-item-input" tuiTextfield type="text" />
+			</tui-input>
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Короткое описание:</span>
+		<div class="b-form">
+			<tui-textarea [formControl]="myForm.controls.shortDescription"></tui-textarea>
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Подробное описание:</span>
+		<div class="b-form">
+			<tui-textarea [formControl]="myForm.controls.detailedDescription"></tui-textarea>
+
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Целевая аудитория:</span>
+		<div class="b-form">
+			<tui-textarea [formControl]="myForm.controls.targetAudience">
+
+			</tui-textarea>
+
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Что надо знать:</span>
+		<div class="b-form">
+			<tui-textarea [formControl]="myForm.controls.whatNeedToKnow"></tui-textarea>
+
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Что будет:</span>
+		<div class="b-form">
+			<tui-textarea [formControl]="myForm.controls.whatWillHappen"></tui-textarea>
+
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Почему надо обязательно прийти:</span>
+		<div class="b-form">
+			<!-- <textarea [formControl]="why_do_i_have_to_come" rows="5" cols="90"> -->
+			<!-- </textarea> -->
+			<tui-textarea [formControl]="myForm.controls.haveToCome"></tui-textarea>
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<button 
+		appearance="primary" 
+		[disabled]="disabledForm"
+		tuiButton 
+		size="m" 
+		type="submit" 
+		class="tui-space_top-3 tui-space_bottom-3"
+	>
+			Сохранить
+	</button>
+
+</form> <!--.edit-meetup-->

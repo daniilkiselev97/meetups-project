@@ -51,6 +51,9 @@
 		
 
 		<div class="form__item form__item_actions">
+			<a [routerLink]="['/login']" routerLinkActive="current-link" icon="tuiIconSettings" tuiLink [pseudo]="true" mode="positive">
+				How to log in to account ?
+			</a>
 			<button size="l" tuiButton type="submit" class="tui-btn" [disabled]="!myForm.valid">
 				SIGN UP
 			</button>

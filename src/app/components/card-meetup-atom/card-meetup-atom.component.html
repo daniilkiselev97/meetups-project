@@ -9,7 +9,7 @@
 			<div class="card-meetup__header-info-item">
 				<p class="card-meetup__header-info-paragraph">{{meetup.description}}</p>
 			</div> <!-- .card-meetup__header-info-item-->
-			<div class="card-meetup__header-info-item card-meetup__header-actions-item_gap">
+			<div class="card-meetup__header-info-item flex-gap">
 				<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="user" appearance="flat">
 				</button>
 				<span class="card-meetup__header-info-author">{{meetup.owner.fio}}</span>
@@ -17,14 +17,7 @@
 		</div> <!-- .card-meetup__header-info -->
 
 		<div class="card-meetup__header-actions">
-			<div class="card-meetup__header-actions-item">
-				<div class="card-meetup__header-actions-date card-meetup__header-item_color">{{meetup.time | cardDate }}
-				</div>
-			</div> <!-- .card-meetup__header-actions-item -->
-			<div class="card-meetup__header-actions-item">
-				<div class="card-meetup__header-actions-location">{{meetup.location}}</div>
-			</div>
-			<div class="card-meetup__header-actions-item card-meetup__header-actions-item_gap">
+			<div class="card-meetup__header-actions-item flex-gap">
 				<ng-container *ngIf="isMyMeetupComponent === false">
 					<ng-container *ngIf="meetup.registeredForMeetup === false">
 						<button class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
@@ -45,11 +38,24 @@
 						size="s">
 						Редактировать
 					</button>
+
+					<button icon="tuiIconTrash2" (click)="deleteMeetup(meetup)" class="tui-btn tui-btn_red tui-btn_icon" tuiButton type="button" appearance="accent" shape="rounded"
+						size="s">
+					</button>
+
 				</ng-container>
 				<button class="tui-btn tui-btn_icon" tuiButton type="button" [icon]="getChevron()" size="s"
 					(click)="clickToggleExpanded()">
 				</button>
 			</div>
+			<div class="card-meetup__header-actions-item">
+				<div class="card-meetup__header-actions-date card-meetup__header-item_color">{{meetup.time | cardDate }}
+				</div>
+			</div> <!-- .card-meetup__header-actions-item -->
+			<div class="card-meetup__header-actions-item">
+				<div class="card-meetup__header-actions-location">{{meetup.location}}</div>
+			</div>
+			
 		</div> <!-- .card-meetup__header-actions -->
 
 	</div> <!-- .card-meetup__header -->
@@ -62,12 +68,7 @@
 						<span class="card-meetup__content-info-followers">{{meetup.users.length}} подписчик</span>
 					</div> <!-- .card-meetup__header-info-item-->
 					<div class="card-meetup__content-info-item">
-						<p class="card-meetup__content-info-paragraph">А здесь я ещё более подробно напишу об том, отб этом. О том,
-							об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. А
-							здесь я ещё более подробно напишу об том, отб этом. О том, об этом. О том, об этом. О том, об этом. О том,
-							об этом. О том, об этом. О том, об этом. О том, об этом. А здесь я ещё более подробно напишу об том, отб
-							этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О том, об этом. О
-							том, об этом. </p>
+						<p class="card-meetup__content-info-paragraph">{{meetup.description}}</p>
 					</div> <!-- .card-meetup__content-info-item-->
 
 					<div class="card-meetup__content-info-item">

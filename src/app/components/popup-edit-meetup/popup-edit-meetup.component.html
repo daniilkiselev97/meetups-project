@@ -1,4 +1,4 @@
-<form [tuiTextfieldCleaner]="true" (submit)="saveMeetup()" [formGroup]="myForm" class="bg-color-main container edit-meetup">
+<form  [tuiTextfieldCleaner]="true" (submit)="saveMeetup()" [formGroup]="myForm" class="bg-color-main container edit-meetup">
 	<h3 class="edit-meetup-item-title tui-text_h1">Редактирование митапа</h3>
 
 	<div class="edit-meetup-item">
@@ -32,6 +32,15 @@
 			<!-- <tui-input-time [formControl]="myForm.controls.time" [items]="timePeriods" class="clock-form">
 				Выберите время
 			</tui-input-time> -->
+		</div> <!--.b-form-->
+	</div> <!--.edit-meetup-item-->
+
+	<div class="edit-meetup-item">
+		<span class="edit-meetup-item__info">Продолжительность(мин):</span>
+		<div class="b-form">
+			<tui-input [formControl]="myForm.controls.duration">
+				<input class="edit-meetup-item-input" tuiTextfield type="text" />
+			</tui-input>
 		</div> <!--.b-form-->
 	</div> <!--.edit-meetup-item-->
 

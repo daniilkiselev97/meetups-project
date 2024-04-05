@@ -5,7 +5,7 @@ import { AuthToken, IsAuth, UserLogin, UserRegistrationData } from '../models/au
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import { Route, Router } from '@angular/router';
-import { User, UserBackend, UserRoles } from '../models/user.models';
+import { User, UserAuthBackend, UserRoles } from '../models/user.models';
 
 
 @Injectable({
@@ -88,7 +88,7 @@ export class AuthService {
 		}
 	}
 
-	private _convertUserBackendToUser(userBackend: UserBackend): User {
+	private _convertUserBackendToUser(userBackend: UserAuthBackend): User {
 		const rolesObj = {
 			isAdmin: false,
 			isUser: false
@@ -112,7 +112,7 @@ export class AuthService {
 		};
 	}
 
-	private _getUserFromToken(token: string): UserBackend {
+	private _getUserFromToken(token: string): UserAuthBackend {
 		let base64Url = token.split('.')[1];
 		let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
 		let jsonPayload = decodeURIComponent(
