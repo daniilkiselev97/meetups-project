@@ -7,6 +7,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
+import { PopupDeleteMeetupComponent } from '../popup-delete-meetup/popup-delete-meetup.component';
 
 
 
@@ -17,8 +18,6 @@ import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/p
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardMeetupAtomComponent { //компонент общий для card-meetup и можно делать разные виды card-meetup
-	
-
 
 	@Input({ required: true }) public meetup!: Meetup; //компонент не запустится если не передается переменная
 	@Input() public isMyMeetupComponent: boolean = false;
@@ -37,7 +36,7 @@ export class CardMeetupAtomComponent { //компонент общий для ca
 
 	}
 
-	openEditPopup(meetup: Meetup): void {
+	public openEditPopup(meetup: Meetup): void {
 		const dialog = this._tuiDialogService.open<void>(
 			new PolymorpheusComponent(PopupEditMeetupComponent, this._injector),
 			{
@@ -58,7 +57,28 @@ export class CardMeetupAtomComponent { //компонент общий для ca
 			},
 		});
 	}
+	public openDeletePopup(meetup: Meetup): void {
+		const dialog = this._tuiDialogService.open<void>(
+			new PolymorpheusComponent(PopupDeleteMeetupComponent, this._injector),
+			{
+				dismissible: false,
+				size: 'm',
+				data: meetup
+			},
+		);
 
+		const subs = dialog.subscribe({
+			next: data => {
+				console.log(`Dialog emitted data = ${data}`);
+				subs.unsubscribe();
+			},
+			complete: () => {
+				console.log('Dialog closed');
+				subs.unsubscribe();
+			},
+		});
+	}
+	
 	public getChevron(): string {
 		return this.expanded ? this._chevronUp : this._chevronDown;
 	}
@@ -85,9 +105,5 @@ export class CardMeetupAtomComponent { //компонент общий для ca
 		});
 	}
 
-	public deleteMeetup(meetup: Meetup): void {
-		const subs = this._meetupsService.deleteMeetup(meetup.id).subscribe(() => {
-			subs.unsubscribe();
-		})
-	}
+	
 }

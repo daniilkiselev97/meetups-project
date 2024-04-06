@@ -1,26 +1,41 @@
 /* user-card */
 .user-card {
-	display: flex;
+	display: flex; 
 	align-items: center;
-	justify-content: center;
-	border: 2px solid rgba(114, 110, 110, 0.71);
-	border-radius: 10px;
+	justify-content: center; 
+	gap: 15px; 
+	/* border: 2px solid rgba(88, 3, 3, 0.71); */
+	/* border-radius: 10px; */
+	width: 80%;
+}
+
+.edit-meetup-item-input {
+	margin-top: 15px;
+	background-color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	border-radius: none;
 }
 
 
 .user-card__item {
 	display: flex;
-	border-right: 2px solid black;
-	padding-top: 10px;
+	/* border-right: 2px solid black; */
+	/* justify-content: flex-start; */
+	/* padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 80px;
-	padding-right: 80px;
-	box-shadow: 3px 3px 7px 0px rgba(34, 60, 80, 0.2);
+	padding-right: 80px; */
+	/* width: 100%; */
+	/* flex: 1; */
+	/* box-shadow: 3px 3px 7px 0px rgba(34, 60, 80, 0.2); */
+	/* width: 400px; */
 }
 
-.user-card__item:last-child {
+/* .user-card__item:last-child { 
 	border-right: none;
-}
+ } */
 
 
 .user-card__item-actions {

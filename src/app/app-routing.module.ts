@@ -4,7 +4,6 @@ import { AllMeetupsComponent } from './pages/all-meetups/all-meetups.component';
 import { MyMeetupsComponent } from './pages/my-meetups/my-meetups.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthorizationComponent } from './pages/authorization/authorization.component';
-import { EditingDataComponent } from './pages/editing-data/editing-data.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
 
 const routes: Routes = [
@@ -28,14 +27,7 @@ const routes: Routes = [
 		path: 'registration',
 		component: RegistrationComponent
 	}
-	// {
-	// 	path: 'edit',
-	// 	component: EditMeetupComponent
-	// },
-	// {
-	// 	path: 'editing-data',
-	// 	component: EditingDataComponent
-	// }
+	
 
 ];
 

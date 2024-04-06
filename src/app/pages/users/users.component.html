@@ -1,9 +1,14 @@
-<div class="user-card-wrapper-container bg-color-main">
-	<card-user class="user-card-wrapper"></card-user>
-	<div class="user-card-wrapper-container__btn">
-		<button (click)="goEditingData()" appearance="accent" tuiButton type="button" class="tui-space_top-10">
-			Добавить пользователя
-		</button>
+<ng-container *ngIf="users$ | async as users">
+	<div class="bg-color-main">
+		<div class="user-card-wrapper-container__btn">
+			<button (click)="popupCreateUser()" appearance="accent" tuiButton type="button" class="tui-space_top-10">
+				Добавить пользователя
+			</button>
+		</div>
+		<ng-container *ngFor="let user of users">
+			<card-user [user]="user" class="user-card-wrapper"></card-user>
+		</ng-container>
+		
 	</div>
-</div>
+</ng-container>
 

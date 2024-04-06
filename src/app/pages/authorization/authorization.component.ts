@@ -38,9 +38,13 @@ export class AuthorizationComponent {
 		// 	email: 'abc@yandex.ru',
 		// 	password: 'abc'
 		// })
+		// this.myForm.patchValue({
+		// 	email: 'ADMIN@mail.ru',
+		// 	password: 'ADMIN'
+		// })
 		this.myForm.patchValue({
-			email: 'ADMIN@mail.ru',
-			password: 'ADMIN'
+			email: 'adminadminadmin@yandex.ru',
+			password: 'adminadminadmin'
 		})
 
 	}

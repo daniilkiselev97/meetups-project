@@ -1,6 +1,6 @@
 <div class="section-form bg-color-main">
-	<form [formGroup]="myForm" class="container edit-user ">
-		<div class="edit-user__item">
+	<form [formGroup]="myForm" class="container create-user ">
+		<div class="create-user__item">
 			<span class="tui-text_body-l-2">Логин:</span>
 			<div class="b-form">
 				<tui-input [formControl]="myForm.controls.login">
@@ -9,7 +9,7 @@
 			</div> <!--.b-form-->
 		</div> <!--.edit-user__item-->
 
-		<div class="edit-user__item">
+		<div class="create-user__item">
 			<span class="tui-text_body-l-2">Пароль:</span>
 			<div class="b-form">
 				<tui-input [formControl]="myForm.controls.password">
@@ -18,19 +18,22 @@
 			</div> <!--.b-form-->
 		</div> <!--.edit-user__item-->
 
-		<div class="edit-user__item">
+		<div class="create-user__item">
 			<span class="tui-text_body-l-2">Роль:</span>
-			<tui-radio-labeled [formControl]="myForm.controls.role" size="l" class="tui-space_bottom-3" [item]="items[0]">
+
+			<tui-radio-labeled [formControl]="myForm.controls.role" size="l" class="tui-space_bottom-3" [item]="roles[0]">
 				User
 			</tui-radio-labeled>
-			<tui-radio-labeled [formControl]="myForm.controls.role" size="l" [item]="items[1]">
+
+			<tui-radio-labeled [formControl]="myForm.controls.role" size="l" [item]="roles[1]">
 				Admin
 			</tui-radio-labeled>
-		</div> <!--.edit-user__item-->
+
+		</div> <!--edit-user__item-->
 	</form>
 
 	<div class="form-container__btn">
-		<button (click)="goUsers()" appearance="primary" size="m" tuiButton type="button">
+		<button (click)="createUser()" appearance="primary" size="m" tuiButton type="button">
 			Подтвердить
 		</button>
 	</div>

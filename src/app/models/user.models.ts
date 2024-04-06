@@ -25,6 +25,7 @@ export interface UserAuthBackend {
   roles: UserBackendAuthRoleItem[];
 }
 
+
 export interface UserBackendAuthRoleItem {
   UserRole: UserBackendAuthRole;
   createdAt: Date;
@@ -46,4 +47,22 @@ export interface UserBackend {
   email: string;
   password: string;
   fio: string;
+	roles: UserBackendRoleItem[]
+}
+
+export interface UserBackendRoleItem {
+	UserRole: UserBackendRole;
+  createdAt: Date;
+  id: number;
+  name: string;
+  updatedAt: Date;
+
+}
+
+export interface UserBackendRole {
+	createdAt: Date;
+  updatedAt: Date;
+  id: number;
+  roleId: number;
+  userId: number
 }

@@ -1,15 +1,36 @@
-<div class="user-card">
-	<div class="user-card__item tui-text_h6">outsidious@yandex.ru</div>
-	<div class="user-card__item tui-text_h6">*************</div>
-	<div class="user-card__item tui-text_h6">user</div>
+<form [formGroup]="myForm" class="user-card">
+
+	<div class="user-card__item tui-text_h6">
+		<tui-input [formControl]="myForm.controls.email">
+			<input disabled value="{{user.email}}" class="edit-meetup-item-input" disabled  type="email" />
+		</tui-input>
+	</div>
+
+
+	<div class="b-form user-card__item tui-text_h6">
+		
+		<tui-input [formControl]="myForm.controls.password">
+			<input disabled value="{{user.password}}" class="edit-meetup-item-input"  type="password" />
+		</tui-input>
+	</div>
+
+	<div class="b-form user-card__item tui-text_h6">
+		<tui-input [formControl]="myForm.controls.role">
+			<input disabled value="{{user.roles[0].name}}" class="edit-meetup-item-input"  type="text" />
+		</tui-input>
+	</div>
+
+	<!--tuiTextfield-->
+
 	<div class="user-card__item">
 		<div class="user-card__item-actions">
-			<div (click)="openEditingData()" class="user-card__item-actions-edit">
+			<div (click)="popupEditUser()" class="user-card__item-actions-edit">
 				<tui-svg src="tuiIconEdit3Large"></tui-svg>
 			</div>
-			<div class="user-card__item-actions-delete">
+			<div (click)="popupDeleteUser(user)" class="user-card__item-actions-delete">
 				<tui-svg src="tuiIconDeleteLarge"></tui-svg>
 			</div>
 		</div>
 	</div>
-</div>
+
+</form>
