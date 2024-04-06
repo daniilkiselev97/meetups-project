@@ -2,7 +2,7 @@ import { Component, Inject, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { UsersService } from 'src/app/services/users.service';
-import { UserAuthBackend } from 'src/app/models/user.models';
+import { UserAuthBackend, UserBackend } from 'src/app/models/user.models';
 import { Observable } from 'rxjs';
 import { PopupCreateUserComponent } from 'src/app/components/popup-create-user/popup-create-user.component';
 
@@ -12,7 +12,7 @@ import { PopupCreateUserComponent } from 'src/app/components/popup-create-user/p
 	styleUrls: ['./users.component.css']
 })
 export class UsersComponent {
-	public users$: Observable<UserAuthBackend[]> = this._userService.users$;
+	public users$: Observable<UserBackend[]> = this._userService.users$;
 
 
 	

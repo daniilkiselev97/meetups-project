@@ -30,7 +30,7 @@ export class MeetupsService {
 
 		return this._stateUpdateMeetupsTrigger.pipe(
 			switchMap(() => this._authService.authUser$),  //переключить на другой поток 
-			tap(console.log),
+			// tap(console.log),
 			switchMap((authUser) => combineLatest([ //чтобы в следующем pipe map ,были 2 переменные
 				this._meetupsApiService.getAll(),
 				of(authUser) //преобразовать какие то данные в Observable	
@@ -69,14 +69,14 @@ export class MeetupsService {
 	public changeMeetup(meetup: MeetupBackend, id: string): Observable<MeetupBackend> {
 		return this._meetupsApiService.changeMeetup(meetup, id).pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
-			tap(console.log)
+			// tap(console.log)
 		);
 	}
 
 	public createMeetup(meetup: MeetupCreated): Observable<MeetupBackend> {
 		return this._meetupsApiService.createMeetup(meetup).pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
-			tap(console.log)
+			// tap(console.log)
 		);
 	}
 

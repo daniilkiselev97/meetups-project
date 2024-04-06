@@ -96,7 +96,6 @@ export class AuthService {
 
 		const roleNames = userBackend.roles.map(role => role.name);
 
-
 		for (const roleName of roleNames) {
 			if (roleName === 'ADMIN') {
 				rolesObj.isAdmin = true
@@ -107,8 +106,10 @@ export class AuthService {
 		}
 
 		return {
-			...userBackend,
-			roles: rolesObj
+			id: userBackend.id,
+			email: userBackend.email,
+			rolesObj: rolesObj,
+			rolesArr: userBackend.roles
 		};
 	}
 

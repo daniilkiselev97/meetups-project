@@ -1,8 +1,8 @@
 export interface User  {
   id: number;
   email: string;
-  password: string;
-  roles: UserRoles;
+  rolesObj: UserRoles;
+	rolesArr: UserBackendRoleItem[];
 }
 
 
@@ -21,7 +21,6 @@ export interface UserRoles {
 export interface UserAuthBackend {
   id: number;
   email: string;
-  password: string;
   roles: UserBackendAuthRoleItem[];
 }
 
@@ -47,7 +46,7 @@ export interface UserBackend {
   email: string;
   password: string;
   fio: string;
-	roles: UserBackendRoleItem[]
+	roles: UserBackendRoleItem[];
 }
 
 export interface UserBackendRoleItem {
@@ -66,3 +65,26 @@ export interface UserBackendRole {
   roleId: number;
   userId: number
 }
+
+export interface UserUpdateObj {
+	id: number;
+	email: string;
+	password: string | null;
+	fio: string;
+	newRole: string;
+}
+
+export interface UserBackendUpdate {
+	id: number;
+	email: string;
+	password: string;
+	fio: string;
+}
+
+export interface UserBackendUpdateRole {
+	name: string;
+	userId: number;
+}
+
+
+

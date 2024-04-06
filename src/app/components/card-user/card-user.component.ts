@@ -1,11 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { UserAuthBackend } from 'src/app/models/user.models';
+import { UserAuthBackend, UserBackend } from 'src/app/models/user.models';
 import { PopupEditDataUserComponent } from 'src/app/components/popup-edit-user/popup-edit-user.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PopupDeleteUserComponent } from '../popup-delete-user/popup-delete-user.component';
 
+
+type Form = FormGroup<{
+	email: FormControl<string | null>;
+	password: FormControl<string | null>;
+	role: FormControl<string | null>;
+}>;
 
 @Component({
 	selector: 'card-user',
@@ -13,9 +19,9 @@ import { PopupDeleteUserComponent } from '../popup-delete-user/popup-delete-user
 	styleUrls: ['./card-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardUserComponent {
+export class CardUserComponent implements OnChanges {
 
-	@Input({ required: true }) user!: UserAuthBackend;
+	@Input({ required: true }) user!: UserBackend;
 
 
 
@@ -26,14 +32,18 @@ export class CardUserComponent {
 
 	}
 
+	ngOnChanges(changes: SimpleChanges): void {
+		this._setUserInForm(this.user);
+	}
 
-	myForm = new FormGroup({
-		email: new FormControl(this.user?.email, [Validators.required]),
-		password: new FormControl(this.user?.password, [Validators.required]),
-		role: new FormControl(this.user?.roles[0]?.name)
+
+	public myForm = new FormGroup({
+		email: new FormControl('', [Validators.required]),
+		password: new FormControl(''),
+		role: new FormControl('')
 	});
 
-	popupEditUser(): void {
+	public popupEditUser(): void {
 
 		const dialog = this._tuiDialogService.open<void>(
 			new PolymorpheusComponent(PopupEditDataUserComponent, this._injector),
@@ -56,29 +66,35 @@ export class CardUserComponent {
 			},
 		});
 	}
-		popupDeleteUser(user: UserAuthBackend): void {
+	public popupDeleteUser(user: UserBackend): void {
 
-			const dialog = this._tuiDialogService.open<void>(
-				new PolymorpheusComponent(PopupDeleteUserComponent, this._injector),
-				{
-					data: this.user,
-					dismissible: false,
-					size: 'l',
-				},
-			)
-
-
-			const subs = dialog.subscribe({
-				next: data => {
-					console.log(`Dialog emitted data = ${data}`);
-					subs.unsubscribe();
-				},
-				complete: () => {
-					console.log('Dialog closed');
-					subs.unsubscribe();
-				},
-			});
-		}
+		const dialog = this._tuiDialogService.open<void>(
+			new PolymorpheusComponent(PopupDeleteUserComponent, this._injector),
+			{
+				data: this.user,
+				dismissible: false,
+				size: 'l',
+			},
+		)
 
 
+		const subs = dialog.subscribe({
+			next: data => {
+				console.log(`Dialog emitted data = ${data}`);
+				subs.unsubscribe();
+			},
+			complete: () => {
+				console.log('Dialog closed');
+				subs.unsubscribe();
+			},
+		});
+	}
+
+	private _setUserInForm(user: UserBackend): void {
+		// console.log(user)
+		this.myForm.patchValue({
+			email: user.email,
+			role: user.roles[0].name
+		});
+	}
 }

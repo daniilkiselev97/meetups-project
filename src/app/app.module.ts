@@ -19,6 +19,7 @@ import {
 	TuiDataListWrapperModule,
 	TuiSelectModule,
 	TuiSliderModule,
+	TuiCheckboxLabeledModule
 } from '@taiga-ui/kit';
 
 
@@ -95,7 +96,8 @@ import { PopupDeleteUserComponent } from './components/popup-delete-user/popup-d
 		TuiDataListWrapperModule,
 		TuiSelectModule,
 		TuiSliderModule,
-		TuiDialogModule
+		TuiDialogModule,
+		TuiCheckboxLabeledModule
 
 	],
 	providers: [

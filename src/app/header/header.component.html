@@ -15,7 +15,7 @@
 						<a class="nav-link" [routerLink]="['/all-meetups']" routerLinkActive="current-link">Все митапы</a>
 						<a class="nav-link" [routerLink]="['/my-meetups']" routerLinkActive="current-link">Мои митапы</a>
 					</ng-container>
-					<ng-container *ngIf="obs.authUser?.roles?.isAdmin">
+					<ng-container *ngIf="obs.authUser?.rolesObj?.isAdmin">
 						<a class="nav-link" [routerLink]="['/users']" routerLinkActive="current-link">Пользователи</a>
 					</ng-container>
 				</div>
