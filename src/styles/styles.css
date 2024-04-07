@@ -70,6 +70,10 @@ root, tui-root {
 	background-color: rgb(255, 141, 141) !important;
 }
 
+.t-content[_ngcontent-ng-c1591437670]{
+	padding: 15px !important;
+}
+
 /* Taiga UI */
 
 .bg-color-main {

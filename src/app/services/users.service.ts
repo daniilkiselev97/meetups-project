@@ -48,7 +48,7 @@ export class UsersService {
 
 	public updateUser(userUpdateObj: UserUpdateObj) {
 		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
-		console.log(areUpdateRoles)
+		// console.log(areUpdateRoles)
 
 
 		return combineLatest([

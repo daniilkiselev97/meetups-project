@@ -54,8 +54,7 @@ export class PopupEditMeetupComponent {
 		const date = this.myForm.controls.date.value
 		const time = this.myForm.controls.time.value
 		const savedDate = new Date(date.year, date.month, date.day, time.hours, time.minutes)
-		// console.log(savedDate)
-		// console.log(savedDate.toISOString())
+	
 
 		const savedMeetup: MeetupBackend = {
 			name: this.myForm.controls.name.value,

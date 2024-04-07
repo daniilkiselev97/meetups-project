@@ -24,8 +24,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class PopupCreateMeetupComponent {
 
-	public meetup: Meetup = this.context.data;
-	public readonly myForm = this._createFormMeetup(this.meetup)
+	
+	public readonly myForm = this._createFormMeetup()
 	public timePeriods: readonly TuiTime[] = tuiCreateTimePeriods();
 
 	get disabledForm(): boolean {
@@ -70,11 +70,6 @@ export class PopupCreateMeetupComponent {
 			will_happen: this.myForm.controls.whatWillHappen.value,
 			reason_to_come: this.myForm.controls.haveToCome.value,
 			duration: this.myForm.controls.duration.value,
-			// id: this.meetup.id,
-			// createdBy: this.meetup.createdBy,
-			// owner: this.meetup.owner,
-			// createdAt: this.meetup.createdAt,
-			// users: this.meetup.users
 		}
 
 		const subs = this._meetupsService.createMeetup(savedMeetup).subscribe(() => {
@@ -84,20 +79,18 @@ export class PopupCreateMeetupComponent {
 	}
 
 
-	private _createFormMeetup(meetup: Meetup) { //меньше зависимостей (this)
+	private _createFormMeetup() { 
 
-		// const date = new Date(meetup.time);
-		// const year = date.getFullYear();
-		// const month = date.getMonth();
-		// const day = date.getDate();
-		// const hours = date.getHours();
-		// const minutes = date.getMinutes();
-
+		const date = new Date().getDate()
+		const month = new Date().getMonth()
+		const year = new Date().getFullYear()
+		const hours = new Date().getHours()
+		const minutes = new Date().getMinutes()
 
 		return new FormGroup({
 			name: new FormControl('', [Validators.required]),
-			date: new FormControl(new TuiDay(2024, 3, 10), [Validators.required]),
-			time: new FormControl(new TuiTime(18, 15), [Validators.required]),
+			date: new FormControl(new TuiDay(year, month, date), [Validators.required]),
+			time: new FormControl(new TuiTime(hours, minutes), [Validators.required]),
 			duration: new FormControl(60, [Validators.required]),
 			location: new FormControl('', [Validators.required]),
 			shortDescription: new FormControl('', [Validators.required]),

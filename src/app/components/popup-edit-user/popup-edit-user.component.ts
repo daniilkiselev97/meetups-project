@@ -94,6 +94,7 @@ export class PopupEditDataUserComponent implements OnInit {
 			name: resOfSeparation[3]
 		}
 	}
+	//1----ADMIN
 
 	private _setUserToForm(user: UserBackend): void {
 		this.myForm.patchValue({

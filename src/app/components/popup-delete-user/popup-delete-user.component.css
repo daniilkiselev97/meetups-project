@@ -1,10 +1,9 @@
 /* delete-user-item */
 
 .delete-user-item-title {
-	font-family: "Cherry Bomb One", system-ui;
 	font-weight: 400;
 	font-size: 24px;
-	color: rgb(140, 0, 0);
+	color: #f6c5c5;
 	margin-bottom: 15px;
 }
 

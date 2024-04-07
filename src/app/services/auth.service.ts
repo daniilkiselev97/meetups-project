@@ -20,7 +20,6 @@ export class AuthService {
 	public readonly isAuth$: Observable<boolean> = this._stateAuthUser.pipe(
 		map((user) => {
 			if (user === null) return false;
-			// console.log(user)
 			return true;
 		})
 	);

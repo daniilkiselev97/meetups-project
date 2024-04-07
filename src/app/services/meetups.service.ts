@@ -105,9 +105,7 @@ export class MeetupsService {
 	}
 
 	private _whetherUserIsOwnerOfMeetup(user: User, meetupForBackend: MeetupBackend): boolean {
-		// console.log(user, 'user')
-		// console.log(meetupForBackend, 'meetupForBackend')
-		// console.log('--------------')
+
 		const idUser = user.id;
 		const idOwnerUser = meetupForBackend.owner.id;
 

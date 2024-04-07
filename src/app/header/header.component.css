@@ -1,6 +1,7 @@
 .header {
 	padding: 40px 0;
 	background-color: rgba(94, 93, 93, 0.237);
+	border-bottom: 1px solid #bdb9b9;
 
 }
 
@@ -79,9 +80,11 @@
 	gap: 10px;
 
 }
-
-.navbar-nav__links-email {
-	/* font-family: "Open Sans", sans-serif; */
-	/* font-weight: 400; */
-	/* font-size: 25px; */
+.scale {
+	transition: .3s all ease-in;
 }
+.scale:hover{
+  transform: scale(1.2);
+}
+
+
