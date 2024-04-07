@@ -1,3 +1,5 @@
+import { TransformedObjRoles } from "./roles.models";
+
 export interface User  {
   id: number;
   email: string;
@@ -68,10 +70,10 @@ export interface UserBackendRole {
 
 export interface UserUpdateObj {
 	id: number;
-	email: string;
+	email: string | null;
 	password: string | null;
-	fio: string;
-	newRole: string;
+	fio: string | null;
+	newRole: TransformedObjRoles;
 }
 
 export interface UserBackendUpdate {

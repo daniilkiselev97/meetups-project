@@ -15,7 +15,7 @@ export class UsersService {
 	private readonly _stateUsers: BehaviorSubject<UserBackend[]> = new BehaviorSubject<UserBackend[]>([]);
 	public readonly users$: Observable<UserBackend[]> = this._stateUsers.asObservable();
 
-	private readonly _stateUpdateUsersTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null); //сигна
+	private readonly _stateUpdateUsersTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null); 
 
   constructor(
 		private readonly _usersApiService: UsersApiService,
@@ -38,6 +38,12 @@ export class UsersService {
 			tap(() => this._stateUpdateUsersTrigger.next(null)), //заново запустить триггер
 
 		)
+	}
+
+	public deleteUser(user: UserBackend) {
+		return this._usersApiService.deleteUser(user).pipe(
+			tap(user => this._stateUpdateUsersTrigger.next(null))
+		);
 	}
 
 	private _getAll(): Observable<UserBackend[]> {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { UserAuthBackend, UserBackend, UserBackendUpdate, UserBackendUpdateRole, UserUpdateObj } from '../models/user.models';
+import { MeetupBackendUser, UserAuthBackend, UserBackend, UserBackendUpdate, UserBackendUpdateRole, UserUpdateObj } from '../models/user.models';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -41,5 +41,9 @@ export class UsersApiService {
 			name: userUpdateObj.newRole || 'Неопределенная роль',  //может быть null
 			id: userUpdateObj.id
 		})
+	}
+
+	public deleteUser(user: UserBackend): Observable<MeetupBackendUser> {
+		return this._http.delete<MeetupBackendUser>(`${this._baseUrl}/${user.id}`)
 	}
 }

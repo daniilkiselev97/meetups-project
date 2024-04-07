@@ -12,14 +12,15 @@ export class RolesApiService {
 
 	private readonly _baseUrl: string = `${environment.backendOrigin}/role`;
 
-
   constructor(
 		private readonly _http: HttpClient
 	) { }
 
 	public getAll(): Observable<BackendRole[]> {
 		return this._http.get<BackendRole[]>(this._baseUrl).pipe(
-			map((roles) => roles.filter(role => role.name !== '' ))
+			map((roles) => roles.filter(role => role.name !== ''))
 		)
 	}
+
+	
 }

@@ -1,7 +1,7 @@
 <div class="section-form bg-color-main">
 	<form [formGroup]="myForm" class="container edit-user ">
 		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Логин:</span>
+			<span class="tui-text_body-l-2">Email:</span>
 			<div class="b-form">
 				<tui-input [formControl]="myForm.controls.email">
 					<input tuiTextfield class="b-form__input-center" type="text" />
@@ -13,6 +13,15 @@
 			<span class="tui-text_body-l-2">Пароль:</span>
 			<div class="b-form">
 				<tui-input [formControl]="myForm.controls.password">
+					<input tuiTextfield class="b-form__input-center" type="text" />
+				</tui-input>
+			</div> <!--.b-form-->
+		</div> <!--.edit-user__item-->
+
+		<div class="edit-user__item">
+			<span class="tui-text_body-l-2">Имя:</span>
+			<div class="b-form">
+				<tui-input [formControl]="myForm.controls.fio">
 					<input tuiTextfield class="b-form__input-center" type="text" />
 				</tui-input>
 			</div> <!--.b-form-->
@@ -31,39 +40,10 @@
 
 			</div>
 		</ng-container>
-
-
-			<!-- <ng-container *ngIf="allRoles$ | async as roles">  -->
-
-				
-
-			
-
-			<!-- </ng-container> -->
-			<!-- <tui-checkbox-labeled
-				[formControl]="myForm.controls.roles."
-				size="l"
-			>
-				An option
-			</tui-checkbox-labeled> -->
-
-
-
-
-
-		<!-- <div class="edit-user__item">
-			<span class="tui-text_body-l-2">Роль:</span>
-			<tui-radio-labeled [formControl]="myForm.controls.role" size="l" class="tui-space_bottom-3" [item]="roles[0]">
-				User
-			</tui-radio-labeled>
-			<tui-radio-labeled [formControl]="myForm.controls.role" size="l" [item]="roles[1]">
-				Admin
-			</tui-radio-labeled>
-		</div>  -->
 	</form>
 
 	<div class="form-container__btn">
-		<button (click)="EditUserData()" appearance="primary" size="m" tuiButton type="button">
+		<button [disabled]="disabledForm" (click)="SubmitEditUser()" appearance="primary" size="m" tuiButton type="button">
 			Подтвердить
 		</button>
 	</div>

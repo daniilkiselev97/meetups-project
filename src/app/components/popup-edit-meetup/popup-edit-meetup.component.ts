@@ -36,27 +36,6 @@ export class PopupEditMeetupComponent {
 		private readonly _meetupsService: MeetupsService
 	) {
 
-
-
-		// let disabled = this.disabledForm;
-
-
-		// console.log({
-		// 	dirty: this.myForm.dirty,
-		// 	touched: this.myForm.touched,
-		// 	pristine: this.myForm.pristine,
-		// 	disabled
-		// })
-
-		// this.myForm.valueChanges.subscribe(() => {
-		// 	disabled = this.disabledForm
-		// 	console.log({
-		// 		dirty: this.myForm.dirty,
-		// 		touched: this.myForm.touched,
-		// 		pristine: this.myForm.pristine,
-		// 		disabled
-		// 	})
-		// })
 	}
 
 	public saveMeetup(): void {

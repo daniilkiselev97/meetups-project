@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { UserAuthBackend } from 'src/app/models/user.models';
+import { UserAuthBackend, UserBackend } from 'src/app/models/user.models';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { UsersService } from 'src/app/services/users.service';
 
 
 @Component({
@@ -11,26 +12,25 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupDeleteUserComponent {
-	public user: UserAuthBackend = this.context.data;
+	public user: UserBackend = this.context.data;
 
 
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
-		@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<void, UserAuthBackend>,
-		// private readonly _meetupsService: MeetupsService
+		@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<void, UserBackend>,
+		private readonly _usersService: UsersService
 	) {
 
 	}
 
-	public handleSubmitDelete() {
-		// const subs = this._meetupsService.deleteMeetup(this.meetup.id).subscribe(() => {
-		// 	subs.unsubscribe();
-		// 	this.context.completeWith()
-
-		// })
+	public SubmitDelete() {
+		const subs = this._usersService.deleteUser(this.user).subscribe(() => {
+			subs.unsubscribe();
+			this.context.completeWith()
+		})
 	}
 
-	public handleCancelDelete() {
+	public CancelDelete() {
 		this.context.completeWith()
 	}
 

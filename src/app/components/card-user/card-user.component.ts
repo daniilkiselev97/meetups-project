@@ -7,11 +7,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PopupDeleteUserComponent } from '../popup-delete-user/popup-delete-user.component';
 
 
-type Form = FormGroup<{
-	email: FormControl<string | null>;
-	password: FormControl<string | null>;
-	role: FormControl<string | null>;
-}>;
+// type Form = FormGroup<{
+// 	email: FormControl<string | null>;
+// 	password: FormControl<string | null>;
+// 	role: FormControl<string | null>;
+// }>;
 
 @Component({
 	selector: 'card-user',
