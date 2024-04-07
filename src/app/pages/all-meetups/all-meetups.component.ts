@@ -19,7 +19,7 @@ export class AllMeetupsComponent {
 	public allMeetups$: Observable<Meetup[]> = this._meetupsService.allMeetups$.pipe(
 		switchMap((meetups) => combineLatest([
 			of(meetups),
-			this._stateFilter //слушаем поток
+			this._stateFilter
 		])),
 		map(([meetups, stateFilter]) => {
 			const filterMeetupName = this._removeExtraSpaces(stateFilter.meetupName).toLowerCase();
@@ -40,19 +40,12 @@ export class AllMeetupsComponent {
 				return true;
 			})
 		}),
-		tap(console.log)
 	)
 
 	constructor(
 		private readonly _meetupsService: MeetupsService
 	) {
-		(window as any).stateFilter = this._stateFilter;
-		// setInterval(() => {
-		// 	this._stateFilter.next({
-		// 		...this._stateFilter.value, //берем прошлое состояние
-		// 		ownerFio: "Админ Админов"
-		// 	})
-		// }, 1500)
+
 	}
 
 	public onInputOwnerFioChange(event: any): void {
@@ -61,7 +54,7 @@ export class AllMeetupsComponent {
 		const inputFio = targetNode.value;
 
 		this._stateFilter.next({
-			...this._stateFilter.value, //берем прошлое состояние
+			...this._stateFilter.value, 
 			ownerFio: inputFio
 		})
 	}
@@ -71,7 +64,7 @@ export class AllMeetupsComponent {
 		if (targetNode === null) return;
 
 		this._stateFilter.next({
-			...this._stateFilter.value, //берем прошлое состояние
+			...this._stateFilter.value, 
 			meetupName: targetNode.value
 		})
 	}

@@ -34,14 +34,18 @@
 }
 
 .nav-link {
-	font-family: "Cherry Bomb One", system-ui;
-	font-weight: 400;
+	/* font-family: "Cherry Bomb One", system-ui; */
+	/* font-weight: 400;
 	font-size: 24px;
 	line-height: 24px;
 	text-decoration: none;
 	cursor: pointer;
+	color: rgb(86, 83, 83); */
+	text-decoration: none;
+	cursor: pointer;
 	color: rgb(86, 83, 83);
 }
+
 
 .logout-icon {
 	cursor: pointer;
@@ -77,7 +81,7 @@
 }
 
 .navbar-nav__links-email {
-	font-family: "Open Sans", sans-serif;
-	font-weight: 400;
-	font-size: 25px;
+	/* font-family: "Open Sans", sans-serif; */
+	/* font-weight: 400; */
+	/* font-size: 25px; */
 }

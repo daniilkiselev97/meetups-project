@@ -6,6 +6,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { AuthorizationComponent } from './pages/authorization/authorization.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { authGuard } from './guards/auth.guard';
+import { AboutComponent } from './pages/about/about.component';
 
 const routes: Routes = [
 	{
@@ -17,6 +18,10 @@ const routes: Routes = [
 		path: 'my-meetups',
 		component: MyMeetupsComponent,
 		canActivate: [authGuard]
+	},
+	{
+		path: 'about',
+		component: AboutComponent,
 	},
 	{
 		path: 'users',

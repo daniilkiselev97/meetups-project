@@ -46,6 +46,7 @@ import { PopupCreateMeetupComponent } from './components/popup-create-meetup/pop
 import { PopupDeleteMeetupComponent } from './components/popup-delete-meetup/popup-delete-meetup.component';
 import { PopupCreateUserComponent } from './components/popup-create-user/popup-create-user.component';
 import { PopupDeleteUserComponent } from './components/popup-delete-user/popup-delete-user.component';
+import { AboutComponent } from './pages/about/about.component';
 
 @NgModule({
 	declarations: [
@@ -66,7 +67,8 @@ import { PopupDeleteUserComponent } from './components/popup-delete-user/popup-d
 		PopupDeleteMeetupComponent,
 		PopupEditDataUserComponent,
   	PopupCreateUserComponent,
-   PopupDeleteUserComponent
+   PopupDeleteUserComponent,
+   AboutComponent
 	],
 	imports: [
 		BrowserModule,
