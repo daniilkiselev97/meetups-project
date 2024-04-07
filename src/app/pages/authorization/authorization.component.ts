@@ -34,18 +34,16 @@ export class AuthorizationComponent {
 
 	constructor(private _authService: AuthService) {
 		(window as any).myForm = this.myForm
-		// this.myForm.patchValue({
-		// 	email: 'abc@yandex.ru',
-		// 	password: 'abc'
-		// })
-		// this.myForm.patchValue({
-		// 	email: 'ADMIN@mail.ru',
-		// 	password: 'ADMIN'
-		// })
+		
+	
 		this.myForm.patchValue({
 			email: 'adminadminadmin@yandex.ru',
 			password: 'adminadminadmin'
 		})
+		// this.myForm.patchValue({
+		// 	email: 'newUser123@mail.ru',
+		// 	password: 'newUser123'
+		// })
 
 	}
 

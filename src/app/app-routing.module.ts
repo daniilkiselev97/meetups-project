@@ -7,6 +7,7 @@ import { AuthorizationComponent } from './pages/authorization/authorization.comp
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { authGuard } from './guards/auth.guard';
 import { AboutComponent } from './pages/about/about.component';
+import { adminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
 	{
@@ -26,7 +27,7 @@ const routes: Routes = [
 	{
 		path: 'users',
 		component: UsersComponent,
-		canActivate: [authGuard]
+		canActivate: [adminGuard]
 	},
 	{
 		path: 'login',
