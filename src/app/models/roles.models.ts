@@ -3,6 +3,7 @@ export interface BackendRole {
 	name: string;
 }
 
-export interface TransformedObjRoles {
-	[name:string]: BackendRole;
+export interface AssigningRolesToBackend {
+	names: string[];
+	userId: number;
 }

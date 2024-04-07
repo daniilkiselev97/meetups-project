@@ -20,9 +20,9 @@ export interface AuthToken {
 
 
 export interface UserRegistrationData {
-  email: string;
-  password: string;
-  fio: string;
+  email: string | null;
+  password: string | null;
+  fio: string | null;
 }
 
 

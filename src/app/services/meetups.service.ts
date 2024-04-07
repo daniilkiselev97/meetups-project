@@ -36,7 +36,9 @@ export class MeetupsService {
 				of(authUser) //преобразовать какие то данные в Observable	
 			])),
 			map(([meetupsForBackend, authUser]) =>
-				meetupsForBackend.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
+				meetupsForBackend
+				.filter((meetupForBackend) => meetupForBackend.owner !== null)
+				.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
 					authUser, meetupForBackend
 				))
 			)
@@ -103,8 +105,12 @@ export class MeetupsService {
 	}
 
 	private _whetherUserIsOwnerOfMeetup(user: User, meetupForBackend: MeetupBackend): boolean {
+		console.log(user, 'user')
+		console.log(meetupForBackend, 'meetupForBackend')
+		console.log('--------------')
 		const idUser = user.id;
 		const idOwnerUser = meetupForBackend.owner.id;
+
 
 		return idUser === idOwnerUser;
 	}

@@ -5,8 +5,11 @@
 		<ng-container *ngIf="myMeetups$ | async as myMeetups">
 			<div class="cards-wrapper">
 				<ng-container *ngFor="let myMeetup of myMeetups">
-					<card-meetup-my [meetup]="myMeetup"></card-meetup-my>
+					<!-- <ng-container *ngIf="myMeetup.owner.email === "> -->
+						<card-meetup-my [meetup]="myMeetup"></card-meetup-my>
+					<!-- </ng-container> -->
 				</ng-container>
+				
 			</div>
 		</ng-container>
 

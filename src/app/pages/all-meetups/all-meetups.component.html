@@ -1,11 +1,15 @@
 <div class="section-cards bg-color-main">
 
 	<div class="container">
+		<input (input)="onInputOwnerFioChange($event)" type="text" placeholder="OwnerFio">
+		<input (input)="onInputMeetupNameChange($event)" type="text" placeholder="MeetupName">
 
 		<ng-container *ngIf="allMeetups$ | async as allMeetups">
 			<div class="cards-wrapper">
 				<ng-container *ngFor="let meetup of allMeetups">
-					<card-meetup [meetup]="meetup"></card-meetup>
+
+						<card-meetup [meetup]="meetup"></card-meetup>
+
 				</ng-container>
 			</div>
 		</ng-container>

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Observable, tap } from 'rxjs';
-import { BackendRole, TransformedObjRoles } from 'src/app/models/roles.models';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BackendRole } from 'src/app/models/roles.models';
 import {  UserBackend } from 'src/app/models/user.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -15,20 +15,14 @@ import { UsersService } from 'src/app/services/users.service';
 	styleUrls: ['./popup-edit-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 
-	//{[id]: role}
 })
 export class PopupEditDataUserComponent implements OnInit {
+	private _stateDefaultRoles = new BehaviorSubject<BackendRole[]>([]);
 
 	public user: UserBackend = this.context.data;
-
 	public allRoles$: Observable<BackendRole[]> = this._rolesApiService.getAll().pipe(
 		tap(roles => this._setRolesToForm(roles)),
-	)
-
-
-
-	// public myForm: any = null;
-
+	);
 	public myForm = new FormGroup({
 		email: new FormControl('', [Validators.email]),
 		password: new FormControl('', []),
@@ -39,9 +33,10 @@ export class PopupEditDataUserComponent implements OnInit {
 		}),
 	});
 
-	get disabledForm(): boolean {
+	public get disabledForm(): boolean {
 		return (this.myForm.pristine && !this.myForm.dirty) || this.myForm.invalid;
 	}
+	
 
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
@@ -58,28 +53,35 @@ export class PopupEditDataUserComponent implements OnInit {
 		// console.log(this.user)
 	}
 
-	public SubmitEditUser(): void {
-		const roles: any = this.myForm.controls.roles.controls
-		const transformedObjRoles: any = {}
-		for (const idAndRole in roles) {
-			if (roles[idAndRole].value === true){
-				const obj: BackendRole  = this.devideIdAndRole(idAndRole)
-				transformedObjRoles[obj.id] = obj
+	public submitEditUser(): void {
+		if (this.myForm.controls.email.value === null) return;
+		if (this.myForm.controls.password.value === null) return;
+		if (this.myForm.controls.fio.value === null) return;
+
+		const rolesControlsInForm: any = this.myForm.controls.roles.controls;
+		const rolesToSend: BackendRole[] = [];
+
+		for (const idAndRole in rolesControlsInForm) {
+			if (rolesControlsInForm[idAndRole].value === true){
+				rolesToSend.push(this.devideIdAndRole(idAndRole));
 			}
 		}
-		// console.log(transformedObjRoles)
+		// console.log(rolesBackend)
 
 		const changedUser = {
 			email: this.myForm.controls.email.value,
 			password: this.myForm.controls.password.value,
 			fio: this.myForm.controls.fio.value,
 			id: this.user.id,
-			newRole: transformedObjRoles
-		}
+			newRoles: rolesToSend
+		};
 
 		// console.log(changedUser)
 
-		const subs = this._usersService.updateUser(changedUser).subscribe(() => {
+
+
+		const subs = this._usersService.updateUser(changedUser).subscribe((data) => {
+			// console.log(data)
 			subs.unsubscribe()
 			this.context.completeWith()
 		})
@@ -109,6 +111,7 @@ export class PopupEditDataUserComponent implements OnInit {
 		}
 
 		this.myForm.setControl('roles', this._fb.group(rolesGroup));
+		this._stateDefaultRoles.next(roles);
 		// console.log(this.myForm)
 
 	}

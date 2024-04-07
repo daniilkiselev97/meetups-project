@@ -1,42 +1,92 @@
 import { Injectable } from '@angular/core';
 import { UsersApiService } from './users-api.service';
-import { BehaviorSubject, Observable, combineLatest, filter, map, of, switchMap, tap } from 'rxjs';
-import { User, UserAuthBackend, UserBackend, UserUpdateObj } from '../models/user.models';
+import { BehaviorSubject, Observable, combineLatest, filter, map, mergeMap, of, switchMap, tap, throwError } from 'rxjs';
+import { User, UserAuthBackend, UserBackend, UserCreateObj, UserUpdateObj } from '../models/user.models';
 import { UsersRolesApiService } from './users-roles-api.service';
 import { UserBackendRole } from '../models/user-roles.models';
 import { Meetup } from '../models/meetup.models';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class UsersService {
 
 	private readonly _stateUsers: BehaviorSubject<UserBackend[]> = new BehaviorSubject<UserBackend[]>([]);
 	public readonly users$: Observable<UserBackend[]> = this._stateUsers.asObservable();
 
-	private readonly _stateUpdateUsersTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null); 
+	private readonly _stateUpdateUsersTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null);
 
-  constructor(
+	constructor(
 		private readonly _usersApiService: UsersApiService,
 		private readonly _usersRolesApiService: UsersRolesApiService,
 		private readonly _authService: AuthService
 	) {
 		this._init()
-	 }
+	}
+
+	private _getAll(): Observable<UserBackend[]> {
+
+		return this._stateUpdateUsersTrigger.pipe(
+			// tap(console.log),
+			switchMap(() => this._authService.authUser$),
+			switchMap((authUser) => {
+				if (authUser === null) return of([]); //чтобы не получать всех пользователей если не автаризован
+				return this._usersApiService.getAll()
+			}),
+			map(users => users.sort(function (a, b) {
+				const emailA = a.email.toLowerCase();
+				const emailB = b.email.toLowerCase();
+				if (emailA < emailB) return -1;
+				if (emailA > emailB) return 1;
+				return 0;
+			}))
+
+		)
+
+	}
 
 	public updateUser(userUpdateObj: UserUpdateObj) {
-		const isUpdateRole = userUpdateObj.newRole !== null;
+		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
+		console.log(areUpdateRoles)
+
 
 		return combineLatest([
 			this._usersApiService.updateUser(userUpdateObj),
-			of(isUpdateRole)
+			of(areUpdateRoles)
 		]).pipe(
 			tap(() => this._stateUpdateUsersTrigger.next(null)), // в любом случае посылается сигнал
-			filter(([updatedUser, isUpdateRole]) => isUpdateRole), //фильтруем isUpdateRole === true и идет вниз делать запрос
+			// tap(console.log),
+			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles), //фильтруем isUpdateRole === true и идет вниз делать запрос
 			switchMap(() => this._usersApiService.updateUserRole(userUpdateObj)), //обновление роли 
 			tap(() => this._stateUpdateUsersTrigger.next(null)), //заново запустить триггер
+		)
+	}
 
+	public createUser(userCreateObj: UserCreateObj) {
+		const areUpdateRoles = userCreateObj.newRoles.length !== 0;
+		return combineLatest([
+			this._usersApiService.createUser(userCreateObj),
+			of(areUpdateRoles)
+		]).pipe(
+			tap(() => this._stateUpdateUsersTrigger.next(null)), 
+			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles), 
+			switchMap(() => this._getAll()),
+			switchMap((users) => {
+				const foundCreatedUser = users.find(user => 
+					(user.email === userCreateObj.email) && (user.fio ===  userCreateObj.fio)
+				);
+
+				if (foundCreatedUser === undefined) {
+					return throwError(() => new Error(`Пользователь с email ${userCreateObj.email} не найден`))
+				}
+
+				return this._usersApiService.updateUserRole({
+					...foundCreatedUser,
+					newRoles: userCreateObj.newRoles
+				})
+			}), 
+			tap(() => this._stateUpdateUsersTrigger.next(null)), 
 		)
 	}
 
@@ -46,34 +96,7 @@ export class UsersService {
 		);
 	}
 
-	private _getAll(): Observable<UserBackend[]> {
 
-		return this._stateUpdateUsersTrigger.pipe(
-			switchMap(() => this._authService.authUser$),
-			switchMap((authUser) => {
-				if (authUser === null) return of([]); //чтобы не получать всех пользователей если не автаризован
-				return this._usersApiService.getAll()
-			}), 
-		)
-
-		// return this._usersApiService.getAll()
-
-		// return this._stateUpdateMeetupsTrigger.pipe(
-			// switchMap(() => this._authService.authUser$),  //переключить на другой поток 
-			// tap(console.log),
-			// switchMap(() => combineLatest([
-				// this._usersApiService.getAll(),
-				// this._usersRolesApiService.getAll()
-			// ])),
-			// map(([usersBackend, userBackendRoles]) => this._convertUsersBackendToUsers(usersBackend, userBackendRoles))
-			// switchMap(() => this._usersApiService.getAll()),
-			// switchMap((authUser) => combineLatest([ //чтобы в следующем pipe map ,были 2 переменные
-			// 	this._meetupsApiService.getAll(),
-			// 	of(authUser) //преобразовать какие то данные в Observable	
-			// ])),
-			// map((users) => )
-		// )
-	}
 
 	private _getAllAndUpdateState(): Observable<UserBackend[]> { //внутри потока
 		return this._getAll().pipe(
@@ -83,9 +106,9 @@ export class UsersService {
 
 	private _init(): void {
 		const subsGetAll = this._getAllAndUpdateState().subscribe(users => {
-			subsGetAll.unsubscribe();
+
 		})
-		
+
 	}
 
 	// private _convertUsersBackendToUsers(usersBackend: UserBackend[], userBackendRoles: UserBackendRole[]): User[] {

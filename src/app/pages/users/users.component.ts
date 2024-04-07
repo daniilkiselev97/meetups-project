@@ -27,7 +27,6 @@ export class UsersComponent {
 		const dialog = this._tuiDialogService.open<void>(
 			new PolymorpheusComponent(PopupCreateUserComponent, this._injector),
 			{
-				// data: 237,
 				dismissible: false,
 				size: 'l',
 			},

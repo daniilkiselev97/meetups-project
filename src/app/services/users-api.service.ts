@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { MeetupBackendUser, UserAuthBackend, UserBackend, UserBackendUpdate, UserBackendUpdateRole, UserUpdateObj } from '../models/user.models';
-import { Observable, tap } from 'rxjs';
+import { MeetupBackendUser, UserAuthBackend, UserBackend, UserBackendUpdate, UserBackendUpdateRole, UserCreateObj, UserUpdateObj } from '../models/user.models';
+import { Observable, map, tap } from 'rxjs';
+import { AssigningRolesToBackend } from '../models/roles.models';
 
 @Injectable({
 	providedIn: 'root'
@@ -32,14 +33,24 @@ export class UsersApiService {
 		}
 		return this._http.put<UserBackendUpdate>(`${this._baseUrl}/${userUpdateObj.id}`, {
 			...bodyObj
-		})
+		});
 
 	}
 
-	public updateUserRole(userUpdateObj: UserUpdateObj): Observable<UserBackendUpdateRole> {
-		return this._http.put<UserBackendUpdateRole>(`${this._baseUrl}/role`, {
-			name: userUpdateObj.newRole || 'Неопределенная роль',  //может быть null
-			id: userUpdateObj.id
+	public createUser(userCreateObj: UserCreateObj): Observable<UserCreateObj> {
+		return this._http.post<void>(`${environment.backendOrigin}/auth/registration`, {
+			...userCreateObj
+		}).pipe(
+			map(() => userCreateObj)
+		);
+	}
+
+	public updateUserRole(userUpdateObj: UserUpdateObj): Observable<AssigningRolesToBackend> {
+		const rolesNames = userUpdateObj.newRoles.map((role) => role.name)
+		return this._http.post<AssigningRolesToBackend>(`${this._baseUrl}/role`, {
+			// names: rolesNames.length ?  rolesNames :  'Неопределенная роль',  //может быть null
+			names: rolesNames,
+			userId: userUpdateObj.id
 		})
 	}
 
