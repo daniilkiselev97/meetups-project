@@ -94,7 +94,7 @@ export class PopupEditDataUserComponent implements OnInit {
 			name: resOfSeparation[3]
 		}
 	}
-	//1----ADMIN
+	
 
 	private _setUserToForm(user: UserBackend): void {
 		this.myForm.patchValue({
@@ -108,7 +108,7 @@ export class PopupEditDataUserComponent implements OnInit {
 		const rolesGroup: any = {};
 		for (const role of roles) {
 			const doesUserRole = this.user.roles.findIndex(userRole => userRole.id === role.id) !== -1;
-				rolesGroup[`${role.id}-${role.name}`] = this._fb.control(doesUserRole); // You can set initial value if needed
+				rolesGroup[`${role.id}-${role.name}`] = this._fb.control(doesUserRole); 
 		}
 
 		this.myForm.setControl('roles', this._fb.group(rolesGroup));

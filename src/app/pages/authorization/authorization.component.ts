@@ -8,7 +8,6 @@ import { of } from 'rxjs';
 	selector: 'authorization',
 	templateUrl: './authorization.component.html',
 	styleUrls: ['./authorization.component.css'],
-	// changeDetection: ChangeDetectionStrategy.OnPush
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [
 		tuiInputPasswordOptionsProvider({

@@ -26,14 +26,12 @@ export class MeetupsService {
 		this._init();
 	}
 
-	public getAll(): Observable<Meetup[]> { //слушает все митапы и будет заново делать запрос если авт пользователь меняется
-
+	public getAll(): Observable<Meetup[]> { 
 		return this._stateUpdateMeetupsTrigger.pipe(
-			switchMap(() => this._authService.authUser$),  //переключить на другой поток 
-			// tap(console.log),
-			switchMap((authUser) => combineLatest([ //чтобы в следующем pipe map ,были 2 переменные
+			switchMap(() => this._authService.authUser$),  
+			switchMap((authUser) => combineLatest([ 
 				this._meetupsApiService.getAll(),
-				of(authUser) //преобразовать какие то данные в Observable	
+				of(authUser)
 			])),
 			map(([meetupsForBackend, authUser]) =>
 				meetupsForBackend
@@ -42,7 +40,6 @@ export class MeetupsService {
 					authUser, meetupForBackend
 				))
 			)
-			// tap(console.log)
 		)
 	}
 

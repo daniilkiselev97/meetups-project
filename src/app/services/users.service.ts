@@ -28,7 +28,6 @@ export class UsersService {
 	private _getAll(): Observable<UserBackend[]> {
 
 		return this._stateUpdateUsersTrigger.pipe(
-			// tap(console.log),
 			switchMap(() => this._authService.authUser$),
 			switchMap((authUser) => {
 				if (authUser === null) return of([]); //чтобы не получать всех пользователей если не автаризован
@@ -48,18 +47,16 @@ export class UsersService {
 
 	public updateUser(userUpdateObj: UserUpdateObj) {
 		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
-		// console.log(areUpdateRoles)
 
 
 		return combineLatest([
 			this._usersApiService.updateUser(userUpdateObj),
 			of(areUpdateRoles)
 		]).pipe(
-			tap(() => this._stateUpdateUsersTrigger.next(null)), // в любом случае посылается сигнал
-			// tap(console.log),
-			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles), //фильтруем isUpdateRole === true и идет вниз делать запрос
-			switchMap(() => this._usersApiService.updateUserRole(userUpdateObj)), //обновление роли 
-			tap(() => this._stateUpdateUsersTrigger.next(null)), //заново запустить триггер
+			tap(() => this._stateUpdateUsersTrigger.next(null)), 
+			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles), 
+			switchMap(() => this._usersApiService.updateUserRole(userUpdateObj)), 
+			tap(() => this._stateUpdateUsersTrigger.next(null)), 
 		)
 	}
 
@@ -111,7 +108,4 @@ export class UsersService {
 
 	}
 
-	// private _convertUsersBackendToUsers(usersBackend: UserBackend[], userBackendRoles: UserBackendRole[]): User[] {
-	// 	return []
-	// }
 }
