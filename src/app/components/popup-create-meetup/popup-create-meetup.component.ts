@@ -1,30 +1,34 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { tuiCreateTimePeriods, tuiInputTimeOptionsProvider } from '@taiga-ui/kit';
+import { TuiDialogContext, TuiDialogService, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
+import { tuiCreateTimePeriods, tuiInputTimeOptionsProvider, TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { Meetup, MeetupBackend, MeetupCreated } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { take } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'app-popup-create-meetup',
-  templateUrl: './popup-create-meetup.component.html',
-  styleUrls: ['./popup-create-meetup.component.css'],
-	providers: [
-		tuiInputTimeOptionsProvider({
-			icon: 'tuiIconClockLarge',
-			mode: 'HH:MM:SS',
-			itemSize: 's',
-		}),
-	],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-popup-create-meetup',
+    templateUrl: './popup-create-meetup.component.html',
+    styleUrls: ['./popup-create-meetup.component.css'],
+    providers: [
+        tuiInputTimeOptionsProvider({
+            icon: 'tuiIconClockLarge',
+            mode: 'HH:MM:SS',
+            itemSize: 's',
+        }),
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule]
 })
 export class PopupCreateMeetupComponent {
 
-	
+
 	public readonly myForm = this._createFormMeetup()
 	public timePeriods: readonly TuiTime[] = tuiCreateTimePeriods();
 
@@ -35,51 +39,45 @@ export class PopupCreateMeetupComponent {
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<void, Meetup>,
-		private readonly _meetupsService: MeetupsService
+		private readonly _destroyRef: DestroyRef,
+		private readonly _meetupsService: MeetupsService,
+		private readonly _fb: FormBuilder
 	) {
 
 	}
 
 	public createMeetup(): void {
-		if (this.myForm.controls.name.value === null) return;
-		if (this.myForm.controls.date.value === null) return;
-		if (this.myForm.controls.time.value === null) return;
-		if (this.myForm.controls.location.value === null) return;
-		if (this.myForm.controls.shortDescription.value === null) return;
-		if (this.myForm.controls.detailedDescription.value === null) return;
-		if (this.myForm.controls.targetAudience.value === null) return;
-		if (this.myForm.controls.whatNeedToKnow.value === null) return;
-		if (this.myForm.controls.whatWillHappen.value === null) return;
-		if (this.myForm.controls.haveToCome.value === null) return;
-		if (this.myForm.controls.duration.value === null) return;
+		if (this.myForm.valid === false) return;
+		const formValues = this.myForm.value as any;
 
-
-
-		const date = this.myForm.controls.date.value
-		const time = this.myForm.controls.time.value
+		const date = formValues.date
+		const time = formValues.time
 		const savedDate = new Date(date.year, date.month, date.day, time.hours, time.minutes)
-	
+
 
 		const savedMeetup: MeetupCreated = {
-			name: this.myForm.controls.name.value,
+			name: formValues.name,
 			time: savedDate.toISOString(),
-			location: this.myForm.controls.location.value,
-			description: this.myForm.controls.shortDescription.value,
-			target_audience: this.myForm.controls.targetAudience.value,
-			need_to_know: this.myForm.controls.whatNeedToKnow.value,
-			will_happen: this.myForm.controls.whatWillHappen.value,
-			reason_to_come: this.myForm.controls.haveToCome.value,
-			duration: this.myForm.controls.duration.value,
+			location: formValues.location,
+			description: formValues.shortDescription,
+			target_audience: formValues.targetAudience,
+			need_to_know: formValues.whatNeedToKnow,
+			will_happen: formValues.whatWillHappen,
+			reason_to_come: formValues.haveToCome,
+			duration: formValues.duration,
 		}
 
-		const subs = this._meetupsService.createMeetup(savedMeetup).subscribe(() => {
-			subs.unsubscribe()
+		this._meetupsService.createMeetup(savedMeetup)
+		.pipe(
+			takeUntilDestroyed(this._destroyRef),
+			take(1)
+		).subscribe(() => {
 			this.context.completeWith()
 		})
 	}
 
 
-	private _createFormMeetup() { 
+	private _createFormMeetup() {
 
 		const date = new Date().getDate()
 		const month = new Date().getMonth()
@@ -87,7 +85,7 @@ export class PopupCreateMeetupComponent {
 		const hours = new Date().getHours()
 		const minutes = new Date().getMinutes()
 
-		return new FormGroup({
+		return this._fb.group({
 			name: new FormControl('', [Validators.required]),
 			date: new FormControl(new TuiDay(year, month, date), [Validators.required]),
 			time: new FormControl(new TuiTime(hours, minutes), [Validators.required]),

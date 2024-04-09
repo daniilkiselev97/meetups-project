@@ -1,28 +1,43 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider } from '@taiga-ui/kit';
-import { of } from 'rxjs';
+import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
+import { of, take } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { TuiLinkModule } from '@taiga-ui/core/components/link';
+import { NgIf } from '@angular/common';
+import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 
 @Component({
-	selector: 'authorization',
-	templateUrl: './authorization.component.html',
-	styleUrls: ['./authorization.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [
-		tuiInputPasswordOptionsProvider({
-			icons: {
-				hide: 'tuiIconEyeOffLarge',
-				show: 'tuiIconEyeLarge',
-			},
-		}),
-		{
-			provide: TUI_PASSWORD_TEXTS,
-			useValue: of(['']),
-		},
-	],
-
-
+    selector: 'authorization',
+    templateUrl: './authorization.component.html',
+    styleUrls: ['./authorization.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        tuiInputPasswordOptionsProvider({
+            icons: {
+                hide: 'tuiIconEyeOffLarge',
+                show: 'tuiIconEyeLarge',
+            },
+        }),
+        {
+            provide: TUI_PASSWORD_TEXTS,
+            useValue: of(['']),
+        },
+    ],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        TuiInputModule,
+        TuiPrimitiveTextfieldModule,
+        NgIf,
+        TuiInputPasswordModule,
+        TuiLinkModule,
+        RouterLinkActive,
+        RouterLink,
+        TuiButtonModule,
+    ],
 })
 export class AuthorizationComponent {
 
@@ -31,7 +46,10 @@ export class AuthorizationComponent {
 		password: new FormControl('', [Validators.required]),
 	});
 
-	constructor(private _authService: AuthService) {
+	constructor(
+		private _authService: AuthService, 
+		private readonly _destroyRef: DestroyRef,
+	) {
 		(window as any).myForm = this.myForm
 		
 	
@@ -54,9 +72,10 @@ export class AuthorizationComponent {
 			password: this.myForm.controls.password.value
 		};
 
-		const subs = this._authService.login(userLogin).subscribe(() => {
-			subs.unsubscribe();
-		});
+		this._authService.login(userLogin).pipe(
+			takeUntilDestroyed(this._destroyRef),
+			take(1)
+		).subscribe();
 	}
 }
 

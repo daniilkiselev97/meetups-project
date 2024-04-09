@@ -18,7 +18,7 @@
 		<ng-container *ngIf="myMeetups$ | async as myMeetups">
 			<div class="cards-wrapper">
 				<ng-container *ngFor="let myMeetup of myMeetups">
-						<card-meetup-my [meetup]="myMeetup"></card-meetup-my>
+						<card-meetup [meetup]="myMeetup" [isMyMeetup]="true"></card-meetup>
 				</ng-container>
 				
 			</div>

@@ -1,26 +1,33 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider } from '@taiga-ui/kit';
-import { of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
+import { of, take } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { TuiLinkModule } from '@taiga-ui/core/components/link';
+import { NgIf } from '@angular/common';
+import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 
 @Component({
-	selector: 'registration',
-	templateUrl: './registration.component.html',
-	styleUrls: ['./registration.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [
-		tuiInputPasswordOptionsProvider({
-			icons: {
-				hide: 'tuiIconEyeOffLarge',
-				show: 'tuiIconEyeLarge',
-			},
-		}),
-		{
-			provide: TUI_PASSWORD_TEXTS,
-			useValue: of(['']),
-		},
-	]
+    selector: 'registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        tuiInputPasswordOptionsProvider({
+            icons: {
+                hide: 'tuiIconEyeOffLarge',
+                show: 'tuiIconEyeLarge',
+            },
+        }),
+        {
+            provide: TUI_PASSWORD_TEXTS,
+            useValue: of(['']),
+        },
+    ],
+    standalone: true,
+    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, TuiInputPasswordModule, TuiLinkModule, RouterLinkActive, RouterLink, TuiButtonModule]
 })
 export class RegistrationComponent {
 
@@ -32,7 +39,10 @@ export class RegistrationComponent {
 
 	});
 
-	constructor(private _authService: AuthService) {
+	constructor(
+		private _authService: AuthService,
+		private readonly _destroyRef: DestroyRef,
+	) {
 		// (window as any).myForm = this.myForm
 		// this.myForm.patchValue({
 		// 	email: 'abc@yandex.ru',
@@ -59,8 +69,10 @@ export class RegistrationComponent {
 			fio: `${this.myForm.controls.surname.value} ${this.myForm.controls.name.value}`
 		};
 
-		const subs = this._authService.signup(userLogin).subscribe(() => {
-			subs.unsubscribe();
+		this._authService.signup(userLogin).pipe(
+			takeUntilDestroyed(this._destroyRef),
+			take(1)
+		).subscribe(() => {
 		});
 	}
 

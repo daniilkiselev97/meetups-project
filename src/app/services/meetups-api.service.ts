@@ -39,7 +39,7 @@ export class MeetupsApiService {
 
 	}
 
-	public changeMeetup(meetup: MeetupBackend, id: string): Observable<MeetupBackend> {
+	public changeMeetup(meetup: MeetupBackend, id: number): Observable<MeetupBackend> {
 		return this._http.put<MeetupBackend>(`${this._baseUrl}/${id}`, meetup);
 	}
 
@@ -47,7 +47,7 @@ export class MeetupsApiService {
 		return this._http.post<MeetupBackend>(this._baseUrl, meetup);
 	}
 
-	public deleteMeetup(idMeetup: string): Observable<MeetupBackend> {
+	public deleteMeetup(idMeetup: number): Observable<MeetupBackend> {
 		return this._http.delete<MeetupBackend>(`${this._baseUrl}/${idMeetup}`);
 	}
 }

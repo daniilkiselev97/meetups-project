@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, of, switchMap, tap, withLatestFrom, zip } from 'rxjs';
+import { BehaviorSubject, Observable,  combineLatest, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { MeetupBackend, Meetup, MeetupCreated } from '../models/meetup.models';
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { MeetupBackendUser, User } from '../models/user.models';
+import { User } from '../models/user.models';
 import { MeetupsApiService } from './meetups-api.service';
 
 @Injectable({
@@ -30,10 +28,13 @@ export class MeetupsService {
 		return this._stateUpdateMeetupsTrigger.pipe(
 			switchMap(() => this._authService.authUser$),  
 			switchMap((authUser) => combineLatest([ 
+				of(authUser),
 				this._meetupsApiService.getAll(),
-				of(authUser)
 			])),
-			map(([meetupsForBackend, authUser]) =>
+			
+			// withLatestFrom(this._meetupsApiService.getAll()),
+			tap((data) => console.log(data)),
+			map(([authUser, meetupsForBackend]) =>
 				meetupsForBackend
 				.filter((meetupForBackend) => meetupForBackend.owner !== null)
 				.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
@@ -65,7 +66,7 @@ export class MeetupsService {
 
 	}
 
-	public changeMeetup(meetup: MeetupBackend, id: string): Observable<MeetupBackend> {
+	public changeMeetup(meetup: MeetupBackend, id: number): Observable<MeetupBackend> {
 		return this._meetupsApiService.changeMeetup(meetup, id).pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
 			// tap(console.log)
@@ -79,7 +80,7 @@ export class MeetupsService {
 		);
 	}
 
-	public deleteMeetup(idMeetup: string): Observable<MeetupBackend> {
+	public deleteMeetup(idMeetup: number): Observable<MeetupBackend> {
 		return this._meetupsApiService.deleteMeetup(idMeetup).pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
 		);

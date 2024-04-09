@@ -1,0 +1,175 @@
+/* card-meetup__header*/
+
+.card-meetup__header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+
+	border: 3px solid rgba(174, 5, 5, 0.683);
+	border-radius: 15px;
+	padding: 10px;
+
+
+}
+
+.card-meetup__content {
+	border: 3px solid rgba(174, 5, 5, 0.683);
+	border-radius: 15px;
+	padding: 5px;
+}
+
+.card-meetup {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.card-meetup__header-info {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+
+.card-meetup__header-actions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+
+.flex-gap {
+	display: flex;
+	gap: 10px;
+}
+
+/* .align-self-flex-end {
+	align-self: flex-end;
+} */
+
+
+.card-meetup__header-item_color {
+	font-family: "Cherry Bomb One", system-ui;
+	color: rgba(57, 12, 12, 0.567);
+	font-size: 24px;
+	margin-right: 10px;
+}
+
+.card-meetup__header-info-paragraph {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(148, 131, 99, 0.85);
+	max-width: 70%;
+
+}
+
+.card-meetup__header-info-followers {
+	font-family: "Open Sans", sans-serif;
+	font-size: 18px;
+	color: rgba(109, 150, 6, 0.913);
+
+}
+
+.card-meetup__header-actions-location {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(57, 12, 12, 0.567);
+	text-align: right;
+
+}
+
+.card-meetup__header-info-author {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(57, 12, 12, 0.567);
+
+}
+
+/* card-meetup__header*/
+
+
+
+/*card-meetup__content  */
+
+
+
+.card-meetup__header-actions-date {
+	white-space: nowrap;
+}
+
+.card-meetup__content-info {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.card-meetup__content-item_color {
+	font-family: "Cherry Bomb One", system-ui;
+	color: rgba(57, 12, 12, 0.567);
+	font-size: 20px;
+	margin-right: 10px;
+}
+
+.card-meetup__content-info-followers {
+	font-family: "Open Sans", sans-serif;
+	font-size: 18px;
+	color: rgba(109, 150, 6, 0.913);
+}
+
+.card-meetup__content-info-paragraph {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(148, 131, 99, 0.85);
+	max-width: 70%;
+}
+
+.card-meetup__content-info-list {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-family: "Open Sans", sans-serif;
+	font-weight: 300;
+	font-size: 20px;
+	color: rgba(57, 12, 12, 0.567);
+
+
+}
+
+.card-meetup__content-info-list-answers {
+	padding-left: 5px;
+	font-size: 16px;
+	color: rgba(148, 131, 99, 0.85);
+
+}
+
+.card-meetup__content-actions-item_gap {
+	display: flex;
+	gap: 10px;
+
+}
+
+.card-meetup__content-info-author {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(57, 12, 12, 0.567);
+
+}
+
+.card-meetup__btn-create {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (max-width: 650px) {
+	.card-meetup__header {
+		flex-direction: column-reverse;
+		align-items: normal;
+		gap: 15px;
+	}
+}

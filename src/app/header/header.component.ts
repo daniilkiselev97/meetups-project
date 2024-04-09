@@ -3,14 +3,17 @@ import { Observable, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { IsAuth } from '../models/auth.models';
 import { User } from '../models/user.models';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [RouterLink, NgIf, RouterLinkActive, AsyncPipe]
 })
 export class HeaderComponent {
 	public authUser$: Observable<User | null> = this._authService.authUser$.pipe(

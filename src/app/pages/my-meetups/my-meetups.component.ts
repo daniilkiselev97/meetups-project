@@ -1,18 +1,22 @@
-import { ChangeDetectionStrategy, Component, Input, Inject, Injector } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef } from '@angular/core';
+import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, take, tap } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
-import { TuiDialogService } from '@taiga-ui/core';
+import { TuiDialogService, TuiButtonModule } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { PopupCreateMeetupComponent } from 'src/app/components/popup-create-meetup/popup-create-meetup.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 
 @Component({
-	selector: 'my-meetups',
-	templateUrl: './my-meetups.component.html',
-	styleUrls: ['./my-meetups.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush
-
+    selector: 'my-meetups',
+    templateUrl: './my-meetups.component.html',
+    styleUrls: ['./my-meetups.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe]
 })
 export class MyMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({
@@ -50,7 +54,9 @@ export class MyMeetupsComponent {
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
-		private readonly _myMeetupsService: MeetupsService
+		private readonly _myMeetupsService: MeetupsService,
+		private readonly _destroyRef: DestroyRef,
+
 	) {
 
 	}
@@ -93,18 +99,9 @@ export class MyMeetupsComponent {
 			},
 		);
 
-		const subs = dialog.subscribe({
-			next: data => {
-				console.log(`Dialog emitted data = ${data}`);
-				subs.unsubscribe();
-			},
-			complete: () => {
-				console.log('Dialog closed');
-				subs.unsubscribe();
-			},
-		});
+		dialog.pipe(
+			takeUntilDestroyed(this._destroyRef),
+			take(1)
+		).subscribe();
 	}
-
-	
-
 }

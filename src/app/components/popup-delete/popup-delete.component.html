@@ -1,5 +1,5 @@
 <div [tuiTextfieldCleaner]="true" class="bg-color-model container delete-meetup">
-	<h3 class="delete-meetup-item-title tui-text_h1">Вы действительно хотите удалить митап ?</h3>
+	<h3 class="delete-meetup-item-title tui-text_h1">{{message}}</h3>
 	<div class="delete-meetup__actions-wrapper">
 		<button 
 		(click)="handleCancelDelete()"

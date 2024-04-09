@@ -1,7 +1,7 @@
 import { MeetupBackendUser, User } from "./user.models";
 
 export interface MeetupBackend {
-	id: string;
+	id: number;
 	name: string;
 	description: string;
 	location: string;

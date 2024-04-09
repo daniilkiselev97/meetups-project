@@ -54,7 +54,7 @@ export class UsersApiService {
 		})
 	}
 
-	public deleteUser(user: UserBackend): Observable<MeetupBackendUser> {
-		return this._http.delete<MeetupBackendUser>(`${this._baseUrl}/${user.id}`)
+	public deleteUser(idUser: number): Observable<MeetupBackendUser> {
+		return this._http.delete<MeetupBackendUser>(`${this._baseUrl}/${idUser}`)
 	}
 }

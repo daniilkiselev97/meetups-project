@@ -87,8 +87,8 @@ export class UsersService {
 		)
 	}
 
-	public deleteUser(user: UserBackend) {
-		return this._usersApiService.deleteUser(user).pipe(
+	public deleteUser(idUser: number) {
+		return this._usersApiService.deleteUser(idUser).pipe(
 			tap(user => this._stateUpdateUsersTrigger.next(null))
 		);
 	}

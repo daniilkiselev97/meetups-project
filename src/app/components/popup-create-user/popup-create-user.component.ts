@@ -1,20 +1,24 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { Observable, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { TuiDialogContext, TuiDialogService, TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
+import { Observable, take, tap } from 'rxjs';
 import { BackendRole } from 'src/app/models/roles.models';
-import { UserAuthBackend, UserBackend } from 'src/app/models/user.models';
+import {  UserBackend } from 'src/app/models/user.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { AuthService } from 'src/app/services/auth.service';
 import { UsersService } from 'src/app/services/users.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 
 
 @Component({
-  selector: 'popup-create-user',
-  templateUrl: './popup-create-user.component.html',
-  styleUrls: ['./popup-create-user.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'popup-create-user',
+    templateUrl: './popup-create-user.component.html',
+    styleUrls: ['./popup-create-user.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe]
 })
 export class PopupCreateUserComponent  {
 
@@ -40,35 +44,37 @@ export class PopupCreateUserComponent  {
 		private readonly _rolesApiService: RolesApiService,
 		private readonly _userService: UsersService,
 		private readonly _fb: FormBuilder,
+		private readonly _destroyRef: DestroyRef,
 	) {}
 
 
 	public saveUser(): void {
-		if (this.myForm.controls.email.value === null) return;
-		if (this.myForm.controls.password.value === null) return;
-		if (this.myForm.controls.fio.value === null) return;
+		if (this.myForm.valid === false) return;
+		const formValues = this.myForm.value as any;
 
-		const roles: any = this.myForm.controls.roles.controls
+
+		const roles: any = formValues.roles;
 		const rolesBackend: BackendRole[] = []
 		for (const idAndRole in roles) {
 			if (roles[idAndRole].value === true){
 				rolesBackend.push(this.devideIdAndRole(idAndRole))
 			}
 		}
-		// console.log(rolesBackend)
 
 		const creatededUser = {
-			email: this.myForm.controls.email.value,
-			password: this.myForm.controls.password.value,
-			fio: this.myForm.controls.fio.value,
+			email: formValues.email,
+			password: formValues.password,
+			fio: formValues.fio,
 			newRoles: rolesBackend
-		}
+		};
 
-		const subs = this._userService.createUser(creatededUser).subscribe(() => {
-			subs.unsubscribe()
-			this.context.completeWith()
+		this._userService.createUser(creatededUser)
+		.pipe(
+			takeUntilDestroyed(this._destroyRef),
+			take(1)
+		).subscribe(() => {
+			this.context.completeWith();
 		})
-
 	}
 
 	public devideIdAndRole(idAndRole: string): BackendRole {
@@ -81,16 +87,13 @@ export class PopupCreateUserComponent  {
 
 
 	private _setRolesToForm(roles: BackendRole[]): void {
-		// console.log(roles)
-		const rolesGroup: any = {};
+		const rolesGroup: Record<string, FormControl<boolean | null>> = {};
+
 		for (const role of roles) {
-				rolesGroup[`${role.id}-${role.name}`] = this._fb.control(false); // You can set initial value if needed
+			rolesGroup[`${role.id}-${role.name}`] = this._fb.control(false); // You can set initial value if needed
 		}
 
 		this.myForm.setControl('roles', this._fb.group(rolesGroup));
-
-
-		
 	}
 
 }

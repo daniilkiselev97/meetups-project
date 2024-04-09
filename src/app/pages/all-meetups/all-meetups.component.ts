@@ -2,13 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
+import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-	selector: 'all-meetups',
-	templateUrl: './all-meetups.component.html',
-	styleUrls: ['./all-meetups.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush
-
+    selector: 'all-meetups',
+    templateUrl: './all-meetups.component.html',
+    styleUrls: ['./all-meetups.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe]
 })
 export class AllMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({
@@ -76,3 +79,5 @@ export class AllMeetupsComponent {
 
 
 }
+
+
