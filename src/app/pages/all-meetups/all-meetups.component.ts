@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'all-meetups',
-    templateUrl: './all-meetups.component.html',
-    styleUrls: ['./all-meetups.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe]
+	selector: 'all-meetups',
+	templateUrl: './all-meetups.component.html',
+	styleUrls: ['./all-meetups.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe]
 })
 export class AllMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({
@@ -19,11 +19,10 @@ export class AllMeetupsComponent {
 		ownerFio: ''
 	});
 
-	public allMeetups$: Observable<Meetup[]> = this._meetupsService.allMeetups$.pipe(
-		switchMap((meetups) => combineLatest([
-			of(meetups),
-			this._stateFilter
-		])),
+	public allMeetups$: Observable<Meetup[]> = combineLatest([ //он принимает на вход массив потоков и их отслеживает
+		this._meetupsService.getAll(),
+		this._stateFilter
+	]).pipe(
 		map(([meetups, stateFilter]) => {
 			const filterMeetupName = this._removeExtraSpaces(stateFilter.meetupName).toLowerCase();
 			const filterMeetupOwnerFio = this._removeExtraSpaces(stateFilter.ownerFio).toLowerCase();
@@ -57,7 +56,7 @@ export class AllMeetupsComponent {
 		const inputFio = targetNode.value;
 
 		this._stateFilter.next({
-			...this._stateFilter.value, 
+			...this._stateFilter.value,
 			ownerFio: inputFio
 		})
 	}
@@ -67,7 +66,7 @@ export class AllMeetupsComponent {
 		if (targetNode === null) return;
 
 		this._stateFilter.next({
-			...this._stateFilter.value, 
+			...this._stateFilter.value,
 			meetupName: targetNode.value
 		})
 	}

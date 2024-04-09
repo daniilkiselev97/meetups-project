@@ -21,7 +21,7 @@ import { NgIf } from '@angular/common';
     styleUrls: ['./card-user.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, TuiInputModule, TuiSvgModule]
+    imports: [NgIf, ReactiveFormsModule, TuiInputModule, TuiSvgModule,]
 })
 export class CardUserComponent implements OnChanges {
 

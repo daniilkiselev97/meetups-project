@@ -10,21 +10,21 @@ import { MeetupsApiService } from './meetups-api.service';
 })
 export class MeetupsService {
 
-	private readonly _stateMyMeetups: BehaviorSubject<Meetup[]> = new BehaviorSubject<Meetup[]>([]);
-	private readonly _stateAllMeetups: BehaviorSubject<Meetup[]> = new BehaviorSubject<Meetup[]>([]);
+	/**
+ 	* Данные в этот триггер эмитятся каждый раз, когда нужно заново запросить митапы
+ 	*/
 	private readonly _stateUpdateMeetupsTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null);
-	public readonly myMeetups$: Observable<Meetup[]> = this._stateMyMeetups.asObservable();
-	public readonly allMeetups$: Observable<Meetup[]> = this._stateAllMeetups.asObservable();
-
 
 	constructor(
 		private readonly _authService: AuthService,
 		private readonly _meetupsApiService: MeetupsApiService
 	) {
-		this._init();
 	}
 
-	public getAll(): Observable<Meetup[]> { 
+	/**
+ 	* Отдает все митапы. Данные в потоке обновляются каждый раз, когда происходит редактирование, удаление, создание митапов, а также при пойду/не пойду .
+ 	*/
+	 public getAll(): Observable<Meetup[]> { 
 		return this._stateUpdateMeetupsTrigger.pipe(
 			switchMap(() => this._authService.authUser$),  
 			switchMap((authUser) => combineLatest([ 
@@ -32,8 +32,8 @@ export class MeetupsService {
 				this._meetupsApiService.getAll(),
 			])),
 			
-			// withLatestFrom(this._meetupsApiService.getAll()),
-			tap((data) => console.log(data)),
+			// withLatestFrom(this._meetupsApiService.getAll())// не работатет, если закомментировать switchMap выше
+			// tap((data) => console.log(data)),
 			map(([authUser, meetupsForBackend]) =>
 				meetupsForBackend
 				.filter((meetupForBackend) => meetupForBackend.owner !== null)
@@ -44,6 +44,9 @@ export class MeetupsService {
 		)
 	}
 
+	/**
+ 	* Отдает все созданные митапы авторизованного пользователя.  Данные в потоке обновляются каждый раз, когда происходит редактирование, удаление, создание митапов, а также при пойду/не пойду .
+ 	*/
 	public getAllMy(): Observable<Meetup[]> {
 		return this.getAll().pipe(
 			map(meetups => meetups.filter(meetupForAuthUser => meetupForAuthUser.authUserIsOwner))
@@ -51,8 +54,8 @@ export class MeetupsService {
 
 	}
 
-	public registerUserForMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
-		return this._meetupsApiService.registerUserForMeetup(user, meetup)
+	public registerUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
+		return this._meetupsApiService.registerUserFromMeetup(user, meetup)
 		.pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
 		);
@@ -86,21 +89,6 @@ export class MeetupsService {
 		);
 	}
 
-	private _getAllAndUpdateState(): Observable<Meetup[]> {
-		return this.getAll().pipe(
-			tap(meetups => {
-				this._stateAllMeetups.next(meetups);
-			})
-		);
-	}
-
-	private _getAllMyAndUpdateState(): Observable<Meetup[]> {
-		return this.getAllMy().pipe(
-			tap(meetups => {
-				this._stateMyMeetups.next(meetups);
-			})
-		);
-	}
 
 	private _whetherUserIsOwnerOfMeetup(user: User, meetupForBackend: MeetupBackend): boolean {
 
@@ -137,12 +125,5 @@ export class MeetupsService {
 		};
 	}
 
-	private _init(): void {
-		const subsGetAll = this._getAllAndUpdateState().subscribe(meetups => {
-			// console.log(meetups)
-		})
-		const subsGetAllMy = this._getAllMyAndUpdateState().subscribe(meetups => {
-			// console.log(meetups)
-		})
-	}
+	
 }

@@ -24,7 +24,11 @@ export class MyMeetupsComponent {
 		ownerFio: ''
 	});
 
-	public myMeetups$: Observable<Meetup[]> = this._myMeetupsService.myMeetups$.pipe(
+	//было - переменная this._meetupsService.myMeetups$, которая создавалась при старте приложения и отдавала сохраненное состояние
+	//стало - 1 функция getAllMy - каждый раз создает новый поток myMeetups$ 
+	//стало - 2 нет теперь subscribe внутри сервиса
+
+	public myMeetups$: Observable<Meetup[]> = this._meetupsService.getAllMy().pipe(
 		switchMap((meetups) => combineLatest([
 			of(meetups),
 			this._stateFilter 
@@ -54,7 +58,7 @@ export class MyMeetupsComponent {
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
-		private readonly _myMeetupsService: MeetupsService,
+		private readonly _meetupsService: MeetupsService,
 		private readonly _destroyRef: DestroyRef,
 
 	) {

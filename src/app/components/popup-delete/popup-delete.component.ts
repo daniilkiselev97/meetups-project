@@ -20,7 +20,6 @@ export class PopupDeleteComponent {
 
 	public handleSubmitDelete(): void {
 		this.context.completeWith({ isDelete: false });
-
 		
 	}
 

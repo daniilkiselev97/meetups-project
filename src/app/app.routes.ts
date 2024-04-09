@@ -30,7 +30,10 @@ export const routes: Routes = [
 	{
 		path: 'registration',
 		loadComponent: () => import('./pages/registration/registration.component').then(c => c.RegistrationComponent),
+	},
+	{
+		path: '**',
+		redirectTo: 'my-meetups',
+		pathMatch: 'full'
 	}
-	
-
 ];

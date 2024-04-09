@@ -17,7 +17,7 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     imports: [NgIf, TuiButtonModule, NgFor, CardUserComponent, AsyncPipe]
 })
 export class UsersComponent {
-	public users$: Observable<UserBackend[]> = this._userService.users$;
+	public users$: Observable<UserBackend[]> = this._userService.getAll();
 
 
 	

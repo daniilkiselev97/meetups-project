@@ -21,7 +21,7 @@ import { NgIf } from '@angular/common';
     styleUrls: ['./card-meetup.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe]
+    imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, ]
 })
 export class CardMeetupComponent { 
 
@@ -88,7 +88,7 @@ export class CardMeetupComponent {
 	public registerUserForMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
 
-		this._meetupsService.registerUserForMeetup(user, meetup).pipe(
+		this._meetupsService.registerUserFromMeetup(user, meetup).pipe(
 			takeUntilDestroyed(this._destroyRef),
 			take(1)
 		).subscribe();

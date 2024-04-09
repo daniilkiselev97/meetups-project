@@ -3,7 +3,7 @@
 	
 		<div class="user-card__item tui-text_h6">
 			<tui-input [formControl]="myForm.controls.email">
-				<input disabled value="{{user.email}}" class="edit-meetup-item-input" disabled  type="email" />
+				<input autocomplete="off" disabled value="{{user.email}}" class="edit-meetup-item-input" disabled  type="email" />
 			</tui-input>
 		</div>
 	
@@ -11,13 +11,13 @@
 		<div class="b-form user-card__item tui-text_h6">
 			
 			<tui-input [formControl]="myForm.controls.password">
-				<input disabled value="******" class="edit-meetup-item-input"  type="password" />
+				<input autocomplete="off" disabled value="******" class="edit-meetup-item-input"  type="password" />
 			</tui-input>
 		</div>
 	
 		<div class="b-form user-card__item tui-text_h6">
 			<tui-input [formControl]="myForm.controls.role">
-				<input disabled value="{{user.roles[0].name}}" class="edit-meetup-item-input"  type="text" />
+				<input autocomplete="off" disabled value="{{user.roles[0].name}}" class="edit-meetup-item-input"  type="text" />
 			</tui-input>
 		</div>
 	

@@ -17,12 +17,10 @@ export class MeetupsApiService {
 	) { }
 
 	public getAll(): Observable<MeetupBackend[]> {
-		return this._http.get<MeetupBackend[]>(this._baseUrl).pipe(
-			catchError((err) => throwError(() => err))
-		);
+		return this._http.get<MeetupBackend[]>(this._baseUrl);
 	}
 
-	public registerUserForMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
+	public registerUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
 		return this._http.put<MeetupBackend>(this._baseUrl, {
 			idMeetup: meetup.id,
 			idUser: user.id
