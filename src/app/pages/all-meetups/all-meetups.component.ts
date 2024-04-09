@@ -19,6 +19,10 @@ export class AllMeetupsComponent {
 		ownerFio: ''
 	});
 
+		//было - переменная this._meetupsService.allMeetups$, которая создавалась при старте приложения и отдавала сохраненное состояние
+	//стало - 1 функция getAll - каждый раз создает новый поток allMeetups$ 
+	//стало - 2 нет теперь subscribe внутри сервиса
+
 	public allMeetups$: Observable<Meetup[]> = combineLatest([ //он принимает на вход массив потоков и их отслеживает
 		this._meetupsService.getAll(),
 		this._stateFilter

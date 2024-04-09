@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
 import { tuiCreateTimePeriods, tuiInputTimeOptionsProvider, TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
@@ -49,13 +49,10 @@ export class PopupEditMeetupComponent {
 	public saveMeetup(): void {
 		if (this.myForm.valid === false) return;
 		const formValues = this.myForm.value as any;
-		
-
 		const date = formValues.date;
 		const time = formValues.time;
 		const savedDate = new Date(date.year, date.month, date.day, time.hours, time.minutes);
 	
-
 		const savedMeetup: MeetupBackend = {
 			name: formValues.name,
 			time: savedDate.toISOString(),

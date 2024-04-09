@@ -1,8 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { catchError, switchMap, take, tap, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { catchError, take, throwError } from 'rxjs';
 import { TuiAlertService } from '@taiga-ui/core';
 
 export const httpErrorInterceptor: HttpInterceptorFn = (request, next) => {
@@ -18,11 +16,8 @@ export const httpErrorInterceptor: HttpInterceptorFn = (request, next) => {
 				}).pipe(
 					take(1)
 				).subscribe();
-        // Логируем ошибку в консоль
-        // console.error('HTTP Error Intercepted:', error);
-        // Можно выполнить другие действия с ошибкой здесь, например, перенаправление на страницу ошибки
 
-        // Возвращаем ошибку обратно в Observable, чтобы компоненты могли продолжить обработку
+				// Возвращаем ошибку обратно в Observable, чтобы компоненты могли продолжить обработку
         return throwError(() => error);
       })
     );

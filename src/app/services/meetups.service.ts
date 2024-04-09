@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable,  combineLatest, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, Observable,  combineLatest, map, of, switchMap, tap } from 'rxjs';
 import { MeetupBackend, Meetup, MeetupCreated } from '../models/meetup.models';
 import { AuthService } from './auth.service';
 import { User } from '../models/user.models';
@@ -33,7 +33,6 @@ export class MeetupsService {
 			])),
 			
 			// withLatestFrom(this._meetupsApiService.getAll())// не работатет, если закомментировать switchMap выше
-			// tap((data) => console.log(data)),
 			map(([authUser, meetupsForBackend]) =>
 				meetupsForBackend
 				.filter((meetupForBackend) => meetupForBackend.owner !== null)
@@ -72,14 +71,12 @@ export class MeetupsService {
 	public changeMeetup(meetup: MeetupBackend, id: number): Observable<MeetupBackend> {
 		return this._meetupsApiService.changeMeetup(meetup, id).pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
-			// tap(console.log)
 		);
 	}
 
 	public createMeetup(meetup: MeetupCreated): Observable<MeetupBackend> {
 		return this._meetupsApiService.createMeetup(meetup).pipe(
 			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
-			// tap(console.log)
 		);
 	}
 
@@ -124,6 +121,4 @@ export class MeetupsService {
 			registeredForMeetup
 		};
 	}
-
-	
 }

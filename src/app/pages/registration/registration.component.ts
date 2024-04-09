@@ -43,26 +43,11 @@ export class RegistrationComponent {
 		private _authService: AuthService,
 		private readonly _destroyRef: DestroyRef,
 	) {
-		// (window as any).myForm = this.myForm
-		// this.myForm.patchValue({
-		// 	email: 'abc@yandex.ru',
-		// 	password: 'abc'
-		// })
-		// this.myForm.patchValue({
-		// 	email: 'ADMIN@mail.ru',
-		// 	password: 'ADMIN'
-		// })
-
+	
 	}
 
 	public handleSubmit(): void {
-		if (
-			this.myForm.controls.email.value === null || 
-			this.myForm.controls.password.value === null || 
-			this.myForm.controls.surname.value === null || 
-			this.myForm.controls.name.value === null
-		) return;
-
+		
 		const userLogin = {
 			email: this.myForm.controls.email.value,
 			password: this.myForm.controls.password.value,

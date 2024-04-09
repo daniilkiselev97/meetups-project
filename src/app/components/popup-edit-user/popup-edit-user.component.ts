@@ -53,7 +53,7 @@ export class PopupEditDataUserComponent implements OnInit {
 
 	}
 
-	ngOnInit(): void { //при старте компонента
+	ngOnInit(): void { 
 		this._setUserToForm(this.user);
 	}
 
@@ -61,6 +61,7 @@ export class PopupEditDataUserComponent implements OnInit {
 		const formValues = this.myForm.value as any
 
 		const rolesControlsInForm: any = formValues.roles.controls;
+
 		const rolesToSend: BackendRole[] = [];
 
 		for (const idAndRole in rolesControlsInForm) {
@@ -68,7 +69,6 @@ export class PopupEditDataUserComponent implements OnInit {
 				rolesToSend.push(this.devideIdAndRole(idAndRole));
 			}
 		}
-		// console.log(rolesBackend)
 
 		const changedUser = {
 			email: formValues.email,
@@ -77,11 +77,7 @@ export class PopupEditDataUserComponent implements OnInit {
 			id: this.user.id,
 			newRoles: rolesToSend
 		};
-
-
-
-
-
+		
 
 		this._usersService.updateUser(changedUser)
 			.pipe(
@@ -119,7 +115,4 @@ export class PopupEditDataUserComponent implements OnInit {
 		this._stateDefaultRoles.next(roles);
 
 	}
-
-
-
 }

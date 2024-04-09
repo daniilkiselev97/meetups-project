@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { UserBackendRole } from '../models/user.models';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BackendRole } from '../models/roles.models';
 
 @Injectable({
