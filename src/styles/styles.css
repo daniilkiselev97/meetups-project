@@ -96,3 +96,16 @@ root, tui-root {
 
 }
 
+/* prizma */
+
+/* prizm-split-button  */
+
+[_nghost-ng-c2430963102] .button[_ngcontent-ng-c2430963102] button[prizmButton] prizm-wrapper.z-wrapper{
+	display: none;
+}
+
+/* [_nghost-ng-c2430963102] .icon[_ngcontent-ng-c2430963102] button[prizmIconButton]  {
+	border-radius: 15px;
+	border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+} */

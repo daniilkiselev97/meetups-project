@@ -10,6 +10,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
+//prizma
+
+import { NgModule } from '@angular/core';
+import { PrizmInputTextModule } from '@prizm-ui/components';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
@@ -25,7 +31,9 @@ import { AsyncPipe } from '@angular/common';
         }),
     ],
     standalone: true,
-    imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule]
+    imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule,     ReactiveFormsModule,
+			FormsModule,
+			PrizmInputTextModule,]
 })
 export class PopupEditMeetupComponent {
 	public meetup: Meetup = this.context.data;

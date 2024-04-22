@@ -59,7 +59,11 @@
             ],
             "styles": [
 							"src/styles/styles.css",
-							"src/styles/taiga.less"
+							"src/styles/taiga.less",
+							"node_modules/@prizm-ui/theme/src/styles/styles.less",
+							"node_modules/@prizm-ui/components/src/styles/styles.less",
+							"node_modules/@prizm-ui/components/src/styles/icons/icons.less",
+							"node_modules/@prizm-ui/components/src/styles/icons-16/icons-16.less"
             ],
             "scripts": []
           },
@@ -123,7 +127,11 @@
             ],
             "styles": [
               "src/styles/styles.css",
-							"src/styles/taiga.less"
+							"src/styles/taiga.less",
+							"node_modules/@prizm-ui/theme/src/styles/styles.less",
+							"node_modules/@prizm-ui/components/src/styles/styles.less",
+							"node_modules/@prizm-ui/components/src/styles/icons/icons.less",
+							"node_modules/@prizm-ui/components/src/styles/icons-16/icons-16.less"
             ],
             "scripts": []
           }

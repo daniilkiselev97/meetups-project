@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef, ChangeDetectorRef } from '@angular/core';
 import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
@@ -13,6 +13,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardDatePipe } from '../../pipes/card-date.pipe';
 import { NgIf } from '@angular/common';
 
+//prizma
+
+import { NgModule } from '@angular/core';
+import { PrizmButtonComponent, PrizmButtonModule,PrizmDataListModule, PrizmDropdownHostModule } from '@prizm-ui/components';
+import { CommonModule } from '@angular/common';
+//prizma
+
+
 
 
 @Component({
@@ -21,7 +29,7 @@ import { NgIf } from '@angular/common';
     styleUrls: ['./card-meetup.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, ]
+    imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule]
 })
 export class CardMeetupComponent { 
 
@@ -29,16 +37,23 @@ export class CardMeetupComponent {
 	@Input() public isMyMeetup: boolean = false;
 
 
-	private _chevronDown: string = 'tuiIconChevronDown';
-	private _chevronUp: string = 'tuiIconChevronUp';
-	public expanded: boolean = false;
+	// private _chevronDown: string = 'tuiIconChevronDown';
+	// private _chevronUp: string = 'tuiIconChevronUp';
+
+	private _chevronDown: string = 'chevrons-dropdown';
+	private _chevronUp: string = 'chevrons-dropup';
+
+	// public expanded: boolean = false;
 	public userIcon: string = 'tuiIconUserLarge';
+
+	public open: boolean = false;
 
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _meetupsService: MeetupsService,
-		private readonly _destroyRef: DestroyRef
+		private readonly _destroyRef: DestroyRef,
+		public readonly cdRef: ChangeDetectorRef
 	) {
 
 	}
@@ -77,11 +92,11 @@ export class CardMeetupComponent {
 	}
 	
 	public getChevron(): string {
-		return this.expanded ? this._chevronUp : this._chevronDown;
+		return this.open ? this._chevronUp : this._chevronDown;
 	}
 
 	public clickToggleExpanded(): void {
-		this.expanded = !this.expanded;
+		this.open = !this.open;
 	}
 
 
