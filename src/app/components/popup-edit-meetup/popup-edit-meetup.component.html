@@ -4,9 +4,14 @@
 	<div class="edit-meetup-item">
 		<span class="edit-meetup-item__info">Название:</span>
 		<div class="b-form">
-			<tui-input [formControl]="myForm.controls.name">
+
+			<prizm-input-layout [formControl]="myForm.controls.name">
+				<input prizmInput class="edit-meetup-item-input" type="text"/>
+			</prizm-input-layout>
+			
+			<!-- <tui-input [formControl]="myForm.controls.name">
 				<input class="edit-meetup-item-input" tuiTextfield type="text" />
-			</tui-input>
+			</tui-input> -->
 		</div> <!--.b-form-->
 	</div> <!--.edit-meetup-item-->
 
