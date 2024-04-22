@@ -98,14 +98,30 @@ root, tui-root {
 
 /* prizma */
 
-/* prizm-split-button  */
+
 
 [_nghost-ng-c2430963102] .button[_ngcontent-ng-c2430963102] button[prizmButton] prizm-wrapper.z-wrapper{
 	display: none;
 }
 
-/* [_nghost-ng-c2430963102] .icon[_ngcontent-ng-c2430963102] button[prizmIconButton]  {
-	border-radius: 15px;
-	border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-} */
+textarea[_ngcontent-ng-c1990998093]{
+	/* display: none; */
+}
+.btn_top-7 {
+	margin-top: 7px;
+
+}
+
+.btn_bottom-7{
+margin-bottom: 7px;
+}
+
+.btn_border {
+	border-radius: 15px !important;
+}
+
+[data-state=disabled][data-state=disabled][_nghost-ng-c1307037932] {
+	background-color: rgba(36, 36, 96, 0.567)!important;
+}
+/* prizma */
+

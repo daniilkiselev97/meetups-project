@@ -9,6 +9,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
+//prizma
+import { PrizmButtonModule } from '@prizm-ui/components';
+
 
 @Component({
     selector: 'my-meetups',
@@ -16,7 +19,7 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     styleUrls: ['./my-meetups.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe]
+    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe, PrizmButtonModule]
 })
 export class MyMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({

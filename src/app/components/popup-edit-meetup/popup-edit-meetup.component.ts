@@ -12,28 +12,26 @@ import { AsyncPipe } from '@angular/common';
 
 //prizma
 
-import { NgModule } from '@angular/core';
-import { PrizmInputTextModule } from '@prizm-ui/components';
-import { FormsModule } from '@angular/forms';
+import { NgModule  } from '@angular/core';
+import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInputLayoutTimeComponent, PrizmTime, PrizmButtonModule   } from '@prizm-ui/components';
+import { FormsModule, UntypedFormControl } from '@angular/forms';
 
 
 
 @Component({
-    selector: 'popup-edit-meetup',
-    templateUrl: './popup-edit-meetup.component.html',
-    styleUrls: ['./popup-edit-meetup.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        tuiInputTimeOptionsProvider({
-            icon: 'tuiIconClockLarge',
-            mode: 'HH:MM:SS',
-            itemSize: 's',
-        }),
-    ],
-    standalone: true,
-    imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule,     ReactiveFormsModule,
-			FormsModule,
-			PrizmInputTextModule,]
+	selector: 'popup-edit-meetup',
+	templateUrl: './popup-edit-meetup.component.html',
+	styleUrls: ['./popup-edit-meetup.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [
+		tuiInputTimeOptionsProvider({
+			icon: 'tuiIconClockLarge',
+			mode: 'HH:MM:SS',
+			itemSize: 's',
+		}),
+	],
+	standalone: true,
+	imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
 })
 export class PopupEditMeetupComponent {
 	public meetup: Meetup = this.context.data;
@@ -60,7 +58,7 @@ export class PopupEditMeetupComponent {
 		const date = formValues.date;
 		const time = formValues.time;
 		const savedDate = new Date(date.year, date.month, date.day, time.hours, time.minutes);
-	
+
 		const savedMeetup: MeetupBackend = {
 			name: formValues.name,
 			time: savedDate.toISOString(),
@@ -78,17 +76,17 @@ export class PopupEditMeetupComponent {
 			users: this.meetup.users
 		}
 
-		this._meetupsService.changeMeetup(savedMeetup, savedMeetup.id )
-		.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe(() => {
-			this.context.completeWith();
-		})
+		this._meetupsService.changeMeetup(savedMeetup, savedMeetup.id)
+			.pipe(
+				takeUntilDestroyed(this._destroyRef),
+				take(1)
+			).subscribe(() => {
+				this.context.completeWith();
+			})
 	}
 
 
-	private _createFormEditMeetup(meetup: Meetup) { 
+	private _createFormEditMeetup(meetup: Meetup) {
 
 		const date = new Date(meetup.time);
 		const year = date.getFullYear();
@@ -100,20 +98,20 @@ export class PopupEditMeetupComponent {
 
 		return this._fb.group({
 			name: new FormControl(meetup.name, [Validators.required]),
-			date: new FormControl(new TuiDay(year, month, day), [Validators.required]),
-			time: new FormControl(new TuiTime(hours, minutes), [Validators.required]),
+			date:  new UntypedFormControl(new PrizmDay(year, month, day), [Validators.required]),
+			time:  new FormControl(new PrizmTime(hours, minutes), [Validators.required] ),
 			duration: new FormControl(meetup.duration, [Validators.required]),
 			location: new FormControl(meetup.location, [Validators.required]),
-			shortDescription: new FormControl(meetup.description, [Validators.required]),
-			detailedDescription: new FormControl(meetup.description, [Validators.required]),
-			targetAudience: new FormControl(meetup.target_audience, [Validators.required]),
-			whatNeedToKnow: new FormControl(meetup.need_to_know, [Validators.required]),
-			whatWillHappen: new FormControl(meetup.will_happen, [Validators.required]),
-			haveToCome: new FormControl(meetup.reason_to_come, [Validators.required]),
+			shortDescription: new FormControl(meetup.description, [Validators.required, Validators.maxLength(10)]),
+			detailedDescription: new FormControl(meetup.description, [Validators.required, Validators.maxLength(10)]),
+			targetAudience: new FormControl(meetup.target_audience, [Validators.required, Validators.maxLength(10)]),
+			whatNeedToKnow: new FormControl(meetup.need_to_know, [Validators.required, Validators.maxLength(10)]),
+			whatWillHappen: new FormControl(meetup.will_happen, [Validators.required, Validators.maxLength(10)]),
+			haveToCome: new FormControl(meetup.reason_to_come, [Validators.required, Validators.maxLength(10)]),
 		});
 
 	}
 
-	
+
 
 }

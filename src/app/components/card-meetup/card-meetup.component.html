@@ -22,28 +22,26 @@
 				<div class="card-meetup__header-actions-item flex-gap">
 					<ng-container *ngIf="isMyMeetup === false">
 						<ng-container *ngIf="meetup.registeredForMeetup === false">
-							<button class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
-								(click)="registerUserForMeetup(meetup.authUser, meetup)">
-								Я пойду
-							</button>
+
+
+							<button (click)="registerUserForMeetup(meetup.authUser, meetup)" class="btn_radius" type="button"  prizmButton appearance="success" size="xm">Я пойду</button>
+
 						</ng-container>
 						<ng-container *ngIf="meetup.registeredForMeetup === true">
-							<button class="tui-btn" tuiButton type="button" appearance="accent" shape="rounded" size="s"
-								(click)="removeUserFromMeetup(meetup.authUser, meetup)">
-								Не смогу пойти
-							</button>
+
+							<button (click)="removeUserFromMeetup(meetup.authUser, meetup)" class="btn_radius" type="button"  prizmButton appearance="success" size="xm">Не смогу пойти</button>
 						</ng-container>
 
 					</ng-container>
 					<ng-container *ngIf="isMyMeetup === true">
-						<button (click)="openEditPopup(meetup)" class="tui-btn" tuiButton type="button" appearance="accent"
-							shape="rounded" size="s">
-							Редактировать
-						</button>
 
-						<button icon="tuiIconTrash2" (click)="openDeletePopup(meetup)" class="tui-btn tui-btn_red tui-btn_icon"
+						<button class="btn_radius" type="button" (click)="openEditPopup(meetup)" prizmButton appearance="warning" size="xm">Редактировать</button>
+
+						<!-- <button icon="tuiIconTrash2" (click)="openDeletePopup(meetup)" class="tui-btn tui-btn_red tui-btn_icon"
 							tuiButton type="button" appearance="accent" shape="rounded" size="s">
-						</button>
+						</button> -->
+
+						<button class="btn_radius" icon="delete"  type="button" (click)="openDeletePopup(meetup)" prizmButton appearance="danger" size="xm"></button>
 
 					</ng-container>
 				

@@ -16,7 +16,7 @@ import { NgIf } from '@angular/common';
 //prizma
 
 import { NgModule } from '@angular/core';
-import { PrizmButtonComponent, PrizmButtonModule,PrizmDataListModule, PrizmDropdownHostModule } from '@prizm-ui/components';
+import { PrizmButtonComponent, PrizmButtonModule,PrizmDataListModule, PrizmDropdownHostModule   } from '@prizm-ui/components';
 import { CommonModule } from '@angular/common';
 //prizma
 

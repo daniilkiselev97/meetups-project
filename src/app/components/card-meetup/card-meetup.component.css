@@ -11,6 +11,9 @@
 
 
 }
+.btn_radius {
+	border-radius: 15px;
+}
 
 .card-meetup__content {
 	border: 3px solid rgba(174, 5, 5, 0.683);
