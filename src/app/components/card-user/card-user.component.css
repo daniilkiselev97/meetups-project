@@ -10,12 +10,16 @@
 }
 
 .edit-meetup-item-input {
-	margin-top: 15px;
+	/* margin-top: 15px; */
 	background-color: white;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-left: 10px!important;
+	padding-right: 10px!important;
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
 	text-align: center;
-	border-radius: none;
+	border-radius: 15px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	border: 1px solid #ccc;
 }
 
 

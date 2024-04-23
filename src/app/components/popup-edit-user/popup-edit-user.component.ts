@@ -11,14 +11,21 @@ import { UsersService } from 'src/app/services/users.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 
+//prizma
+import { NgModule } from '@angular/core';
+import { PrizmInputTextModule } from '@prizm-ui/components';
+import { FormsModule } from '@angular/forms';
+import { PrizmCheckboxComponent } from '@prizm-ui/components';
+import { PrizmButtonModule } from '@prizm-ui/components'
+
 
 @Component({
-    selector: 'popup-edit-user',
-    templateUrl: './popup-edit-user.component.html',
-    styleUrls: ['./popup-edit-user.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe]
+	selector: 'popup-edit-user',
+	templateUrl: './popup-edit-user.component.html',
+	styleUrls: ['./popup-edit-user.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
 export class PopupEditDataUserComponent implements OnInit {
 	private _stateDefaultRoles = new BehaviorSubject<BackendRole[]>([]);
@@ -33,7 +40,6 @@ export class PopupEditDataUserComponent implements OnInit {
 		role: new FormControl(''),
 		fio: new FormControl('', []),
 		roles: new FormGroup({
-
 		}),
 	});
 
@@ -53,7 +59,7 @@ export class PopupEditDataUserComponent implements OnInit {
 
 	}
 
-	ngOnInit(): void { 
+	ngOnInit(): void {
 		this._setUserToForm(this.user);
 	}
 
@@ -77,7 +83,7 @@ export class PopupEditDataUserComponent implements OnInit {
 			id: this.user.id,
 			newRoles: rolesToSend
 		};
-		
+
 
 		this._usersService.updateUser(changedUser)
 			.pipe(

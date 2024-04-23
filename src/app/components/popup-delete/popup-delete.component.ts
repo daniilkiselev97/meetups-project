@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { PrizmBaseDialogContext } from '@prizm-ui/components';
 import { TuiDialogContext, TuiDialogService, TuiTextfieldControllerModule, TuiButtonModule } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { PRIZM_DIALOG_PROVIDERS } from '@prizm-ui/components';
+import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
 
 @Component({
     selector: 'popup-delete',
@@ -11,20 +14,13 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
     imports: [TuiTextfieldControllerModule, TuiButtonModule]
 })
 export class PopupDeleteComponent {
-	public message: string = this.context.data.message;
+
+
+	public message: string = this.context.data.message
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
-		@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<{ isDelete: boolean; }, { message: string; }>,
-	) {}
-
-	public handleSubmitDelete(): void {
-		this.context.completeWith({ isDelete: false });
+		@Inject(POLYMORPH_CONTEXT) readonly context: any
 		
-	}
-
-	public handleCancelDelete(): void {
-		this.context.completeWith({ isDelete: true });
-	}
+	) {}
 
 }

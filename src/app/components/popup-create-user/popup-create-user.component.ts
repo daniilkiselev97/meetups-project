@@ -11,6 +11,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 
+//prizma
+import { NgModule } from '@angular/core';
+import { PrizmInputTextModule } from '@prizm-ui/components';
+import { FormsModule } from '@angular/forms';
+import { PrizmCheckboxComponent } from '@prizm-ui/components';
+import { PrizmButtonModule } from '@prizm-ui/components'
+
 
 @Component({
     selector: 'popup-create-user',
@@ -18,7 +25,7 @@ import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
     styleUrls: ['./popup-create-user.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe]
+    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
 export class PopupCreateUserComponent  {
 

@@ -9,6 +9,11 @@ import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 
+//prizma 
+import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule  } from '@prizm-ui/components'
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 @Component({
     selector: 'authorization',
     templateUrl: './authorization.component.html',
@@ -37,6 +42,10 @@ import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
         RouterLinkActive,
         RouterLink,
         TuiButtonModule,
+				PrizmButtonModule, 
+				PrizmInputTextModule,
+				FormsModule,
+				PrizmInputPasswordModule
     ],
 })
 export class AuthorizationComponent {

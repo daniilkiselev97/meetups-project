@@ -13,6 +13,22 @@ import { TuiInputModule } from '@taiga-ui/kit';
 import { NgIf } from '@angular/common';
 
 
+//prizma
+import { NgModule } from '@angular/core';
+import { PrizmInputTextModule } from '@prizm-ui/components';
+import {FormsModule} from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { PrizmIconsSvgModule, prizmIconSvgEditorDecorBroom, prizmIconSvgSettingsToolsDeleteContent } from '@prizm-ui/icons';
+import {
+  PRIZM_ICONS_SVG_SET,
+  prizmIconSvgDateTimeCalendarPlus,
+  PrizmIconSvgEnum,
+  prizmIconSvgProductionIndustrySnakeCup,
+  prizmIconSvgSettingsToolsBan,
+  PrizmIconsSvgRegistry,
+} from '@prizm-ui/icons';
+
+
 
 
 @Component({
@@ -21,21 +37,28 @@ import { NgIf } from '@angular/common';
     styleUrls: ['./card-user.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, TuiInputModule, TuiSvgModule,]
+    imports: [NgIf, ReactiveFormsModule, TuiInputModule, TuiSvgModule,ReactiveFormsModule,
+			FormsModule,
+			PrizmInputTextModule, PrizmIconsSvgModule]
 })
 export class CardUserComponent implements OnChanges {
 
 	@Input({ required: true }) user!: UserBackend;
-
-
+	readonly PrizmIconSvgEnum = PrizmIconSvgEnum;
 
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _destroyRef: DestroyRef,
-		private readonly _usersService: UsersService
+		private readonly _usersService: UsersService, 
+		private readonly iconRegistry: PrizmIconsSvgRegistry
 	) {
-
+		this.iconRegistry.registerIcons([
+     
+      prizmIconSvgEditorDecorBroom,
+			prizmIconSvgSettingsToolsDeleteContent
+			
+    ]);
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -44,9 +67,9 @@ export class CardUserComponent implements OnChanges {
 
 
 	public myForm = new FormGroup({
-		email: new FormControl('', [Validators.required]),
-		password: new FormControl(''),
-		role: new FormControl('')
+		email: new UntypedFormControl({ value: '', disabled: true }),
+		password: new UntypedFormControl({ value: '', disabled: true }),
+		role: new UntypedFormControl({ value: '', disabled: true })
 	});
 
 	public popupEditUser(): void {

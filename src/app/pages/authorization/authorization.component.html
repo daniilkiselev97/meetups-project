@@ -1,10 +1,11 @@
 <div class="form-container form-container-center  bg-color-main">
 	<form (submit)="handleSubmit()" [formGroup]="myForm" class="form">
 		<div class="form__item">
-			<tui-input [formControl]="myForm.controls.email">
-				<span>Email</span>
-				<input tuiTextfield type="text" />
-			</tui-input>
+
+			<prizm-input-layout label="Email">
+				<input type="text" prizmInput [formControl]="myForm.controls.email" />
+			</prizm-input-layout>
+
 			<div class="error" *ngIf="myForm.controls.email.hasError('email')">
 				Невалидный email
 			</div>
@@ -17,14 +18,15 @@
 
 		<div class="form__item">
 
-			<tui-input-password
-        [formControl]="myForm.controls.password"
-        tuiHintAppearance="onDark"
-        tuiHintContent
-        tuiHintDirection="right"
-    >
-        Type a password
-    </tui-input-password>
+		<prizm-input-layout label="Password">
+			<input #inputPassword="prizmInputPassword" prizmInputPassword [formControl]="myForm.controls.password"/>
+			<prizm-input-password-auxiliary-control
+				[inputPassword]="inputPassword"
+				prizm-input-right
+			></prizm-input-password-auxiliary-control>
+		</prizm-input-layout>
+
+
 			<div class="error" *ngIf="myForm.controls.password.hasError('required') && myForm.controls.password.touched">
 				Поле обязательно для заполнения
 			</div>
@@ -35,9 +37,8 @@
 			<a [routerLink]="['/registration']" routerLinkActive="current-link" icon="tuiIconSettings" tuiLink [pseudo]="true" mode="positive">
 				How to create account ?
 			</a>
-			<button size="l" tuiButton type="submit" class="tui-btn" [disabled]="!myForm.valid">
-				LOG IN
-			</button>
+		
+			<button class="btn_border" type="submit" [disabled]="!myForm.valid" prizmButton appearance="primary" size="xl">LOG IN</button>
 		</div>
 	</form>
 </div>

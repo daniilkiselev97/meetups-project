@@ -9,6 +9,12 @@ import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 
+//prizma
+import { NgModule } from '@angular/core';
+import { PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule   } from '@prizm-ui/components';
+import { FormsModule } from '@angular/forms';
+
+
 @Component({
     selector: 'registration',
     templateUrl: './registration.component.html',
@@ -27,7 +33,9 @@ import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
         },
     ],
     standalone: true,
-    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, TuiInputPasswordModule, TuiLinkModule, RouterLinkActive, RouterLink, TuiButtonModule]
+    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, TuiInputPasswordModule, TuiLinkModule, RouterLinkActive, RouterLink, TuiButtonModule, ReactiveFormsModule,
+			FormsModule,
+			PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule]
 })
 export class RegistrationComponent {
 

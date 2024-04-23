@@ -1,10 +1,11 @@
 <div class="form-container form-container-center  bg-color-main">
 	<form (submit)="handleSubmit()" [formGroup]="myForm" class="form">
 		<div class="form__item">
-			<tui-input [formControl]="myForm.controls.email">
-				<span>Email</span>
-				<input tuiTextfield type="text" />
-			</tui-input>
+
+			<prizm-input-layout label="Email">
+				<input prizmInput [formControl]="myForm.controls.email" />
+			</prizm-input-layout>
+
 			<div class="error" *ngIf="myForm.controls.email.hasError('email')">
 				Невалидный email
 			</div>
@@ -17,46 +18,49 @@
 
 		<div class="form__item">
 
-			<tui-input-password [formControl]="myForm.controls.password" tuiHintAppearance="onDark" tuiHintContent
-				tuiHintDirection="right">
-				Введите пароль
-			</tui-input-password>
+			<prizm-input-layout label="Password">
+				<input [formControl]="myForm.controls.password" #inputPassword="prizmInputPassword" prizmInputPassword />
+				<prizm-input-password-auxiliary-control [inputPassword]="inputPassword"
+					prizm-input-right></prizm-input-password-auxiliary-control>
+			</prizm-input-layout>
+
+
 			<div class="error" *ngIf="myForm.controls.password.hasError('required') && myForm.controls.password.touched">
 				Поле обязательно для заполнения
 			</div>
-
-		</div>
+			</div>
 
 		<div class="form__item">
-			<tui-input [formControl]="myForm.controls.surname">
-				<span>Фамилия</span>
-				<input tuiTextfield type="text" />
-			</tui-input>
-			
+
+			<prizm-input-layout label="Фамилия">
+				<input prizmInput [formControl]="myForm.controls.surname" />
+			</prizm-input-layout>
+
 			<div class="error" *ngIf="myForm.controls.surname.hasError('required') && myForm.controls.surname.touched">
 				Поле обязательно для заполнения
 			</div>
 		</div>
 
 		<div class="form__item">
-			<tui-input [formControl]="myForm.controls.name">
-				<span>Имя</span>
-				<input tuiTextfield type="text" />
-			</tui-input>
-			
+
+			<prizm-input-layout label="Имя">
+				<input prizmInput [formControl]="myForm.controls.name" />
+			</prizm-input-layout>
+
 			<div class="error" *ngIf="myForm.controls.name.hasError('required') && myForm.controls.name.touched">
 				Поле обязательно для заполнения
 			</div>
 		</div>
-		
+
 
 		<div class="form__item form__item_actions">
-			<a [routerLink]="['/login']" routerLinkActive="current-link" icon="tuiIconSettings" tuiLink [pseudo]="true" mode="positive">
+			<a [routerLink]="['/login']" routerLinkActive="current-link" icon="tuiIconSettings" tuiLink [pseudo]="true"
+				mode="positive">
 				How to log in to account ?
 			</a>
-			<button size="l" tuiButton type="submit" class="tui-btn" [disabled]="!myForm.valid">
-				SIGN UP
-			</button>
+
+			<button class="btn_border" type="submit" [disabled]="!myForm.valid" prizmButton appearance="primary" size="xl">SIGN UP</button>
+
 		</div>
 	</form>
 </div>

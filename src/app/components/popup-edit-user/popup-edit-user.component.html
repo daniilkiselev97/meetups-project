@@ -3,48 +3,44 @@
 		<div class="edit-user__item">
 			<span class="tui-text_body-l-2">Email:</span>
 			<div class="b-form">
-				<tui-input [formControl]="myForm.controls.email">
-					<input tuiTextfield class="b-form__input-center" type="text" />
-				</tui-input>
+				<prizm-input-layout>
+					<input prizmInput [formControl]="myForm.controls.email" type="email" />
+				</prizm-input-layout>
 			</div> <!--.b-form-->
 		</div> <!--.edit-user__item-->
 
 		<div class="edit-user__item">
 			<span class="tui-text_body-l-2">Пароль:</span>
 			<div class="b-form">
-				<tui-input [formControl]="myForm.controls.password">
-					<input tuiTextfield class="b-form__input-center" type="text" />
-				</tui-input>
+
+				<prizm-input-layout>
+					<input prizmInput [formControl]="myForm.controls.password" type="password" />
+				</prizm-input-layout>
+
 			</div> <!--.b-form-->
 		</div> <!--.edit-user__item-->
 
 		<div class="edit-user__item">
 			<span class="tui-text_body-l-2">Имя:</span>
 			<div class="b-form">
-				<tui-input [formControl]="myForm.controls.fio">
-					<input tuiTextfield class="b-form__input-center" type="text" />
-				</tui-input>
+
+				<prizm-input-layout>
+					<input prizmInput [formControl]="myForm.controls.fio" type="password" type="text" />
+				</prizm-input-layout>
+
 			</div> <!--.b-form-->
 		</div> <!--.edit-user__item-->
 
 		<ng-container *ngIf="allRoles$ | async as roles">
-			<div [formGroup]="myForm.controls.roles"  class="edit-user__item">
+			<div [formGroup]="myForm.controls.roles" class="edit-user__item">
 				<ng-container *ngFor="let role of roles">
-							<tui-checkbox-labeled
-								[formControlName]="role.id + '-' + role.name "
-								size="l"
-							>
-									{{role.name}}
-							</tui-checkbox-labeled>
+					<prizm-checkbox [formControlName]="role.id + '-' + role.name " [size]="'l'">{{role.name}}</prizm-checkbox>
 				</ng-container>
-
 			</div>
 		</ng-container>
 	</form>
 
 	<div class="form-container__btn">
-		<button [disabled]="disabledForm" (click)="submitEditUser()" appearance="primary" size="m" tuiButton type="button">
-			Подтвердить
-		</button>
+		<button class="btn_border" type="button" [disabled]="disabledForm" (click)="submitEditUser()" prizmButton appearance="primary" size="l">Подтвердить</button>
 	</div>
 </div>

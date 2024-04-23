@@ -9,12 +9,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardUserComponent } from '../../components/card-user/card-user.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
+//PRIZMA
+import { PrizmButtonModule } from '@prizm-ui/components';
+
 @Component({
     selector: 'users',
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.css'],
     standalone: true,
-    imports: [NgIf, TuiButtonModule, NgFor, CardUserComponent, AsyncPipe]
+    imports: [NgIf, TuiButtonModule, NgFor, CardUserComponent, AsyncPipe, PrizmButtonModule]
 })
 export class UsersComponent {
 	public users$: Observable<UserBackend[]> = this._userService.getAll();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef, ChangeDetectorRef, } from '@angular/core';
 import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
@@ -8,7 +8,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
-import { filter, first, switchMap, take, takeUntil, takeWhile } from 'rxjs';
+import { filter, finalize, first, of, switchMap, take, takeUntil, takeWhile, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardDatePipe } from '../../pipes/card-date.pipe';
 import { NgIf } from '@angular/common';
@@ -16,81 +16,98 @@ import { NgIf } from '@angular/common';
 //prizma
 
 import { NgModule } from '@angular/core';
-import { PrizmButtonComponent, PrizmButtonModule,PrizmDataListModule, PrizmDropdownHostModule   } from '@prizm-ui/components';
+import { PrizmButtonComponent, PrizmButtonModule, PrizmDataListModule, PrizmDropdownHostModule, PrizmConfirmDialogModule, PolymorphComponent } from '@prizm-ui/components';
 import { CommonModule } from '@angular/common';
-//prizma
+import { PolymorphModule } from '@prizm-ui/components'
 
+//prizma
+import { PrizmConfirmDialogService, PrizmOverlayInsidePlacement } from '@prizm-ui/components';
+import { PrizmDestroyService } from '@prizm-ui/helpers';
+
+import { TemplateRef, ViewChild } from '@angular/core';
 
 
 
 @Component({
-    selector: 'card-meetup',
-    templateUrl: './card-meetup.component.html',
-    styleUrls: ['./card-meetup.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule]
+	selector: 'card-meetup',
+	templateUrl: './card-meetup.component.html',
+	styleUrls: ['./card-meetup.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule],
+	providers: [PrizmDestroyService]
 })
-export class CardMeetupComponent { 
+export class CardMeetupComponent {
+	@ViewChild('footerTemp', { read: TemplateRef }) footerTemp!: TemplateRef<any>;
+	public positionVariants: PrizmOverlayInsidePlacement[] = Object.values(PrizmOverlayInsidePlacement);
+	public position: PrizmOverlayInsidePlacement = PrizmOverlayInsidePlacement.CENTER;
+	public backdrop = true;
 
-	@Input({ required: true }) public meetup!: Meetup; 
+	@Input({ required: true }) public meetup!: Meetup;
 	@Input() public isMyMeetup: boolean = false;
-
-
-	// private _chevronDown: string = 'tuiIconChevronDown';
-	// private _chevronUp: string = 'tuiIconChevronUp';
 
 	private _chevronDown: string = 'chevrons-dropdown';
 	private _chevronUp: string = 'chevrons-dropup';
 
-	// public expanded: boolean = false;
 	public userIcon: string = 'tuiIconUserLarge';
 
 	public open: boolean = false;
+	public dialog: any;
 
 	constructor(
 		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _meetupsService: MeetupsService,
 		private readonly _destroyRef: DestroyRef,
-		public readonly cdRef: ChangeDetectorRef
-	) {
+		public readonly cdRef: ChangeDetectorRef,
 
+		private readonly confirmDialogService: PrizmConfirmDialogService,
+		private readonly destroy$: PrizmDestroyService
+	) { }
+
+	public openDeletePopup(meetup: Meetup): void {
+		this.dialog = this.confirmDialogService.open(
+			new PolymorphComponent(PopupDeleteComponent, this._injector),
+			{
+				footer: this.footerTemp,
+				data: { message: 'Вы действительно хотите удалить митап ?' }
+			},
+		)
+		this.dialog.pipe(
+		takeUntilDestroyed(this._destroyRef),
+		switchMap(result => {
+      if (result) {
+        return this._meetupsService.deleteMeetup(meetup.id).pipe(
+          finalize(() => {
+            // Закрываем модальное окно после выполнения операции удаления
+            this.dialog.complete();
+          })
+        );
+      } else {
+        return of(null); // Возвращаем Observable, чтобы цепочка не была оборвана
+      }
+    })
+  ).subscribe(
+    () => {
+      // Успешно выполнено
+    },
+		(error: any) => {
+      console.error('Ошибка при удалении митапа:', error);
+      
+    }
+	)
 	}
 
 	public openEditPopup(meetup: Meetup): void {
-		const dialog = this._tuiDialogService.open<void>(
-			new PolymorpheusComponent(PopupEditMeetupComponent, this._injector),
+		console.log(meetup)
+		this.confirmDialogService.open(
+			new PolymorphComponent(PopupEditMeetupComponent, this._injector),
 			{
-				dismissible: false,
-				size: 'l',
 				data: meetup
 			},
-		);
-
-		dialog.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe();
+		)
 	}
 
-	public openDeletePopup(meetup: Meetup): void {
-		const dialog = this._tuiDialogService.open<{ isDelete: boolean; }>(
-			new PolymorpheusComponent(PopupDeleteComponent, this._injector),
-			{
-				dismissible: false,
-				size: 'm',
-				data: { message: 'Вы действительно хотите удалить митап ?' }
-			},
-		);
-
-		dialog.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			first(({ isDelete }) => !isDelete),
-			switchMap(() => this._meetupsService.deleteMeetup(meetup.id)),
-		).subscribe();
-	}
-	
 	public getChevron(): string {
 		return this.open ? this._chevronUp : this._chevronDown;
 	}
@@ -118,5 +135,6 @@ export class CardMeetupComponent {
 		).subscribe();
 	}
 
-	
+
 }
+

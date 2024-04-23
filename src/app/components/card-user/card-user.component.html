@@ -2,34 +2,41 @@
 	<form [formGroup]="myForm" class="user-card">
 	
 		<div class="user-card__item tui-text_h6">
-			<tui-input [formControl]="myForm.controls.email">
-				<input autocomplete="off" disabled value="{{user.email}}" class="edit-meetup-item-input" disabled  type="email" />
-			</tui-input>
+		
+			<prizm-input-layout>
+				<input class="edit-meetup-item-input" type="text"  prizmInput [formControl]="myForm.controls.email"/>
+			</prizm-input-layout>
+
 		</div>
-	
 	
 		<div class="b-form user-card__item tui-text_h6">
 			
-			<tui-input [formControl]="myForm.controls.password">
-				<input autocomplete="off" disabled value="******" class="edit-meetup-item-input"  type="password" />
-			</tui-input>
+			
+
+			<prizm-input-layout>
+				<input class="edit-meetup-item-input" value="******" type="email"  prizmInput [formControl]="myForm.controls.password"/>
+			</prizm-input-layout>
+
 		</div>
 	
 		<div class="b-form user-card__item tui-text_h6">
-			<tui-input [formControl]="myForm.controls.role">
-				<input autocomplete="off" disabled value="{{user.roles[0].name}}" class="edit-meetup-item-input"  type="text" />
-			</tui-input>
+
+			<prizm-input-layout >
+				<input class="edit-meetup-item-input" type="email" value="{{user.roles[0].name}}" type="text"  prizmInput [formControl]="myForm.controls.role"/>
+			</prizm-input-layout>
+
+			
 		</div>
 	
-		<!--tuiTextfield-->
+		
 	
 		<div class="user-card__item">
 			<div class="user-card__item-actions">
 				<div (click)="popupEditUser()" class="user-card__item-actions-edit">
-					<tui-svg src="tuiIconEdit3Large"></tui-svg>
+					<prizm-icons-svg [size]="30" [name]="PrizmIconSvgEnum.EDITOR_DECOR_BROOM"></prizm-icons-svg>
 				</div>
 				<div (click)="popupDeleteUser(user)" class="user-card__item-actions-delete">
-					<tui-svg src="tuiIconDeleteLarge"></tui-svg>
+					<prizm-icons-svg [size]="30" [name]="PrizmIconSvgEnum.SETTINGS_TOOLS_DELETE_CONTENT"></prizm-icons-svg>
 				</div>
 			</div>
 		</div>

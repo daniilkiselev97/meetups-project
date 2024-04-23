@@ -5,13 +5,18 @@ import { MeetupsService } from 'src/app/services/meetups.service';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
+//prizma
+import { NgModule } from '@angular/core';
+import { PrizmInputTextModule } from '@prizm-ui/components';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+
 @Component({
 	selector: 'all-meetups',
 	templateUrl: './all-meetups.component.html',
 	styleUrls: ['./all-meetups.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe]
+	imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe, ReactiveFormsModule,FormsModule,PrizmInputTextModule,]
 })
 export class AllMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({
@@ -19,7 +24,7 @@ export class AllMeetupsComponent {
 		ownerFio: ''
 	});
 
-		//было - переменная this._meetupsService.allMeetups$, которая создавалась при старте приложения и отдавала сохраненное состояние
+	//было - переменная this._meetupsService.allMeetups$, которая создавалась при старте приложения и отдавала сохраненное состояние
 	//стало - 1 функция getAll - каждый раз создает новый поток allMeetups$ 
 	//стало - 2 нет теперь subscribe внутри сервиса
 

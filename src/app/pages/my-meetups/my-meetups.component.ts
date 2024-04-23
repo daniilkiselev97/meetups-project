@@ -93,7 +93,6 @@ export class MyMeetupsComponent {
 		
 		return str.replace(/\s+/g, ' ').trim();
 	}
-	// public myMeetups$: Observable<Meetup[]> = this._myMeetupsService.getAllMy();
 
 
 
