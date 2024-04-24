@@ -3,28 +3,36 @@ import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 
-import { TuiDialogService, TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
+import {  TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
-import { filter, finalize, first, of, switchMap, take, takeUntil, takeWhile, tap } from 'rxjs';
+import { finalize, of, switchMap, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardDatePipe } from '../../pipes/card-date.pipe';
 import { NgIf } from '@angular/common';
 
 //prizma
 
-import { NgModule } from '@angular/core';
+import {
+  PRIZM_ICONS_SVG_SET,
+  prizmIconSvgDateTimeCalendarPlus,
+  PrizmIconSvgEnum,
+  prizmIconSvgProductionIndustrySnakeCup,
+  prizmIconSvgSettingsToolsBan,
+  PrizmIconsSvgRegistry,
+	prizmIconSvgUserAccountUser,
+} from '@prizm-ui/icons';
 import { PrizmButtonComponent, PrizmButtonModule, PrizmDataListModule, PrizmDropdownHostModule, PrizmConfirmDialogModule, PolymorphComponent } from '@prizm-ui/components';
 import { CommonModule } from '@angular/common';
 import { PolymorphModule } from '@prizm-ui/components'
+import { PrizmIconsSvgModule } from '@prizm-ui/icons';
+import { PrizmConfirmDialogService, PrizmOverlayInsidePlacement, PrizmDialogService } from '@prizm-ui/components';
+import { PrizmDestroyService } from '@prizm-ui/helpers';
+import { TemplateRef, ViewChild } from '@angular/core';
 
 //prizma
-import { PrizmConfirmDialogService, PrizmOverlayInsidePlacement } from '@prizm-ui/components';
-import { PrizmDestroyService } from '@prizm-ui/helpers';
-
-import { TemplateRef, ViewChild } from '@angular/core';
 
 
 
@@ -34,17 +42,19 @@ import { TemplateRef, ViewChild } from '@angular/core';
 	styleUrls: ['./card-meetup.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule],
+	imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule, PrizmIconsSvgModule],
 	providers: [PrizmDestroyService]
 })
 export class CardMeetupComponent {
+	readonly PrizmIconSvgEnum = PrizmIconSvgEnum;
+
 	@ViewChild('footerTemp', { read: TemplateRef }) footerTemp!: TemplateRef<any>;
+	@Input({ required: true }) public meetup!: Meetup;
+	@Input() public isMyMeetup: boolean = false;
+
 	public positionVariants: PrizmOverlayInsidePlacement[] = Object.values(PrizmOverlayInsidePlacement);
 	public position: PrizmOverlayInsidePlacement = PrizmOverlayInsidePlacement.CENTER;
 	public backdrop = true;
-
-	@Input({ required: true }) public meetup!: Meetup;
-	@Input() public isMyMeetup: boolean = false;
 
 	private _chevronDown: string = 'chevrons-dropdown';
 	private _chevronUp: string = 'chevrons-dropup';
@@ -55,15 +65,21 @@ export class CardMeetupComponent {
 	public dialog: any;
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
+		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
+
 		private readonly _meetupsService: MeetupsService,
 		private readonly _destroyRef: DestroyRef,
 		public readonly cdRef: ChangeDetectorRef,
 
 		private readonly confirmDialogService: PrizmConfirmDialogService,
-		private readonly destroy$: PrizmDestroyService
-	) { }
+		private readonly destroy$: PrizmDestroyService,
+		private readonly iconRegistry: PrizmIconsSvgRegistry
+	) {
+		this.iconRegistry.registerIcons([
+      prizmIconSvgUserAccountUser
+    ]);
+	 }
 
 	public openDeletePopup(meetup: Meetup): void {
 		this.dialog = this.confirmDialogService.open(
@@ -93,20 +109,22 @@ export class CardMeetupComponent {
     },
 		(error: any) => {
       console.error('Ошибка при удалении митапа:', error);
-      
     }
 	)
 	}
 
 	public openEditPopup(meetup: Meetup): void {
 		console.log(meetup)
-		this.confirmDialogService.open(
+		this.dialogService.open(
 			new PolymorphComponent(PopupEditMeetupComponent, this._injector),
 			{
-				data: meetup
+				data: meetup, 
+				size: 'l'
 			},
-		)
+		).subscribe()
 	}
+		
+	
 
 	public getChevron(): string {
 		return this.open ? this._chevronUp : this._chevronDown;

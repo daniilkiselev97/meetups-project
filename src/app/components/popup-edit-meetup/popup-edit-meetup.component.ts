@@ -32,14 +32,11 @@ export class PopupEditMeetupComponent {
 	}
 
 	constructor(
-		// @Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
 		private readonly _meetupsService: MeetupsService,
 		private readonly _destroyRef: DestroyRef,
 		private readonly _fb: FormBuilder,
 		@Inject(POLYMORPH_CONTEXT) readonly context: any
 	) {
-		
-
 	}
 
 	public saveMeetup(): void {
@@ -99,9 +96,5 @@ export class PopupEditMeetupComponent {
 			whatWillHappen: new FormControl(meetup.will_happen, [Validators.required, Validators.maxLength(10)]),
 			haveToCome: new FormControl(meetup.reason_to_come, [Validators.required, Validators.maxLength(10)]),
 		});
-
 	}
-
-
-
 }

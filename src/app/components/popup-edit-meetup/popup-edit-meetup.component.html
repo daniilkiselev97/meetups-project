@@ -1,4 +1,4 @@
-<form [tuiTextfieldCleaner]="true" (submit)="saveMeetup()" [formGroup]="myForm"
+<form  (submit)="saveMeetup()" [formGroup]="myForm"
 	class="bg-color-main container edit-meetup">
 	<h3 class="edit-meetup-item-title tui-text_h1">Редактирование митапа</h3>
 
@@ -37,7 +37,7 @@
 
 
 	<div class="edit-meetup-item">
-		<span class="edit-meetup-item__info">Продолжительность(мин):</span>
+		<span class="edit-meetup-item__info">Продолжит.:</span>
 		<div class="b-form">
 
 			<prizm-input-layout>
@@ -93,7 +93,7 @@
 	</div> <!--.edit-meetup-item-->
 
 	<div class="edit-meetup-item">
-		<span class="edit-meetup-item__info">Почему надо обязательно прийти:</span>
+		<span class="edit-meetup-item__info">Почему надо прийти:</span>
 		<div class="b-form">
 			<textarea [height]="100" [formControl]="myForm.controls.haveToCome" prizmInput></textarea>
 

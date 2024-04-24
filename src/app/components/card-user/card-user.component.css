@@ -56,3 +56,17 @@
 	color: red;
 	cursor: pointer;
 }
+
+.delete-user {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	padding: 10px;
+}
+.delete-user__actions-wrapper {
+	display: flex;
+	justify-content: space-between;
+	gap: 50px;
+}

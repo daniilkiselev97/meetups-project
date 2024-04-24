@@ -1,4 +1,7 @@
 /* edit-meetup-item */
+.content[_ngcontent-ng-c4216214301]{
+	padding: 2px!important;
+}
 
 .edit-meetup-item-title {
 	font-family: "Cherry Bomb One", system-ui;
@@ -36,7 +39,7 @@
 .edit-meetup-item__info {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 400;
-	font-size: 18px;
+	font-size: 15px;
 }
 
 label,

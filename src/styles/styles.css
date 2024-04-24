@@ -123,6 +123,17 @@ margin-bottom: 7px;
 [data-state=disabled][data-state=disabled][_nghost-ng-c1307037932] {
 	background-color: rgba(36, 36, 96, 0.567)!important;
 }
+
+/* padding in form-modal */
+.content[_ngcontent-ng-c4216214301]{
+	padding: 15px!important;
+}
+/* padding in form-modal */
+
+
+
 /* prizma */
+
+
 
 

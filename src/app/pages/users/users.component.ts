@@ -1,6 +1,5 @@
 import { Component, DestroyRef, Inject, Injector } from '@angular/core';
-import { TuiDialogService, TuiButtonModule } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { TuiButtonModule } from '@taiga-ui/core';
 import { UsersService } from 'src/app/services/users.service';
 import {  UserBackend } from 'src/app/models/user.models';
 import { Observable, take } from 'rxjs';
@@ -10,7 +9,7 @@ import { CardUserComponent } from '../../components/card-user/card-user.componen
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 //PRIZMA
-import { PrizmButtonModule } from '@prizm-ui/components';
+import { PolymorphComponent, PrizmButtonModule, PrizmDialogService } from '@prizm-ui/components';
 
 @Component({
     selector: 'users',
@@ -23,22 +22,20 @@ export class UsersComponent {
 	public users$: Observable<UserBackend[]> = this._userService.getAll();
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
+		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private _userService: UsersService,
 		private readonly _destroyRef: DestroyRef,
 	) { }
 
 	popupCreateUser(): void {
-
-		const dialog = this._tuiDialogService.open<void>(
-			new PolymorpheusComponent(PopupCreateUserComponent, this._injector),
-			{
-				dismissible: false,
+		const dialog = this.dialogService.open(
+			new PolymorphComponent(PopupCreateUserComponent, this._injector),
+			{ 
 				size: 'l',
+				width: 1000
 			},
-		);
-
+		)
 		dialog.pipe(
 			takeUntilDestroyed(this._destroyRef),
 			take(1)

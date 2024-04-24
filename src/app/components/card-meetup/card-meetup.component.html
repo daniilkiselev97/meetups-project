@@ -1,6 +1,4 @@
-
 <div class="card-meetup ">
-
 	<prizm-dropdown-host [(isOpen)]="open" [content]="dropdown" prizmDropdownHostWidth="100%">
 		<div class="card-meetup__header bg-color-main">
 			<div class="card-meetup__header-info">
@@ -11,9 +9,8 @@
 				<div class="card-meetup__header-info-item">
 					<p class="card-meetup__header-info-paragraph">{{meetup.description}}</p>
 				</div>
-				<div class="card-meetup__header-info-item flex-gap">
-					<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="userIcon" appearance="flat">
-					</button>
+				<div class="card-meetup__header-info-item card-meetup__header-info-item-wrapper flex-gap">
+					<prizm-icons-svg [size]="30" [name]="PrizmIconSvgEnum.USER_ACCOUNT_USER"></prizm-icons-svg>
 					<span class="card-meetup__header-info-author">{{meetup.owner.fio}}</span>
 				</div>
 			</div>
@@ -24,54 +21,46 @@
 						<ng-container *ngIf="meetup.registeredForMeetup === false">
 
 
-							<button (click)="registerUserForMeetup(meetup.authUser, meetup)" class="btn_radius" type="button"  prizmButton appearance="success" size="xm">Я пойду</button>
+							<button (click)="registerUserForMeetup(meetup.authUser, meetup)" class="btn_radius" type="button"
+								prizmButton appearance="success" size="xm">Я пойду</button>
 
 						</ng-container>
 						<ng-container *ngIf="meetup.registeredForMeetup === true">
 
-							<button (click)="removeUserFromMeetup(meetup.authUser, meetup)" class="btn_radius" type="button"  prizmButton appearance="success" size="xm">Не смогу пойти</button>
+							<button (click)="removeUserFromMeetup(meetup.authUser, meetup)" class="btn_radius" type="button"
+								prizmButton appearance="success" size="xm">Не смогу пойти</button>
 						</ng-container>
 
 					</ng-container>
 					<ng-container *ngIf="isMyMeetup === true">
 
-						<button class="btn_radius" type="button" (click)="openEditPopup(meetup)" prizmButton appearance="warning" size="xm">Редактировать</button>
+						<button class="btn_radius" type="button" (click)="openEditPopup(meetup)" prizmButton appearance="warning"
+							size="xm">Редактировать</button>
 
-						<button class="btn_radius" icon="delete"  type="button" (click)="openDeletePopup(meetup)" prizmButton appearance="danger" size="xm"></button>
+						<button class="btn_radius" icon="delete" type="button" (click)="openDeletePopup(meetup)" prizmButton
+							appearance="danger" size="xm"></button>
 
 						<ng-template #footerTemp let-completeWith="completeWith">
-							<div class="bg-color-model container delete-meetup">
-	
+							<div class="container delete-meetup">
+
 								<div class="delete-meetup__actions-wrapper">
-							
-									<button 
-									(click)="completeWith(false)"
-										appearance="secondary-destructive" 
-										tuiButton 
-										size="m" 
-										type="submit" 
-										class="tui-space_top-3 tui-space_bottom-3"
-									>
-											Отменить
+
+									<button appearance="warning" (click)="completeWith(false)" prizmButton size="l" type="submit"
+										class="btn_border tui-space_top-3 tui-space_bottom-3">
+										Отменить
 									</button>
-							
-									<button 
-										(click)="completeWith(true)"
-										appearance="secondary-destructive" 
-										tuiButton 
-										size="m" 
-										type="submit" 
-										class="tui-space_top-3 tui-space_bottom-3"
-									>
-											Удалить
+
+									<button appearance="warning" (click)="completeWith(true)" prizmButton size="l" type="submit"
+										class="btn_border tui-space_top-3 tui-space_bottom-3">
+										Удалить
 									</button>
 								</div>
-							
+
 							</div>
 						</ng-template>
 
 					</ng-container>
-				
+
 					<prizm-split-button class="prizma-toggle" [icon]="getChevron()" (clickIcon)="clickToggleExpanded()"
 						appearance="primary" size="m">
 					</prizm-split-button>
@@ -93,7 +82,6 @@
 
 	<ng-template #dropdown>
 		<prizm-data-list>
-
 			<div class="card-meetup__content bg-color-main">
 				<div class="card-meetup__content-info">
 					<div class="card-meetup__content-info-item">
@@ -131,16 +119,16 @@
 						</div>
 					</div>
 
-					<div class="card-meetup__content-info-item card-meetup__content-actions-item_gap">
-						<button size="xs" tuiButton class="tui-btn tui-btn_icon" [icon]="userIcon" appearance="flat">
-						</button>
+					<div
+						class="card-meetup__content-info-item card-meetup__content-actions-item_gap card-meetup__header-info-item-wrapper">
+						<prizm-icons-svg [size]="30" [name]="PrizmIconSvgEnum.USER_ACCOUNT_USER"></prizm-icons-svg>
 						<span class="card-meetup__content-info-author">{{meetup.owner.fio}}</span>
 					</div>
 
 				</div>
 			</div>
-			
-			
+
+
 		</prizm-data-list>
 	</ng-template>
 

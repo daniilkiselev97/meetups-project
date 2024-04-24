@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Inject, Injector, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject, Injector, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { UserAuthBackend, UserBackend } from 'src/app/models/user.models';
@@ -6,7 +6,7 @@ import { PopupEditDataUserComponent } from 'src/app/components/popup-edit-user/p
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { first, switchMap, take } from 'rxjs';
+import { finalize, first, of, switchMap, take } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
 import { TuiSvgModule } from '@taiga-ui/core/components/svg';
 import { TuiInputModule } from '@taiga-ui/kit';
@@ -15,7 +15,7 @@ import { NgIf } from '@angular/common';
 
 //prizma
 import { NgModule } from '@angular/core';
-import { PrizmInputTextModule } from '@prizm-ui/components';
+import { PolymorphComponent, PrizmConfirmDialogService, PrizmDialogService, PrizmInputTextModule } from '@prizm-ui/components';
 import {FormsModule} from '@angular/forms';
 import { UntypedFormControl } from '@angular/forms';
 import { PrizmIconsSvgModule, prizmIconSvgEditorDecorBroom, prizmIconSvgSettingsToolsDeleteContent } from '@prizm-ui/icons';
@@ -27,6 +27,8 @@ import {
   prizmIconSvgSettingsToolsBan,
   PrizmIconsSvgRegistry,
 } from '@prizm-ui/icons';
+import { PopupEditMeetupComponent } from '../popup-edit-meetup/popup-edit-meetup.component';
+import { PrizmButtonModule } from '@prizm-ui/components';
 
 
 
@@ -39,19 +41,21 @@ import {
     standalone: true,
     imports: [NgIf, ReactiveFormsModule, TuiInputModule, TuiSvgModule,ReactiveFormsModule,
 			FormsModule,
-			PrizmInputTextModule, PrizmIconsSvgModule]
+			PrizmInputTextModule, PrizmIconsSvgModule, PrizmButtonModule]
 })
 export class CardUserComponent implements OnChanges {
-
+	@ViewChild('footerTemp', { read: TemplateRef }) footerTemp!: TemplateRef<any>;
 	@Input({ required: true }) user!: UserBackend;
 	readonly PrizmIconSvgEnum = PrizmIconSvgEnum;
+	dialog: any;
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
+		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _destroyRef: DestroyRef,
 		private readonly _usersService: UsersService, 
-		private readonly iconRegistry: PrizmIconsSvgRegistry
+		private readonly iconRegistry: PrizmIconsSvgRegistry,
+		private readonly confirmDialogService: PrizmConfirmDialogService,
 	) {
 		this.iconRegistry.registerIcons([
      
@@ -73,17 +77,14 @@ export class CardUserComponent implements OnChanges {
 	});
 
 	public popupEditUser(): void {
-
-		const dialog = this._tuiDialogService.open<void>(
-			new PolymorpheusComponent(PopupEditDataUserComponent, this._injector),
+		const dialog = this.dialogService.open(
+			new PolymorphComponent(PopupEditDataUserComponent, this._injector),
 			{
-				data: this.user,
-				dismissible: false,
-				size: 'l',
+				data: this.user, 
+				size: 'm',
+				width: 1000,
 			},
 		)
-
-
 		dialog.pipe(
 			takeUntilDestroyed(this._destroyRef),
 			take(1),
@@ -92,28 +93,45 @@ export class CardUserComponent implements OnChanges {
 	
 	public popupDeleteUser(user: UserBackend): void {
 
-		const dialog = this._tuiDialogService.open<{ isDelete: boolean; }>(
-			new PolymorpheusComponent(PopupDeleteComponent, this._injector),
+		this.dialog = this.confirmDialogService.open(
+			new PolymorphComponent(PopupDeleteComponent, this._injector),
 			{
-				data: { message: 'Вы действительно хотите удалить пользователя ?' },
-				dismissible: false,
-				size: 'l',
+				footer: this.footerTemp,
+				data: { message: 'Вы действительно хотите удалить пользователя ?' }
 			},
 		)
-
-
-		dialog.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			first(({ isDelete }) => !isDelete),
-			switchMap(() => this._usersService.deleteUser(user.id)),
-		).subscribe();
+		this.dialog.pipe(
+		takeUntilDestroyed(this._destroyRef),
+		switchMap(result => {
+      if (result) {
+        return this._usersService.deleteUser(user.id).pipe(
+          finalize(() => {
+            // Закрываем модальное окно после выполнения операции удаления
+            this.dialog.complete();
+          })
+        );
+      } else {
+        return of(null); // Возвращаем Observable, чтобы цепочка не была оборвана
+      }
+    })
+  ).subscribe(
+    () => {
+      // Успешно выполнено
+    },
+		(error: any) => {
+      console.error('Ошибка при удалении митапа:', error);
+    }
+	)
 	}
 
+	
+
 	private _setUserInForm(user: UserBackend): void {
-		// console.log(user)
-		this.myForm.patchValue({
-			email: user.email,
-			role: user.roles[0].name
-		});
+		if (user.roles && user.roles.length > 0) {
+			this.myForm.patchValue({
+					email: user.email,
+					role: user.roles[0].name
+			});
+	};
 	}
 }

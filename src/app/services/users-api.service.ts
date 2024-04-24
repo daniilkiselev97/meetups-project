@@ -47,12 +47,16 @@ export class UsersApiService {
 
 	public updateUserRole(userUpdateObj: UserUpdateObj): Observable<AssigningRolesToBackend> {
 		const rolesNames = userUpdateObj.newRoles.map((role) => role.name)
+		
+		
 		return this._http.post<AssigningRolesToBackend>(`${this._baseUrl}/role`, {
 			// names: rolesNames.length ?  rolesNames :  'Неопределенная роль',  //может быть null
 			names: rolesNames,
 			userId: userUpdateObj.id
 		})
 	}
+
+
 
 	public deleteUser(idUser: number): Observable<MeetupBackendUser> {
 		return this._http.delete<MeetupBackendUser>(`${this._baseUrl}/${idUser}`)

@@ -5,15 +5,14 @@ import { TuiDialogContext, TuiDialogService, TuiPrimitiveTextfieldModule, TuiBut
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable, take, tap } from 'rxjs';
 import { BackendRole } from 'src/app/models/roles.models';
-import { UserBackend } from 'src/app/models/user.models';
+import { User, UserBackend } from 'src/app/models/user.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { UsersService } from 'src/app/services/users.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 
 //prizma
-import { NgModule } from '@angular/core';
-import { PrizmInputTextModule } from '@prizm-ui/components';
+import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
 import { PrizmCheckboxComponent } from '@prizm-ui/components';
 import { PrizmButtonModule } from '@prizm-ui/components'
@@ -49,8 +48,7 @@ export class PopupEditDataUserComponent implements OnInit {
 
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
-		@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<void, UserBackend>,
+		@Inject(POLYMORPH_CONTEXT) readonly context: any,
 		private readonly _rolesApiService: RolesApiService,
 		private readonly _fb: FormBuilder,
 		private readonly _usersService: UsersService,

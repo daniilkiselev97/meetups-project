@@ -1,20 +1,17 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { TuiDialogContext, TuiDialogService, TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
-import { tuiCreateTimePeriods, tuiInputTimeOptionsProvider, TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
-import { Meetup, MeetupBackend, MeetupCreated } from 'src/app/models/meetup.models';
+import { TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
+import { TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
+import { MeetupCreated } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 //prizma
 
-import { NgModule  } from '@angular/core';
-import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInputLayoutTimeComponent, PrizmTime, PrizmButtonModule   } from '@prizm-ui/components';
-import { FormsModule, UntypedFormControl } from '@angular/forms';
+import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT   } from '@prizm-ui/components';
 
 
 @Component({
@@ -22,11 +19,7 @@ import { FormsModule, UntypedFormControl } from '@angular/forms';
     templateUrl: './popup-create-meetup.component.html',
     styleUrls: ['./popup-create-meetup.component.css'],
     providers: [
-        tuiInputTimeOptionsProvider({
-            icon: 'tuiIconClockLarge',
-            mode: 'HH:MM:SS',
-            itemSize: 's',
-        }),
+        
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
@@ -36,15 +29,13 @@ export class PopupCreateMeetupComponent {
 
 
 	public readonly myForm = this._createFormMeetup()
-	public timePeriods: readonly TuiTime[] = tuiCreateTimePeriods();
 
 	get disabledForm(): boolean {
 		return (this.myForm.pristine && !this.myForm.dirty) || this.myForm.invalid;
 	}
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
-		@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<void, Meetup>,
+		@Inject(POLYMORPH_CONTEXT) readonly context: any,
 		private readonly _destroyRef: DestroyRef,
 		private readonly _meetupsService: MeetupsService,
 		private readonly _fb: FormBuilder
@@ -75,13 +66,12 @@ export class PopupCreateMeetupComponent {
 
 		this._meetupsService.createMeetup(savedMeetup)
 		.pipe(
-			takeUntilDestroyed(this._destroyRef),
+			// takeUntilDestroyed(this._destroyRef),
 			take(1)
 		).subscribe(() => {
 			this.context.completeWith()
 		})
 	}
-
 
 	private _createFormMeetup() {
 

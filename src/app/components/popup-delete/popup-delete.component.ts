@@ -20,7 +20,8 @@ export class PopupDeleteComponent {
 
 	constructor(
 		@Inject(POLYMORPH_CONTEXT) readonly context: any
+	) {
 		
-	) {}
+	}
 
 }

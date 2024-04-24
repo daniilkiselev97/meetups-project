@@ -11,6 +11,8 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 //prizma
 import { PrizmButtonModule } from '@prizm-ui/components';
+import { PrizmDialogModule } from '@prizm-ui/components';
+import { PrizmDialogService, PrizmOverlayInsidePlacement, PolymorphComponent } from '@prizm-ui/components';
 
 
 @Component({
@@ -19,7 +21,7 @@ import { PrizmButtonModule } from '@prizm-ui/components';
     styleUrls: ['./my-meetups.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe, PrizmButtonModule]
+    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe, PrizmButtonModule, PrizmDialogModule]
 })
 export class MyMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({
@@ -59,7 +61,7 @@ export class MyMeetupsComponent {
 	)
 
 	constructor(
-		@Inject(TuiDialogService) private readonly _tuiDialogService: TuiDialogService,
+		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _meetupsService: MeetupsService,
 		private readonly _destroyRef: DestroyRef,
@@ -93,21 +95,13 @@ export class MyMeetupsComponent {
 		
 		return str.replace(/\s+/g, ' ').trim();
 	}
-
-
-
+	
 	openCreatePopup(): void {
-		const dialog = this._tuiDialogService.open<void>(
-			new PolymorpheusComponent(PopupCreateMeetupComponent, this._injector),
-			{
-				dismissible: false,
-				size: 'l',
+		this.dialogService.open(
+			new PolymorphComponent(PopupCreateMeetupComponent, this._injector),
+			{ 
+				size: 'l'
 			},
-		);
-
-		dialog.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe();
+		).subscribe()
 	}
 }
