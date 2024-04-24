@@ -17,23 +17,23 @@ import { PrizmButtonModule } from '@prizm-ui/components'
 
 
 @Component({
-    selector: 'popup-create-user',
-    templateUrl: './popup-create-user.component.html',
-    styleUrls: ['./popup-create-user.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
+	selector: 'popup-create-user',
+	templateUrl: './popup-create-user.component.html',
+	styleUrls: ['./popup-create-user.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
-export class PopupCreateUserComponent  {
+export class PopupCreateUserComponent {
 
-	
+
 
 	public allRoles$: Observable<BackendRole[]> = this._rolesApiService.getAll().pipe(
 		tap((roles: BackendRole[]) => this._setRolesToForm(roles)),
 	)
 
 	public myForm = new FormGroup({
-		email: new FormControl('', [Validators.required,Validators.email]),
+		email: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl('', []),
 		fio: new FormControl('', [Validators.required]),
 		roles: new FormGroup({
@@ -51,86 +51,55 @@ export class PopupCreateUserComponent  {
 		private readonly _fb: FormBuilder,
 		private readonly _destroyRef: DestroyRef,
 		private cdr: ChangeDetectorRef
-	) {}
+	) { }
 
-
-	// public saveUser(): void {
-	// 	if (this.myForm.valid === false) return;
-	// 	const formValues = this.myForm.value as any;
-	// 	const roles: any = formValues.roles;
-	// 	const rolesBackend: BackendRole[] = []
-	// 	for (const idAndRole in roles) {
-	// 		if (roles[idAndRole].value === true){
-	// 			rolesBackend.push(this.devideIdAndRole(idAndRole))
-	// 		}
-	// 	}
-	// 	const creatededUser = {
-	// 		email: formValues.email,
-	// 		password: formValues.password,
-	// 		fio: formValues.fio,
-	// 		newRoles: rolesBackend
-	// 	};
-
-	// 	this._userService.createUser(creatededUser)
-	// 	.pipe(
-	// 		takeUntilDestroyed(this._destroyRef),
-	// 		take(1)
-	// 	)
-	// 	.subscribe((result) => {
-	// 		console.log('Результат создания пользователя:', result);
-	// 		console.log('подписка')
-	// 		this.context.completeWith();
-	// 		// this.cdr.detectChanges()
-	// });
-
-	// }
 
 	public saveUser(): void {
 		if (this.myForm.valid === false) return;
-	
 		const formValues = this.myForm.value as any;
-		const roles: any = formValues.roles;
+		const rolesFormGroup = this.myForm.get('roles') as FormGroup;
 		const rolesBackend: BackendRole[] = [];
-	
-		for (const idAndRole in roles) {
-			if (roles[idAndRole].value === true) {
-				rolesBackend.push(this.devideIdAndRole(idAndRole));
+
+		for (const roleName in rolesFormGroup.controls) {
+			const roleControl = rolesFormGroup.get(roleName) as FormControl;
+			if (roleControl.value === true) {
+				const roleParts = roleName.split('-'); // Split based on hyphen
+				rolesBackend.push({ id: +roleParts[0], name: roleParts[1] });
 			}
 		}
-	
-		const createdUser = {
+		const creatededUser = {
 			email: formValues.email,
 			password: formValues.password,
 			fio: formValues.fio,
-			newRoles: rolesBackend,
+			newRoles: rolesBackend
 		};
-	
-		this._userService.createUser(createdUser)
+
+		this._userService.createUser(creatededUser)
 			.pipe(
 				takeUntilDestroyed(this._destroyRef),
-				take(1),
-				tap((result) => {
-					console.log('Результат создания пользователя:', result);
-					console.log('подписка');
-				})
+				take(1)
 			)
-			.subscribe({
-				// Обработка успеха с помощью метода Prizm UI (см. документацию)
-				next: () => this.context.completeWith(/* соответствующие аргументы */),
-				error: (error) => console.error('Ошибка создания пользователя:', error),
+			.subscribe((result) => {
+				// console.log('Результат создания пользователя:', result);
+				// console.log('подписка')
+				this.context.completeWith();
 			});
+
 	}
 
-	public devideIdAndRole(idAndRole: string): BackendRole {
-		const resOfSeparation: RegExpMatchArray = Array.from((idAndRole.matchAll(/(\d+)(-)(.+)/gi)))[0];
-		return {
-			id: +resOfSeparation[1],
-			name: resOfSeparation[3]
-		}
-	}
+
+
+	// public devideIdAndRole(idAndRole: string): BackendRole {
+	// 	const resOfSeparation: RegExpMatchArray = Array.from((idAndRole.matchAll(/(\d+)(-)(.+)/gi)))[0];
+	// 	return {
+	// 		id: +resOfSeparation[1],
+	// 		name: resOfSeparation[3]
+	// 	}
+	// }
 
 
 	private _setRolesToForm(roles: BackendRole[]): void {
+
 		const rolesGroup: Record<string, FormControl<boolean | null>> = {};
 
 		for (const role of roles) {

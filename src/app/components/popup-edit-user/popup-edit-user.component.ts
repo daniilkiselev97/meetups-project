@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { TuiDialogContext, TuiDialogService, TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, Observable, take, tap } from 'rxjs';
+import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
+import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
 import { BackendRole } from 'src/app/models/roles.models';
-import { User, UserBackend } from 'src/app/models/user.models';
+import { UserBackend } from 'src/app/models/user.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { UsersService } from 'src/app/services/users.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
@@ -24,9 +23,9 @@ import { PrizmButtonModule } from '@prizm-ui/components'
 	styleUrls: ['./popup-edit-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
-export class PopupEditDataUserComponent implements OnInit {
+export class PopupEditDataUserComponent implements OnInit  {
 	private _stateDefaultRoles = new BehaviorSubject<BackendRole[]>([]);
 
 	public user: UserBackend = this.context.data;
@@ -61,15 +60,16 @@ export class PopupEditDataUserComponent implements OnInit {
 		this._setUserToForm(this.user);
 	}
 
-	public submitEditUser(): void {
-		const formValues = this.myForm.value as any
 
-		const rolesControlsInForm: any = formValues.roles.controls;
+
+
+
+	public submitEditUser(): void {
+		const formValues = this.myForm.value as any;
 
 		const rolesToSend: BackendRole[] = [];
-
-		for (const idAndRole in rolesControlsInForm) {
-			if (rolesControlsInForm[idAndRole].value === true) {
+		for (const idAndRole in formValues.roles) {
+			if (formValues.roles[idAndRole]) {
 				rolesToSend.push(this.devideIdAndRole(idAndRole));
 			}
 		}
@@ -82,15 +82,22 @@ export class PopupEditDataUserComponent implements OnInit {
 			newRoles: rolesToSend
 		};
 
-
 		this._usersService.updateUser(changedUser)
-			.pipe(
-				takeUntilDestroyed(this._destroyRef),
-				take(1)
-			).subscribe(() => {
-				this.context.completeWith()
-			})
+		    .pipe(
+		        takeUntilDestroyed(this._destroyRef),
+		        take(1)
+		    )
+		    .subscribe(() => {
+						this._usersService._stateUpdateUsersTrigger.next(null);
+		        this.context.completeWith();
+
+		    });
+
+
+
+
 	}
+
 
 	public devideIdAndRole(idAndRole: string): BackendRole {
 		const resOfSeparation: RegExpMatchArray = Array.from((idAndRole.matchAll(/(\d+)(-)(.+)/gi)))[0];

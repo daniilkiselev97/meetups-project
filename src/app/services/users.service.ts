@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class UsersService {
 
-	private readonly _stateUpdateUsersTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null);
+	public readonly _stateUpdateUsersTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null);
 
 	constructor(
 		private readonly _usersApiService: UsersApiService,
@@ -36,7 +36,11 @@ export class UsersService {
 		)
 	}
 
+
+
+
 	public updateUser(userUpdateObj: UserUpdateObj) {
+		console.log(userUpdateObj);
 		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
 		return combineLatest([
 			this._usersApiService.updateUser(userUpdateObj),
@@ -44,35 +48,16 @@ export class UsersService {
 		]).pipe(
 			tap(() => this._stateUpdateUsersTrigger.next(null)),
 			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
-			switchMap(() => this._usersApiService.updateUserRole(userUpdateObj)),
-			tap(() => this._stateUpdateUsersTrigger.next(null)),
-		)
+			switchMap(() => {
+				// Возвращаем обновленные данные о пользователе после успешного обновления
+				return this._usersApiService.updateUserRole(userUpdateObj);
+			}),
+			tap(() => this._stateUpdateUsersTrigger.next(null))
+		);
 	}
 
-	// public createUser(userCreateObj: UserCreateObj): Observable<any> {
-	// 	const areUpdateRoles = userCreateObj.newRoles.length !== 0;
-	// 	return this._usersApiService.createUser(userCreateObj).pipe(
-	// 		tap(() => this._stateUpdateUsersTrigger.next(null)),
-	// 		filter(() => true),
-	// 		switchMap(() => this.getAll()),
-	// 		switchMap((users) => {
-	// 			const foundCreatedUser = users.find(user =>
-	// 				(user.email === userCreateObj.email) && (user.fio === userCreateObj.fio)
-	// 			);
-
-	// 			if (!foundCreatedUser) {
-	// 				throw new Error(`Пользователь с email ${userCreateObj.email} не найден`);
-	// 			}
 
 
-	// 			return this._usersApiService.updateUserRole({
-	// 				...foundCreatedUser,
-	// 				newRoles: userCreateObj.newRoles
-	// 			});
-	// 		}),
-	// 		tap(() => this._stateUpdateUsersTrigger.next(null))
-	// 	);
-	// }
 
 	public createUser(userCreateObj: UserCreateObj) {
 		const areUpdateRoles = userCreateObj.newRoles.length !== 0;
@@ -80,25 +65,30 @@ export class UsersService {
 			this._usersApiService.createUser(userCreateObj),
 			of(areUpdateRoles)
 		]).pipe(
-			tap(() => this._stateUpdateUsersTrigger.next(null)), 
-			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles), 
-			switchMap(() => this.getAll()),
-			switchMap((users) => {
-				const foundCreatedUser = users.find(user => 
-					(user.email === userCreateObj.email) && (user.fio ===  userCreateObj.fio)
-				);
-
-				if (foundCreatedUser === undefined) {
-					return throwError(() => new Error(`Пользователь с email ${userCreateObj.email} не найден`))
+			// tap(console.log),
+			tap(() => this._stateUpdateUsersTrigger.next(null)),
+			switchMap(([updatedUser, areUpdateRoles]) => {
+				if (!areUpdateRoles) {
+					return of(updatedUser); // Вернуть наблюдаемое с одним значением
 				}
+				return this.getAll().pipe(
+					switchMap((users) => {
+						const foundCreatedUser = users.find((user: { email: string; fio: string; }) =>
+							(user.email === userCreateObj.email) && (user.fio === userCreateObj.fio)
+						);
+						if (foundCreatedUser === undefined) {
+							return throwError(() => new Error(`Пользователь с email ${userCreateObj.email} не найден`))
+						}
 
-				return this._usersApiService.updateUserRole({
-					...foundCreatedUser,
-					newRoles: userCreateObj.newRoles
-				})
-			}), 
-			tap(() => this._stateUpdateUsersTrigger.next(null)), 
-		)
+						return this._usersApiService.updateUserRole({
+							...foundCreatedUser,
+							newRoles: userCreateObj.newRoles
+						})
+					})
+				);
+			}),
+			tap(() => this._stateUpdateUsersTrigger.next(null)),
+		);
 	}
 
 

@@ -50,12 +50,10 @@ export class UsersApiService {
 		
 		
 		return this._http.post<AssigningRolesToBackend>(`${this._baseUrl}/role`, {
-			// names: rolesNames.length ?  rolesNames :  'Неопределенная роль',  //может быть null
 			names: rolesNames,
 			userId: userUpdateObj.id
 		})
 	}
-
 
 
 	public deleteUser(idUser: number): Observable<MeetupBackendUser> {
