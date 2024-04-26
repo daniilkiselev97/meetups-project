@@ -4,7 +4,6 @@ import { User } from 'src/app/models/user.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 
 import {  TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
@@ -16,11 +15,7 @@ import { NgIf } from '@angular/common';
 //prizma
 
 import {
-  PRIZM_ICONS_SVG_SET,
-  prizmIconSvgDateTimeCalendarPlus,
   PrizmIconSvgEnum,
-  prizmIconSvgProductionIndustrySnakeCup,
-  prizmIconSvgSettingsToolsBan,
   PrizmIconsSvgRegistry,
 	prizmIconSvgUserAccountUser,
 } from '@prizm-ui/icons';

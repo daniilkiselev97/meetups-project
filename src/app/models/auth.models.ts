@@ -6,7 +6,7 @@ export interface IsAuth {
 
 export interface UserLogin {
   email: string;
-  password: string;
+  password?: string;
 }
 
 export interface UserRegistration {
