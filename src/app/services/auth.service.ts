@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { AuthToken, UserLogin, UserRegistrationData } from '../models/auth.models';
+import { AuthToken, UserInfo, UserLogin, UserRegistrationData } from '../models/auth.models';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import { Router } from '@angular/router';
 import { User, UserAuthBackend } from '../models/user.models';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../store/state/auth.state';
-import * as AuthActions from '../store/actions/auth.actions'; 
+import { AuthState } from '../store/auth/auth.models';
+import * as Actions from '../store/auth/auth.actions'
+import { selectIsAuth, selectToken, selectUser } from '../store/auth/auth.selectors';
 
 
 @Injectable({
@@ -19,14 +20,17 @@ export class AuthService {
 	private readonly _baseUrl: string = `${environment.backendOrigin}/auth`;
 	private readonly _stateAuthUser: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 	private readonly _stateToken: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-	public readonly authUser$: Observable<User | null> = this._stateAuthUser.asObservable();
-	public readonly isAuth$: Observable<boolean> = this._stateAuthUser.pipe(
-		map((user) => {
-			if (user === null) return false;
-			return true;
-		})
-	);
-	public token$: Observable<string | null> = this._stateToken.asObservable();
+	public readonly authUser$: Observable<User | null> = this._store.select(selectUser)
+
+	// public readonly authUser$: Observable<User | null> = this._stateAuthUser.asObservable();
+	// public readonly isAuth$: Observable<boolean> = this._store.select(selectIsAuth).pipe(
+		// map((user) => {
+		// 	if (user === null) return false;
+		// 	return true;
+		// })
+	// );
+	public readonly isAuth$: Observable<boolean> = this._store.select(selectIsAuth)
+	public token$: Observable<string | null> = this._store.select(selectToken);
 
 	get token(): string | null {
 		return this._localStorageService.get<string>(this._localStorageKey);
@@ -36,41 +40,39 @@ export class AuthService {
 		private readonly _http: HttpClient,
 		private readonly _localStorageService: LocalStorageService,
 		private _router: Router,
-		private store: Store<AuthState>
+		private _store: Store<AuthState>
 	) {
 		this._init();
 	}
 
 
-	login(user: UserLogin): Observable<AuthToken> {
-    return this._http.post<any>(`${this._baseUrl}/login`, user).pipe(
-      tap((authToken: AuthToken) => {
-        this.store.dispatch(AuthActions.loginSuccess({ authToken }));
-        this._syncLogin(authToken.token, true);
-        this._router.navigateByUrl('my-meetups');
-      }),
-      catchError((err) => {
-        this.store.dispatch(AuthActions.loginFailure({ error: err }));
-        return this.catchErrorFunc(err);
-      })
-    );
-  }
-
-
-	public signup(user: UserRegistrationData): Observable<AuthToken> {
-		return this._http.post<AuthToken>(`${this._baseUrl}/registration`, user).pipe(
-			tap((authToken: AuthToken) => {
-				this.store.dispatch(AuthActions.loginSuccess({ authToken }));
-				this._syncLogin(authToken.token, true);
+	login(user: UserLogin): Observable<UserInfo> {
+		return this._http.post<any>(`${this._baseUrl}/login`, user).pipe(
+			map((authToken: AuthToken) => {
+				const syncLoginInfo = this._syncLogin(authToken.token, true);
 				this._router.navigateByUrl('my-meetups');
+				return syncLoginInfo;
 			}),
 			catchError((err) => {
-				this.store.dispatch(AuthActions.loginFailure({ error: err }));
 				return this.catchErrorFunc(err);
 			})
 		);
 	}
-	
+
+
+	public signup(user: UserRegistrationData): Observable<UserInfo> {
+		return this._http.post<AuthToken>(`${this._baseUrl}/registration`, user).pipe(
+			map((authToken: AuthToken) => {
+				const syncLoginInfo = this._syncLogin(authToken.token, true);
+				this._router.navigateByUrl('my-meetups');
+				return syncLoginInfo;
+			}),
+			catchError((err) => {
+				return this.catchErrorFunc(err);
+			})
+		);
+	}
+
 	public logout(): void {
 		this._stateAuthUser.next(null);
 		this._stateToken.next(null);
@@ -87,7 +89,7 @@ export class AuthService {
 		}
 	}
 
-	private _syncLogin(token: string, updatedLocalStorage: boolean): void {
+	private _syncLogin(token: string, updatedLocalStorage: boolean): UserInfo {
 		const userBackend = this._getUserFromToken(token);
 		const user = this._convertUserBackendToUser(userBackend);
 		this._stateToken.next(token);
@@ -95,6 +97,11 @@ export class AuthService {
 
 		if (updatedLocalStorage === true) {
 			this._localStorageService.set(this._localStorageKey, token);
+		}
+
+		return {
+			user: user,
+			token: token
 		}
 	}
 
@@ -124,9 +131,9 @@ export class AuthService {
 	}
 
 	private _getUserFromToken(token: string): UserAuthBackend {
-		let base64Url = token.split('.')[1];
-		let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-		let jsonPayload = decodeURIComponent(
+		const base64Url = token.split('.')[1];
+		const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+		const jsonPayload = decodeURIComponent(
 			window
 				.atob(base64)
 				.split('')

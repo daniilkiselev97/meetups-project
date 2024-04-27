@@ -8,11 +8,15 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
+import * as Actions from '../../store/auth/auth.actions'
 
 //prizma 
 import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule  } from '@prizm-ui/components'
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserLogin } from 'src/app/models/auth.models';
+import { Store } from '@ngrx/store';
+import { AuthState } from 'src/app/store/auth/auth.models';
 
 @Component({
     selector: 'authorization',
@@ -58,6 +62,8 @@ export class AuthorizationComponent {
 	constructor(
 		private _authService: AuthService, 
 		private readonly _destroyRef: DestroyRef,
+		private _store: Store<AuthState>
+
 	) {
 		(window as any).myForm = this.myForm
 		
@@ -76,15 +82,17 @@ export class AuthorizationComponent {
 	public handleSubmit(): void {
 		if (this.myForm.controls.email.value === null || this.myForm.controls.password.value === null) return;
 
-		const userLogin = {
+		const userLogin: UserLogin = {
 			email: this.myForm.controls.email.value,
 			password: this.myForm.controls.password.value
 		};
 
-		this._authService.login(userLogin).pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe();
+		// this._authService.login(userLogin).pipe(
+		// 	takeUntilDestroyed(this._destroyRef),
+		// 	take(1)
+		// ).subscribe();
+		this._store.dispatch(Actions.login({userLogin}))
+
 	}
 }
 

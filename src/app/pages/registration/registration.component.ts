@@ -8,11 +8,16 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
+import * as Actions from '../../store/auth/auth.actions'
+
 
 //prizma
 import { NgModule } from '@angular/core';
 import { PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule   } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AuthState } from 'src/app/store/auth/auth.models';
+import { UserRegistration } from 'src/app/models/auth.models';
 
 
 @Component({
@@ -50,23 +55,26 @@ export class RegistrationComponent {
 	constructor(
 		private _authService: AuthService,
 		private readonly _destroyRef: DestroyRef,
+		private _store: Store<AuthState>
+
 	) {
 	
 	}
 
 	public handleSubmit(): void {
-		
-		const userLogin = {
+		const userSignup = {
 			email: this.myForm.controls.email.value,
 			password: this.myForm.controls.password.value,
 			fio: `${this.myForm.controls.surname.value} ${this.myForm.controls.name.value}`
 		};
+		this._store.dispatch(Actions.signup({ userSignup }));
 
-		this._authService.signup(userLogin).pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe(() => {
-		});
+
+		// this._authService.signup(userLogin).pipe(
+		// 	takeUntilDestroyed(this._destroyRef),
+		// 	take(1)
+		// ).subscribe(() => {
+		// });
 	}
 
 }

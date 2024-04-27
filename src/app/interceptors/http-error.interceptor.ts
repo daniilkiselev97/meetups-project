@@ -17,7 +17,6 @@ export const httpErrorInterceptor: HttpInterceptorFn = (request, next) => {
 					take(1)
 				).subscribe();
 
-				// Возвращаем ошибку обратно в Observable, чтобы компоненты могли продолжить обработку
         return throwError(() => error);
       })
     );

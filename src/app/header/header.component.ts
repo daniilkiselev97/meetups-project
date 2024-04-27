@@ -5,6 +5,10 @@ import { IsAuth } from '../models/auth.models';
 import { User } from '../models/user.models';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import * as Actions from '../store/auth/auth.actions'
+import { Store } from '@ngrx/store';
+import { AuthState } from '../store/auth/auth.models';
+
 
 
 @Component({
@@ -16,21 +20,21 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     imports: [RouterLink, NgIf, RouterLinkActive, AsyncPipe]
 })
 export class HeaderComponent {
-	public authUser$: Observable<User | null> = this._authService.authUser$.pipe(
-		// tap(console.log)
-	)
+	public authUser$: Observable<User | null> = this._authService.authUser$
   public isAuth$: Observable<boolean> = this._authService.isAuth$
 
 
 	constructor(
-    private readonly _authService: AuthService
-
+    private readonly _authService: AuthService,
+		private _store: Store<AuthState>
 	) {
 
 	}
 
 	public logout(): void {
-    this._authService.logout()
+    // this._authService.logout()
+		this._store.dispatch(Actions.logout())
+		this._store.dispatch(Actions.logoutSuccess())
   }
 
 

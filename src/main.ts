@@ -15,8 +15,8 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideRouterStore } from '@ngrx/router-store';
-import { authReducer } from './app/store/reducers/auth.reducer';
-import { AuthEffects } from './app/store/effects/auth.effects';
+import { authReducer } from './app/store/auth/auth.reducers';
+import { AuthEffects } from './app/store/auth/auth.effects';
 
 
 
