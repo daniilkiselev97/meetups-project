@@ -4,7 +4,7 @@ import { MeetupsState } from './meetups.model';
 import { meetupsNode } from './meetups.reducers';
 
 
-export const selectMeetupsState = createFeatureSelector<MeetupsState, Meetup[]>(meetupsNode);
+export const selectMeetupsState = createFeatureSelector<Meetup[]>(meetupsNode);
 
 export const selectAllMeetups = createSelector(
   selectMeetupsState,

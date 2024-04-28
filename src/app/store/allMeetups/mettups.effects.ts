@@ -28,7 +28,7 @@ export class MeetupsEffects {
 	createMeetup$ = createEffect(() => this.actions$.pipe(
 		ofType(MeetupsActions.createMeetup),
 		exhaustMap(({ meetup }) => this.meetupsService.createMeetup(meetup)),
-		map(createdMeetup => MeetupsActions.meetupCreated({ meetup: createdMeetup as Meetup })),
+		map(createdMeetup => MeetupsActions.meetupCreated({ meetup: createdMeetup })),
 		catchError(error => throwError(() => of(MeetupsActions.meetupsFailed({
 			errorMessage: error.message
 		})))),
@@ -48,7 +48,7 @@ export class MeetupsEffects {
 		ofType(MeetupsActions.changeMeetup),
 		exhaustMap(({ meetup, id }) =>
 			this.meetupsService.changeMeetup(meetup, id).pipe(
-				map(changedMeetup => MeetupsActions.meetupChanged({ meetup: changedMeetup as Meetup })),
+				map(changedMeetup => MeetupsActions.meetupChanged({ meetup: changedMeetup })),
 				catchError(error => of(MeetupsActions.meetupsFailed({ errorMessage: error.message })))
 			)
 		)

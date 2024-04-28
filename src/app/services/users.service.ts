@@ -57,8 +57,6 @@ export class UsersService {
 	}
 
 
-
-
 	public createUser(userCreateObj: UserCreateObj) {
 		const areUpdateRoles = userCreateObj.newRoles.length !== 0;
 		return combineLatest([

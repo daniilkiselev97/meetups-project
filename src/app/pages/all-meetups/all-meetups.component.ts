@@ -34,10 +34,9 @@ export class AllMeetupsComponent {
 	//стало - 2 нет теперь subscribe внутри сервиса
 
 	public allMeetups$: Observable<Meetup[]> = combineLatest([ //он принимает на вход массив потоков и их отслеживает
-		// this._meetupsService.getAll(),
-		this._store.dispatch(MeetupsActions.loadMeetups()),
+		this._meetupsService.getAll(),
 
-		this._stateFilter
+		this._stateFilter.asObservable()
 	]).pipe(
 		map(([meetups, stateFilter]) => {
 			const filterMeetupName = this._removeExtraSpaces(stateFilter.meetupName).toLowerCase();

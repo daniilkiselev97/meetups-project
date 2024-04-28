@@ -70,11 +70,7 @@ export class PopupCreateMeetupComponent {
 
 		// this._meetupsService.createMeetup(savedMeetup)
 		this._store.dispatch(MeetupsActions.createMeetup({ meetup: savedMeetup }))
-			.pipe(
-				take(1)
-			).subscribe(() => {
-				this.context.completeWith()
-			})
+		this.context.completeWith();
 	}
 
 	private _createFormMeetup() {
