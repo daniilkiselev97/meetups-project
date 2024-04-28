@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import {  TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
-import {  TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
+import { TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
+import { TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { Meetup, MeetupBackend } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-
-//prizma
-
-import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInputLayoutTimeComponent, PrizmTime, PrizmButtonModule   } from '@prizm-ui/components';
+import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInputLayoutTimeComponent, PrizmTime, PrizmButtonModule } from '@prizm-ui/components';
 import { FormsModule, UntypedFormControl } from '@angular/forms';
 import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
+import { Store } from '@ngrx/store';
+import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
+import * as MeetupsActions from '../../store/allMeetups/meetups.actions'
 
 @Component({
 	selector: 'popup-edit-meetup',
@@ -20,11 +20,11 @@ import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
 	styleUrls: ['./popup-edit-meetup.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
 })
 export class PopupEditMeetupComponent {
 	public meetup: Meetup = this.context.data;
-	
+
 	public readonly myForm = this._createFormEditMeetup(this.meetup)
 
 	get disabledForm(): boolean {
@@ -32,10 +32,11 @@ export class PopupEditMeetupComponent {
 	}
 
 	constructor(
+		@Inject(POLYMORPH_CONTEXT) readonly context: any,
 		private readonly _meetupsService: MeetupsService,
 		private readonly _destroyRef: DestroyRef,
 		private readonly _fb: FormBuilder,
-		@Inject(POLYMORPH_CONTEXT) readonly context: any
+		private readonly _store: Store<MeetupsState>
 	) {
 	}
 
@@ -63,7 +64,9 @@ export class PopupEditMeetupComponent {
 			users: this.meetup.users
 		}
 
-		this._meetupsService.changeMeetup(savedMeetup, savedMeetup.id)
+		this._store.dispatch(MeetupsActions.changeMeetup({ meetup: savedMeetup as Meetup, id: savedMeetup.id }))
+
+			// this._meetupsService.changeMeetup(savedMeetup, savedMeetup.id)
 			.pipe(
 				takeUntilDestroyed(this._destroyRef),
 				take(1)
@@ -85,8 +88,8 @@ export class PopupEditMeetupComponent {
 
 		return this._fb.group({
 			name: new FormControl(meetup.name, [Validators.required]),
-			date:  new UntypedFormControl(new PrizmDay(year, month, day), [Validators.required]),
-			time:  new FormControl(new PrizmTime(hours, minutes), [Validators.required] ),
+			date: new UntypedFormControl(new PrizmDay(year, month, day), [Validators.required]),
+			time: new FormControl(new PrizmTime(hours, minutes), [Validators.required]),
 			duration: new FormControl(meetup.duration, [Validators.required]),
 			location: new FormControl(meetup.location, [Validators.required]),
 			shortDescription: new FormControl(meetup.description, [Validators.required, Validators.maxLength(10)]),

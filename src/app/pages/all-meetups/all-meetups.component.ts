@@ -5,10 +5,15 @@ import { MeetupsService } from 'src/app/services/meetups.service';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
-//prizma
 import { NgModule } from '@angular/core';
 import { PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+
+import * as MeetupsActions from '../../store/allMeetups/meetups.actions';
+import { Store } from '@ngrx/store';
+import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
+
+
 
 @Component({
 	selector: 'all-meetups',
@@ -16,7 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 	styleUrls: ['./all-meetups.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe, ReactiveFormsModule,FormsModule,PrizmInputTextModule,]
+	imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule,]
 })
 export class AllMeetupsComponent {
 	private _stateFilter = new BehaviorSubject({
@@ -29,7 +34,9 @@ export class AllMeetupsComponent {
 	//стало - 2 нет теперь subscribe внутри сервиса
 
 	public allMeetups$: Observable<Meetup[]> = combineLatest([ //он принимает на вход массив потоков и их отслеживает
-		this._meetupsService.getAll(),
+		// this._meetupsService.getAll(),
+		this._store.dispatch(MeetupsActions.loadMeetups()),
+
 		this._stateFilter
 	]).pipe(
 		map(([meetups, stateFilter]) => {
@@ -54,7 +61,9 @@ export class AllMeetupsComponent {
 	)
 
 	constructor(
-		private readonly _meetupsService: MeetupsService
+		private readonly _meetupsService: MeetupsService,
+		private _store: Store<MeetupsState>
+
 	) {
 
 	}

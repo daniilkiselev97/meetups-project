@@ -3,7 +3,7 @@ import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 
-import {  TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
@@ -12,11 +12,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardDatePipe } from '../../pipes/card-date.pipe';
 import { NgIf } from '@angular/common';
 
-//prizma
 
 import {
-  PrizmIconSvgEnum,
-  PrizmIconsSvgRegistry,
+	PrizmIconSvgEnum,
+	PrizmIconsSvgRegistry,
 	prizmIconSvgUserAccountUser,
 } from '@prizm-ui/icons';
 import { PrizmButtonComponent, PrizmButtonModule, PrizmDataListModule, PrizmDropdownHostModule, PrizmConfirmDialogModule, PolymorphComponent } from '@prizm-ui/components';
@@ -26,10 +25,11 @@ import { PrizmIconsSvgModule } from '@prizm-ui/icons';
 import { PrizmConfirmDialogService, PrizmOverlayInsidePlacement, PrizmDialogService } from '@prizm-ui/components';
 import { PrizmDestroyService } from '@prizm-ui/helpers';
 import { TemplateRef, ViewChild } from '@angular/core';
-
-//prizma
-
-
+import { Store } from '@ngrx/store';
+import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
+import * as MeetupsActions from '../../store/allMeetups/meetups.actions'
+import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
+import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
 
 @Component({
 	selector: 'card-meetup',
@@ -69,12 +69,14 @@ export class CardMeetupComponent {
 
 		private readonly confirmDialogService: PrizmConfirmDialogService,
 		private readonly destroy$: PrizmDestroyService,
-		private readonly iconRegistry: PrizmIconsSvgRegistry
+		private readonly iconRegistry: PrizmIconsSvgRegistry,
+		private readonly _storeAllMeetups: Store<MeetupsState>,
+		private readonly _storeMyMeetups: Store<MyMeetupsState>,
 	) {
 		this.iconRegistry.registerIcons([
-      prizmIconSvgUserAccountUser
-    ]);
-	 }
+			prizmIconSvgUserAccountUser
+		]);
+	}
 
 	public openDeletePopup(meetup: Meetup): void {
 		this.dialog = this.confirmDialogService.open(
@@ -85,27 +87,27 @@ export class CardMeetupComponent {
 			},
 		)
 		this.dialog.pipe(
-		takeUntilDestroyed(this._destroyRef),
-		switchMap(result => {
-      if (result) {
-        return this._meetupsService.deleteMeetup(meetup.id).pipe(
-          finalize(() => {
-            // Закрываем модальное окно после выполнения операции удаления
-            this.dialog.complete();
-          })
-        );
-      } else {
-        return of(null); // Возвращаем Observable, чтобы цепочка не была оборвана
-      }
-    })
-  ).subscribe(
-    () => {
-      // Успешно выполнено
-    },
-		(error: any) => {
-      console.error('Ошибка при удалении митапа:', error);
-    }
-	)
+			takeUntilDestroyed(this._destroyRef),
+			switchMap(result => {
+				if (result) {
+					// return this._storeAllMeetups.dispatch(MeetupsActions.deleteMeetup({ id: meetup.id }))
+					return this._meetupsService.deleteMeetup(meetup.id).pipe(
+						finalize(() => {
+							this.dialog.complete();
+						})
+					);
+				} else {
+					return of(null); 
+				}
+			})
+		).subscribe(
+			() => {
+			
+			},
+			(error: any) => {
+				console.error('Ошибка при удалении митапа:', error);
+			}
+		)
 	}
 
 	public openEditPopup(meetup: Meetup): void {
@@ -113,13 +115,13 @@ export class CardMeetupComponent {
 		this.dialogService.open(
 			new PolymorphComponent(PopupEditMeetupComponent, this._injector),
 			{
-				data: meetup, 
+				data: meetup,
 				size: 'l'
 			},
 		).subscribe()
 	}
-		
-	
+
+
 
 	public getChevron(): string {
 		return this.open ? this._chevronUp : this._chevronDown;
@@ -133,6 +135,8 @@ export class CardMeetupComponent {
 	public registerUserForMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
 
+		this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({user, meetup}))
+
 		this._meetupsService.registerUserFromMeetup(user, meetup).pipe(
 			takeUntilDestroyed(this._destroyRef),
 			take(1)
@@ -141,6 +145,8 @@ export class CardMeetupComponent {
 
 	public removeUserFromMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
+
+		this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({user, meetup}))
 
 		this._meetupsService.removeUserFromMeetup(user, meetup).pipe(
 			takeUntilDestroyed(this._destroyRef),

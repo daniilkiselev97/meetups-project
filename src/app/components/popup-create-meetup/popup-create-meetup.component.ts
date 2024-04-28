@@ -9,21 +9,24 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
-//prizma
 
-import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT   } from '@prizm-ui/components';
+import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT } from '@prizm-ui/components';
+import { Store } from '@ngrx/store';
+import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
+
+import * as MeetupsActions from '../../store/allMeetups/meetups.actions'
 
 
 @Component({
-    selector: 'app-popup-create-meetup',
-    templateUrl: './popup-create-meetup.component.html',
-    styleUrls: ['./popup-create-meetup.component.css'],
-    providers: [
-        
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule, ReactiveFormsModule,FormsModule,PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
+	selector: 'app-popup-create-meetup',
+	templateUrl: './popup-create-meetup.component.html',
+	styleUrls: ['./popup-create-meetup.component.css'],
+	providers: [
+
+	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
 })
 export class PopupCreateMeetupComponent {
 
@@ -38,7 +41,8 @@ export class PopupCreateMeetupComponent {
 		@Inject(POLYMORPH_CONTEXT) readonly context: any,
 		private readonly _destroyRef: DestroyRef,
 		private readonly _meetupsService: MeetupsService,
-		private readonly _fb: FormBuilder
+		private readonly _fb: FormBuilder,
+		private readonly _store: Store<MeetupsState>
 	) {
 
 	}
@@ -64,13 +68,13 @@ export class PopupCreateMeetupComponent {
 			duration: formValues.duration,
 		}
 
-		this._meetupsService.createMeetup(savedMeetup)
-		.pipe(
-			// takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe(() => {
-			this.context.completeWith()
-		})
+		// this._meetupsService.createMeetup(savedMeetup)
+		this._store.dispatch(MeetupsActions.createMeetup({ meetup: savedMeetup }))
+			.pipe(
+				take(1)
+			).subscribe(() => {
+				this.context.completeWith()
+			})
 	}
 
 	private _createFormMeetup() {

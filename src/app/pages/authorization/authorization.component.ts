@@ -8,7 +8,7 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
-import * as Actions from '../../store/auth/auth.actions'
+import * as AuthActions from '../../store/auth/auth.actions'
 
 //prizma 
 import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule  } from '@prizm-ui/components'
@@ -91,7 +91,7 @@ export class AuthorizationComponent {
 		// 	takeUntilDestroyed(this._destroyRef),
 		// 	take(1)
 		// ).subscribe();
-		this._store.dispatch(Actions.login({userLogin}))
+		this._store.dispatch(AuthActions.login({userLogin}))
 
 	}
 }

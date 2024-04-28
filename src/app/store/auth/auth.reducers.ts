@@ -15,7 +15,7 @@ const initialState: AuthState = {
 };
 
 
-const authService = inject(AuthService);
+// const authService = inject(AuthService);
 
 export const authReducer = createReducer(
 	initialState,
