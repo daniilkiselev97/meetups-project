@@ -56,8 +56,7 @@ export class MyMeetupsComponent {
 
 				return true;
 			})
-		}),
-		tap(console.log)
+		})
 	)
 
 	constructor(

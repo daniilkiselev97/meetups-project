@@ -17,6 +17,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideRouterStore } from '@ngrx/router-store';
 import { authReducer } from './app/store/auth/auth.reducers';
 import { AuthEffects } from './app/store/auth/auth.effects';
+import { reducers } from './app/store';
 
 
 
@@ -26,7 +27,7 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		provideAnimations(),
 		provideHttpClient(withInterceptors([authInterceptor, httpErrorInterceptor])),
-		provideStore(authReducer),
+		provideStore(reducers),
 		provideEffects([AuthEffects]),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideRouterStore(),

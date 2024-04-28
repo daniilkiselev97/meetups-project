@@ -5,16 +5,13 @@ import { TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModu
 import { MeetupCreated } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 
 import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT } from '@prizm-ui/components';
 import { Store } from '@ngrx/store';
-import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
-
-import * as MeetupsActions from '../../store/allMeetups/meetups.actions'
+import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
+import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
 
 
 @Component({

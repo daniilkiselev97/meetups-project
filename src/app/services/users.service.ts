@@ -40,7 +40,6 @@ export class UsersService {
 
 
 	public updateUser(userUpdateObj: UserUpdateObj) {
-		console.log(userUpdateObj);
 		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
 		return combineLatest([
 			this._usersApiService.updateUser(userUpdateObj),
@@ -63,7 +62,6 @@ export class UsersService {
 			this._usersApiService.createUser(userCreateObj),
 			of(areUpdateRoles)
 		]).pipe(
-			// tap(console.log),
 			tap(() => this._stateUpdateUsersTrigger.next(null)),
 			switchMap(([updatedUser, areUpdateRoles]) => {
 				if (!areUpdateRoles) {

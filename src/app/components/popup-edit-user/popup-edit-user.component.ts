@@ -93,11 +93,7 @@ export class PopupEditDataUserComponent implements OnInit  {
 
 		    });
 
-
-
-
 	}
-
 
 	public devideIdAndRole(idAndRole: string): BackendRole {
 		const resOfSeparation: RegExpMatchArray = Array.from((idAndRole.matchAll(/(\d+)(-)(.+)/gi)))[0];

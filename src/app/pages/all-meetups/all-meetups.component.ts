@@ -9,9 +9,9 @@ import { NgModule } from '@angular/core';
 import { PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
-import * as MeetupsActions from '../../store/allMeetups/meetups.actions';
+import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions';
 import { Store } from '@ngrx/store';
-import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
+import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
 
 
 

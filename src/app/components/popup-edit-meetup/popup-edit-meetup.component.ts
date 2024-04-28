@@ -1,18 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { Meetup, MeetupBackend } from 'src/app/models/meetup.models';
 import { MeetupsService } from 'src/app/services/meetups.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInputLayoutTimeComponent, PrizmTime, PrizmButtonModule } from '@prizm-ui/components';
 import { FormsModule, UntypedFormControl } from '@angular/forms';
 import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
 import { Store } from '@ngrx/store';
-import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
-import * as MeetupsActions from '../../store/allMeetups/meetups.actions'
+import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
+import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
 
 @Component({
 	selector: 'popup-edit-meetup',
@@ -64,16 +62,12 @@ export class PopupEditMeetupComponent {
 			users: this.meetup.users
 		}
 
-		this._store.dispatch(MeetupsActions.changeMeetup(
-			{ meetup: savedMeetup, id: savedMeetup.id }))
+		this._store.dispatch(MeetupsActions.changeMeetup({
+			meetup: savedMeetup,
+			id: savedMeetup.id
+		}));
 
-			// this._meetupsService.changeMeetup(savedMeetup, savedMeetup.id)
-			.pipe(
-				takeUntilDestroyed(this._destroyRef),
-				take(1)
-			).subscribe(() => {
-				this.context.completeWith();
-			})
+		this.context.completeWith();
 	}
 
 

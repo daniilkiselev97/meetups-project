@@ -2,9 +2,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
 import { AuthState } from './auth.models';
-import { UserAuthBackend } from 'src/app/models/user.models';
-import { inject } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 
 export const authNode = 'auth';
 
@@ -13,9 +10,6 @@ const initialState: AuthState = {
 	token: null,
 	isAuth: false,
 };
-
-
-// const authService = inject(AuthService);
 
 export const authReducer = createReducer(
 	initialState,

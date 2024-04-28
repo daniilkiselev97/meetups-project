@@ -12,5 +12,5 @@ export const meetupCreated = createAction('[AllMeetups] Meetup Created', props<{
 export const deleteMeetup = createAction('[AllMeetups] Delete Meetup', props<{ id: number }>());
 export const meetupDeleted = createAction('[AllMeetups] Meetup Deleted', props<{ id: number }>());
 
-export const changeMeetup = createAction('[AllMeetups] Change Meetup', props<{ meetup: Meetup, id: number }>());
+export const changeMeetup = createAction('[AllMeetups] Change Meetup', props<{ meetup: MeetupBackend, id: number }>());
 export const meetupChanged = createAction('[AllMeetups] Meetup Changed', props<{ meetup: MeetupBackend }>());

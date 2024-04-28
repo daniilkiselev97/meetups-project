@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as MeetupsActions from './meetups.actions';
+import * as MeetupsActions from './all-meetups.actions';
 import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
 import { MeetupsService } from 'src/app/services/meetups.service';

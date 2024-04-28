@@ -27,8 +27,10 @@ export class AuthEffects {
 			ofType(AuthActions.logout),
 			tap(() => this._authService.logout()),
 			map(() => AuthActions.logoutSuccess()),
+			
 		)
 	));
+
 
 	public signup$ = createEffect(() => (
 		this._actions$.pipe(

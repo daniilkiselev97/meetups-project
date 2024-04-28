@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthToken, UserInfo, UserLogin, UserRegistrationData } from '../models/auth.models';
 import { HttpClient } from '@angular/common/http';
@@ -24,10 +24,10 @@ export class AuthService {
 
 	// public readonly authUser$: Observable<User | null> = this._stateAuthUser.asObservable();
 	// public readonly isAuth$: Observable<boolean> = this._store.select(selectIsAuth).pipe(
-		// map((user) => {
-		// 	if (user === null) return false;
-		// 	return true;
-		// })
+	// map((user) => {
+	// 	if (user === null) return false;
+	// 	return true;
+	// })
 	// );
 	public readonly isAuth$: Observable<boolean> = this._store.select(selectIsAuth)
 	public token$: Observable<string | null> = this._store.select(selectToken);
@@ -79,6 +79,7 @@ export class AuthService {
 		this._localStorageService.delete(this._localStorageKey);
 		this._router.navigateByUrl('login');
 	}
+
 
 
 	private _init(): void {

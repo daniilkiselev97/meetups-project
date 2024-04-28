@@ -26,10 +26,10 @@ import { PrizmConfirmDialogService, PrizmOverlayInsidePlacement, PrizmDialogServ
 import { PrizmDestroyService } from '@prizm-ui/helpers';
 import { TemplateRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MeetupsState } from 'src/app/store/allMeetups/meetups.reducers';
-import * as MeetupsActions from '../../store/allMeetups/meetups.actions'
+import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
 import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
 import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
+import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
 
 @Component({
 	selector: 'card-meetup',
@@ -97,12 +97,12 @@ export class CardMeetupComponent {
 						})
 					);
 				} else {
-					return of(null); 
+					return of(null);
 				}
 			})
 		).subscribe(
 			() => {
-			
+
 			},
 			(error: any) => {
 				console.error('Ошибка при удалении митапа:', error);
@@ -111,7 +111,6 @@ export class CardMeetupComponent {
 	}
 
 	public openEditPopup(meetup: Meetup): void {
-		console.log(meetup)
 		this.dialogService.open(
 			new PolymorphComponent(PopupEditMeetupComponent, this._injector),
 			{
@@ -135,7 +134,7 @@ export class CardMeetupComponent {
 	public registerUserForMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
 
-		this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({user, meetup}))
+		// this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({ user, meetup }))
 
 		this._meetupsService.registerUserFromMeetup(user, meetup).pipe(
 			takeUntilDestroyed(this._destroyRef),
@@ -146,7 +145,7 @@ export class CardMeetupComponent {
 	public removeUserFromMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
 
-		this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({user, meetup}))
+		// this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({ user, meetup }))
 
 		this._meetupsService.removeUserFromMeetup(user, meetup).pipe(
 			takeUntilDestroyed(this._destroyRef),

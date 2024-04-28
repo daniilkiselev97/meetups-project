@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { PrizmBaseDialogContext } from '@prizm-ui/components';
-import { TuiDialogContext, TuiDialogService, TuiTextfieldControllerModule, TuiButtonModule } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { PRIZM_DIALOG_PROVIDERS } from '@prizm-ui/components';
+import { TuiTextfieldControllerModule, TuiButtonModule } from '@taiga-ui/core';
 import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
 
 @Component({

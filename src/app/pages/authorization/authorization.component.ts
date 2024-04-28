@@ -91,7 +91,7 @@ export class AuthorizationComponent {
 		// 	takeUntilDestroyed(this._destroyRef),
 		// 	take(1)
 		// ).subscribe();
-		this._store.dispatch(AuthActions.login({userLogin}))
+		this._store.dispatch(AuthActions.login({userLogin}));
 
 	}
 }
