@@ -7,7 +7,8 @@ export const myMeetupsNode = 'myMeetups';
 
 
 export const initialState: MyMeetupsState = {
-	myMeetups: []
+	myMeetups: [],
+	filters: {meetupName: '', ownerFio: ''}
 };
 
 export const myMeetupsReducer = createReducer(
@@ -18,6 +19,32 @@ export const myMeetupsReducer = createReducer(
 			myMeetups: meetups
 		}
 	)),
+	on(MymetupsActions.setFilters, (state: MyMeetupsState, { meetupName, ownerFio }) => ({
+    ...state,
+    filters: { meetupName, ownerFio },
+		
+  })),
+
+		on(MymetupsActions.myMeetupCreated, (state: MyMeetupsState, { meetup }) => (
+		{ 
+			...state, 
+			myMeetups: [...state.myMeetups, meetup] 
+		}
+	)),
+
+	on(MymetupsActions.myMeetupDeleted, (state: MyMeetupsState, { id }) => (
+		{ 
+			...state, 
+			myMeetups: state.myMeetups.filter(meetup => meetup.id !== id) 
+		}
+		)),
+
+	on(MymetupsActions.myMeetupChanged, (state: MyMeetupsState, { meetup } ) => 
+		({
+			...state,
+			myMeetups: state.myMeetups.map((existingMeetup) => existingMeetup.id === meetup.id ? meetup : existingMeetup)
+		}))
+	
 
 
 

@@ -1,18 +1,17 @@
-import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, take, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
-import { MeetupsService } from 'src/app/services/meetups.service';
-import { TuiDialogService, TuiButtonModule } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { PopupCreateMeetupComponent } from 'src/app/components/popup-create-meetup/popup-create-meetup.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TuiButtonModule } from '@taiga-ui/core';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-
-//prizma
-import { PrizmButtonModule } from '@prizm-ui/components';
+import { PolymorphComponent, PrizmButtonModule, PrizmDialogService } from '@prizm-ui/components';
 import { PrizmDialogModule } from '@prizm-ui/components';
-import { PrizmDialogService, PrizmOverlayInsidePlacement, PolymorphComponent } from '@prizm-ui/components';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
+import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions';
+import {  selectMyMeetupsWithFilters } from 'src/app/store/myMeetups/myMeetups.selectors';
+import { PopupCreateMeetupComponent } from 'src/app/components/popup-create-meetup/popup-create-meetup.component';
 
 
 @Component({
@@ -21,81 +20,34 @@ import { PrizmDialogService, PrizmOverlayInsidePlacement, PolymorphComponent } f
     styleUrls: ['./my-meetups.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe, PrizmButtonModule, PrizmDialogModule]
+    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe, PrizmButtonModule, PrizmDialogModule, ReactiveFormsModule, FormsModule,]
 })
-export class MyMeetupsComponent {
-	private _stateFilter = new BehaviorSubject({
-		meetupName: '',
-		ownerFio: ''
-	});
 
-	//было - переменная this._meetupsService.myMeetups$, которая создавалась при старте приложения и отдавала сохраненное состояние
-	//стало - 1 функция getAllMy - каждый раз создает новый поток myMeetups$ 
-	//стало - 2 нет теперь subscribe внутри сервиса
 
-	public myMeetups$: Observable<Meetup[]> = this._meetupsService.getAllMy().pipe(
-		switchMap((meetups) => combineLatest([
-			of(meetups),
-			this._stateFilter 
-		])),
-		map(([meetups, stateFilter]) => {
-			const filterMeetupName = this._removeExtraSpaces(stateFilter.meetupName).toLowerCase();
-			const filterMeetupOwnerFio = this._removeExtraSpaces(stateFilter.ownerFio).toLowerCase();
-			return meetups.filter(meetup => {
-				if (
-					stateFilter.meetupName === '' &&
-					stateFilter.ownerFio === ''
-
-				) return true;
-
-				const meetupName = this._removeExtraSpaces(meetup.name).toLowerCase();
-				const meetupOwnerFio = this._removeExtraSpaces(meetup.owner.fio).toLowerCase();
-
-				if (meetupName.includes(filterMeetupName) === false) return false;
-				if (meetupOwnerFio.includes(filterMeetupOwnerFio) === false) return false;
-
-				return true;
-			})
-		})
-	)
+export class MyMeetupsComponent implements OnInit {
+	meetupNameFilter = new FormControl('');
+  ownerFioFilter = new FormControl('');
+	myMeetups$: Observable<Meetup[]> = new Observable<Meetup[]>();
 
 	constructor(
+		private readonly _store: Store<MyMeetupsState>,
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
-		private readonly _meetupsService: MeetupsService,
-		private readonly _destroyRef: DestroyRef,
+	){}
 
-	) {
+	ngOnInit(): void {
+		this._store.dispatch(MyMeetupsActions.loadMyMeetups());
+		this.myMeetups$ = this._store.select(selectMyMeetupsWithFilters);
 
 	}
 
-	public onInputOwnerFioChange(event: any): void {
-		const targetNode = event.target;
-		if (targetNode === null) return;
-		const inputFio = targetNode.value;
+	applyFilters(): void {
+		const meetupName = this.meetupNameFilter.value;
+    const ownerFio = this.ownerFioFilter.value;
+    this._store.dispatch(MyMeetupsActions.setFilters({ meetupName, ownerFio }));
+  }
 
-		this._stateFilter.next({
-			...this._stateFilter.value, 
-			ownerFio: inputFio
-		})
-	}
-
-	public onInputMeetupNameChange(event: any): void {
-		const targetNode = event.target;
-		if (targetNode === null) return;
-
-		this._stateFilter.next({
-			...this._stateFilter.value, 
-			meetupName: targetNode.value
-		})
-	}
-
-	private _removeExtraSpaces(str: string): string {
-		
-		return str.replace(/\s+/g, ' ').trim();
-	}
-	
-	openCreatePopup(): void {
+		openCreatePopup(): void {
 		this.dialogService.open(
 			new PolymorphComponent(PopupCreateMeetupComponent, this._injector),
 			{ 

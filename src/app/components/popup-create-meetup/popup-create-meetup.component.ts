@@ -1,17 +1,14 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { MeetupCreated } from 'src/app/models/meetup.models';
-import { MeetupsService } from 'src/app/services/meetups.service';
-import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule, UntypedFormControl } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-
-
-import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT } from '@prizm-ui/components';
+import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT, PrizmDay, PrizmTime } from '@prizm-ui/components';
 import { Store } from '@ngrx/store';
-import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
-import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
+import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
+import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
 
 
 @Component({
@@ -36,10 +33,8 @@ export class PopupCreateMeetupComponent {
 
 	constructor(
 		@Inject(POLYMORPH_CONTEXT) readonly context: any,
-		private readonly _destroyRef: DestroyRef,
-		private readonly _meetupsService: MeetupsService,
 		private readonly _fb: FormBuilder,
-		private readonly _store: Store<MeetupsState>
+		private readonly _store: Store<MyMeetupsState>
 	) {
 
 	}
@@ -65,9 +60,9 @@ export class PopupCreateMeetupComponent {
 			duration: formValues.duration,
 		}
 
-		// this._meetupsService.createMeetup(savedMeetup)
-		// this._store.dispatch(MeetupsActions.createMeetup({ meetup: savedMeetup }))
+		this._store.dispatch(MyMeetupsActions.createMyMeetup({ meetup: savedMeetup }))
 		this.context.completeWith();
+		this.myForm.markAsPristine();
 	}
 
 	private _createFormMeetup() {
@@ -80,8 +75,8 @@ export class PopupCreateMeetupComponent {
 
 		return this._fb.group({
 			name: new FormControl('', [Validators.required]),
-			date: new FormControl(new TuiDay(year, month, date), [Validators.required]),
-			time: new FormControl(new TuiTime(hours, minutes), [Validators.required]),
+			date: new UntypedFormControl(new PrizmDay(year, month, date), [Validators.required]),
+			time: new FormControl(new PrizmTime(hours, minutes), [Validators.required]),
 			duration: new FormControl(60, [Validators.required]),
 			location: new FormControl('', [Validators.required]),
 			shortDescription: new FormControl('', [Validators.required]),

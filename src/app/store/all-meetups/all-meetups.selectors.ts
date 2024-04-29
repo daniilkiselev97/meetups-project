@@ -1,5 +1,4 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { Meetup, MeetupBackend, MeetupCreated } from 'src/app/models/meetup.models';
 import { MeetupsState } from './all-meetups.model';
 import { allMeetupsNode } from './all-meetups.reducers';
 
@@ -9,11 +8,7 @@ export const selectMeetupsState = createFeatureSelector<MeetupsState>(allMeetups
 export const selectAllMeetups = createSelector(
 	selectMeetupsState,
 	(state: MeetupsState) => state.meetups
-	// selectMeetupsState,
-  // (meetupsState: MeetupsState) => meetupsState.meetups.map(meetup => ({
-  //   ...meetup,
-  //   registeredForMeetup: !!meetup.users.find(user => user.id === meetup.authUser?.id)
-  // }))
+
 
 );
 
@@ -45,8 +40,4 @@ export const selectAllMeetupsWithFilters = createSelector(
 	
 )
 
-// export const selectMeetupById = (meetupId: number) => createSelector(
-// 	selectAllMeetups,
-// 	(meetups: Meetup[]) => meetups.find(meetup => meetup.id === meetupId)
-// );
 

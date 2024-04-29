@@ -52,7 +52,7 @@ export class AuthService {
 		return this._http.post<any>(`${this._baseUrl}/login`, user).pipe(
 			map((authToken: AuthToken) => {
 				const syncLoginInfo = this._syncLogin(authToken.token, true);
-				this._router.navigateByUrl('all-meetups');
+				this._router.navigateByUrl('my-meetups');
 				return syncLoginInfo;
 			}),
 			catchError((err) => {

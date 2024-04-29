@@ -1,22 +1,35 @@
 import { createAction, props } from '@ngrx/store';
 import { Meetup, MeetupBackend, MeetupCreated } from 'src/app/models/meetup.models';
-import { User } from 'src/app/models/user.models';
 
-export const loadMyMeetups = createAction('[MyMeetups] Load MyMeetups');
+export const loadMyMeetups = createAction('[MyMeetups] Get MyMeetups');
 
-export const myMeetupsLoaded = createAction('[MyMeetups] MyMeetups Loaded', props<{ meetups: Meetup[] }>());
+export const myMeetupsLoaded = createAction('[MyMeetups] Get My Meetups Success', props<{ meetups: Meetup[] }>());
 
-export const myMeetupsFailed = createAction('[MyMeetups] Load MyMeetups Failed', props<{ errorMessage: string }>());
-
+export const myMeetupsFailed = createAction('[MyMeetups] Get My Meetups Failure', props<{ errorMessage: string }>());
 
 
-export const createMeetup = createAction('[AllMeetups] Create Meetup', props<{ meetup: MeetupCreated }>());
-export const meetupCreated = createAction('[AllMeetups] Meetup Created', props<{ meetup: MeetupBackend }>());
 
-export const deleteMeetup = createAction('[AllMeetups] Delete Meetup', props<{ id: number }>());
-export const meetupDeleted = createAction('[AllMeetups] Meetup Deleted', props<{ id: number }>());
+export const createMyMeetup = createAction('[MyMeetups] Create My Meetup', props<{ meetup: MeetupCreated }>());
 
-export const changeMeetup = createAction('[AllMeetups] Change Meetup', props<{ meetup: MeetupBackend, id: number }>());
-export const meetupChanged = createAction('[AllMeetups] Meetup Changed', props<{ meetup: MeetupBackend }>());
+export const myMeetupCreated = createAction('[MyMeetups] My Meetup Created', props<{ meetup: Meetup }>());
+
+export const myMeetupFailed = createAction('[MyMeetups] My Meetup Failed And Not Created', props<{ errorMessage: string }>());
+
+
+
+export const deleteMyMeetup = createAction('[MyMeetups] Delete My Meetup', props<{ id: number }>());
+
+export const myMeetupDeleted = createAction('[MyMeetups] My Meetup Deleted', props<{ id: number }>());
+
+export const myMeetupFailedinDeletion = createAction('[MyMeetups] My Meetup Failed And Not Deleted', props<{ errorMessage: string }>());
+
+
+export const changeMyMeetup = createAction('[MyMeetups] Change My Meetup', props<{ meetup: MeetupBackend, id: number }>());
+
+export const myMeetupChanged = createAction('[MyMeetups] My Meetup Changed', props<{ meetup: Meetup }>());
+
+export const myMeetupFailedInChanging = createAction('[MyMeetups] My Meetup Failed And Not Changed', props<{ errorMessage: string }>());
+
+export const setFilters = createAction('[MyMeetups] Set Filters', props<{ meetupName: string | null, ownerFio: string | null }>());
 
 

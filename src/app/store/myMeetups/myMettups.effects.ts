@@ -22,8 +22,37 @@ export class MyMeetupsEffects {
 		catchError(error => throwError(() => of(myMeetupsActions.myMeetupsFailed({
 			errorMessage: error.message
 		}))))
+	));
+
+		createMeetup$ = createEffect(() => this.actions$.pipe(
+		ofType(myMeetupsActions.createMyMeetup),
+		exhaustMap(({ meetup }) => this.meetupsService.createMeetup(meetup)),
+		map(createdMeetup => myMeetupsActions.myMeetupCreated({meetup: createdMeetup as Meetup})),
+		catchError(error => throwError(() => of(myMeetupsActions.myMeetupFailed({
+			errorMessage: error.message
+		})))),
+	));
+
+		deleteMeetup$ = createEffect(() => this.actions$.pipe(
+		ofType(myMeetupsActions.deleteMyMeetup),
+		exhaustMap(({ id }) => this.meetupsService.deleteMeetup(id)),
+		map(meetupBackend => myMeetupsActions.myMeetupDeleted(meetupBackend)),
+		catchError(error => throwError(() => of(myMeetupsActions.myMeetupFailedinDeletion({
+			errorMessage: error.message
+		})))),
 
 	));
+
+	editMeetup$ = createEffect(() => this.actions$.pipe(
+		ofType(myMeetupsActions.changeMyMeetup),
+		exhaustMap(({ meetup, id }) =>
+			this.meetupsService.changeMeetup(meetup, id).pipe(
+				map(changedMeetup => myMeetupsActions.myMeetupChanged({ meetup: changedMeetup as Meetup })),
+				catchError(error => of(myMeetupsActions.myMeetupFailedInChanging({ errorMessage: error.message })))
+			)
+		)
+	));
+
 
 
 

@@ -9,8 +9,8 @@ import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInp
 import { FormsModule, UntypedFormControl } from '@angular/forms';
 import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
 import { Store } from '@ngrx/store';
-import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
 import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
+import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
 
 @Component({
 	selector: 'popup-edit-meetup',
@@ -62,10 +62,10 @@ export class PopupEditMeetupComponent {
 			users: this.meetup.users
 		}
 
-		// this._store.dispatch(MeetupsActions.changeMeetup({
-		// 	meetup: savedMeetup,
-		// 	id: savedMeetup.id
-		// }));
+		this._store.dispatch(MyMeetupsActions.changeMyMeetup({
+			meetup: savedMeetup,
+			id: savedMeetup.id
+		}));
 
 		this.context.completeWith();
 	}

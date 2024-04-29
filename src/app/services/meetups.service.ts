@@ -10,37 +10,12 @@ import { MeetupsApiService } from './meetups-api.service';
 })
 export class MeetupsService {
 
-	/**
- 	* Данные в этот триггер эмитятся каждый раз, когда нужно заново запросить митапы
- 	*/
-	private readonly _stateUpdateMeetupsTrigger: BehaviorSubject<null> = new BehaviorSubject<null>(null);
-
 	constructor(
 		private readonly _authService: AuthService,
 		private readonly _meetupsApiService: MeetupsApiService
 	) {
 	}
 
-	/**
- 	* Отдает все митапы. Данные в потоке обновляются каждый раз, когда происходит редактирование, удаление, создание митапов, а также при пойду/не пойду .
- 	*/
-	//  public getAll(): Observable<Meetup[]> { 
-	// 	return this._stateUpdateMeetupsTrigger.pipe(
-	// 		switchMap(() => this._authService.authUser$),  
-	// 		switchMap((authUser) => combineLatest([ 
-	// 			of(authUser),
-	// 			this._meetupsApiService.getAll(),
-	// 		])),
-			
-	// 		map(([authUser, meetupsForBackend]) =>
-	// 			meetupsForBackend
-	// 			.filter((meetupForBackend) => meetupForBackend.owner !== null)
-	// 			.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
-	// 				authUser, meetupForBackend
-	// 			))
-	// 		)
-	// 	)
-	// }
 	public getAll(): Observable<Meetup[]> { 
     return this._authService.authUser$.pipe(
         switchMap((authUser) => combineLatest([ 
@@ -58,21 +33,15 @@ export class MeetupsService {
 }
 	
 
-	/**
- 	* Отдает все созданные митапы авторизованного пользователя.  Данные в потоке обновляются каждый раз, когда происходит редактирование, удаление, создание митапов, а также при пойду/не пойду .
- 	*/
 	public getAllMy(): Observable<Meetup[]> {
 		return this.getAll().pipe(
 			map(meetups => meetups.filter(meetupForAuthUser => meetupForAuthUser.authUserIsOwner))
 		);
-
 	}
 
 	public registerUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
 		return this._meetupsApiService.registerUserFromMeetup(user, meetup)
-		// .pipe(
-		// 	tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
-		// );
+
 	}
 
 	public removeUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
@@ -82,21 +51,16 @@ export class MeetupsService {
 	}
 
 	public changeMeetup(meetup: MeetupBackend, id: number): Observable<MeetupBackend> {
-		return this._meetupsApiService.changeMeetup(meetup, id).pipe(
-			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
-		);
+		return this._meetupsApiService.changeMeetup(meetup, id)
 	}
 
 	public createMeetup(meetup: MeetupCreated): Observable<MeetupBackend> {
-		return this._meetupsApiService.createMeetup(meetup).pipe(
-			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)),
-		);
+		return this._meetupsApiService.createMeetup(meetup)
+		
 	}
 
 	public deleteMeetup(idMeetup: number): Observable<MeetupBackend> {
-		return this._meetupsApiService.deleteMeetup(idMeetup).pipe(
-			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
-		);
+		return this._meetupsApiService.deleteMeetup(idMeetup)
 	}
 
 

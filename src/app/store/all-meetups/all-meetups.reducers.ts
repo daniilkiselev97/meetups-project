@@ -24,8 +24,6 @@ export const allMeetupsReducer = createReducer(
 		
   })),
 
-
-
 	on(MeetupsActions.userForMeetupRegistered, (state, { meetup }) => ({
 		...state,
 		meetups: state.meetups.map(meetupInState => {
@@ -47,35 +45,6 @@ export const allMeetupsReducer = createReducer(
 			}
 		})
 	}))
-	
-
-	// 	on(MeetupsActions.userFromMeetupRemoved, (state, { meetup }) => ({
-  //   ...state,
-  //   meetups: state.meetups.filter(meetupInState => meetupInState.id !== meetup.id)
-  // }))
-
- 
-
-	// on(MeetupsActions.meetupCreated, (state: MeetupsState, { meetup }) => (
-	// 	{ 
-	// 		...state, 
-	// 		meetups: [...state.meetups, meetup] 
-	// 	}
-	// )),
-
-	// on(MeetupsActions.meetupDeleted, (state: MeetupsState, { id }) => (
-	// 	{ 
-	// 		...state, 
-	// 		meetups: state.meetups.filter(meetup => meetup.id !== id) 
-	// 	}
-	// 	)),
-
-	// on(MeetupsActions.meetupChanged, (state: MeetupsState, { meetup } ) => 
-	// 	({
-	// 		...state,
-	// 		meetups: state.meetups.map((existingMeetup) => existingMeetup.id === meetup.id ? meetup : existingMeetup)
-	// 	}))
-
 
 )
 

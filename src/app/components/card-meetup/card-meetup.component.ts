@@ -1,14 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, Inject, Injector, DestroyRef, ChangeDetectorRef, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Inject, Injector, ChangeDetectorRef, } from '@angular/core';
 import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
-import { MeetupsService } from 'src/app/services/meetups.service';
 
 import { TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
-import { finalize, of, switchMap, take } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardDatePipe } from '../../pipes/card-date.pipe';
 import { NgIf } from '@angular/common';
 
@@ -29,7 +26,6 @@ import { Store } from '@ngrx/store';
 import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
 import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
 import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
-import { MeetupsState } from 'src/app/store/all-meetups/all-meetups.model';
 
 @Component({
 	selector: 'card-meetup',
@@ -57,14 +53,10 @@ export class CardMeetupComponent {
 	public userIcon: string = 'tuiIconUserLarge';
 
 	public open: boolean = false;
-	public dialog: any;
 
 	constructor(
 		@Inject(Injector) private readonly _injector: Injector,
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
-
-		private readonly _meetupsService: MeetupsService,
-		private readonly _destroyRef: DestroyRef,
 		public readonly cdRef: ChangeDetectorRef,
 
 		private readonly confirmDialogService: PrizmConfirmDialogService,
@@ -77,35 +69,18 @@ export class CardMeetupComponent {
 	}
 
 	public openDeletePopup(meetup: Meetup): void {
-		this.dialog = this.confirmDialogService.open(
+		this.confirmDialogService.open(
 			new PolymorphComponent(PopupDeleteComponent, this._injector),
 			{
 				footer: this.footerTemp,
 				data: { message: 'Вы действительно хотите удалить митап ?' }
 			},
-		)
-		this.dialog.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			switchMap(result => {
-				if (result) {
-					// return this._storeAllMeetups.dispatch(MeetupsActions.deleteMeetup({ id: meetup.id }))
-					return this._meetupsService.deleteMeetup(meetup.id).pipe(
-						finalize(() => {
-							this.dialog.complete();
-						})
-					);
-				} else {
-					return of(null);
-				}
-			})
-		).subscribe(
-			() => {
-
-			},
-			(error: any) => {
-				console.error('Ошибка при удалении митапа:', error);
+		).subscribe((result) => {
+			if(result) {
+				this._storeMyMeetups.dispatch(MyMeetupsActions.deleteMyMeetup({ id: meetup.id }))
 			}
-		)
+		})
+		
 	}
 
 	public openEditPopup(meetup: Meetup): void {
@@ -141,7 +116,7 @@ export class CardMeetupComponent {
 
 		this._storeMyMeetups.dispatch(MeetupsActions.removeUserFromMeetup({ user, meetup }))
 
-		
+
 	}
 
 
