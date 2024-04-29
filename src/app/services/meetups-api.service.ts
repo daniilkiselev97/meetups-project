@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Meetup, MeetupBackend, MeetupCreated } from '../models/meetup.models';
-import { Observable, catchError, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../models/user.models';
 
 @Injectable({

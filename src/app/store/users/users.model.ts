@@ -1,5 +1,5 @@
-import { UsersState } from "./users.reducers";
+import { UserBackend } from "src/app/models/user.models";
 
-const initialState: UsersState = {
-  users: [],
-};
+export interface UsersState {
+  users: UserBackend[];
+}

@@ -18,42 +18,69 @@ export class UsersService {
 
 	}
 
+	// public getAll(): Observable<UserBackend[]> {
+
+	// 	return this._stateUpdateUsersTrigger.pipe(
+	// 		switchMap(() => this._authService.authUser$),
+	// 		switchMap((authUser) => {
+	// 			if (authUser === null) return of([]); //чтобы не получать всех пользователей если не автаризован
+	// 			return this._usersApiService.getAll()
+	// 		}),
+	// 		map(users => users.sort(function (a, b) {
+	// 			const emailA = a.email.toLowerCase();
+	// 			const emailB = b.email.toLowerCase();
+	// 			if (emailA < emailB) return -1;
+	// 			if (emailA > emailB) return 1;
+	// 			return 0;
+	// 		}))
+	// 	)
+	// }
+
 	public getAll(): Observable<UserBackend[]> {
-
-		return this._stateUpdateUsersTrigger.pipe(
-			switchMap(() => this._authService.authUser$),
+		return this._authService.authUser$.pipe(
 			switchMap((authUser) => {
-				if (authUser === null) return of([]); //чтобы не получать всех пользователей если не автаризован
-				return this._usersApiService.getAll()
+				if (authUser === null) {
+					return of([]); 
+				} else {
+					return this._usersApiService.getAll();
+				}
 			}),
-			map(users => users.sort(function (a, b) {
-				const emailA = a.email.toLowerCase();
-				const emailB = b.email.toLowerCase();
-				if (emailA < emailB) return -1;
-				if (emailA > emailB) return 1;
-				return 0;
-			}))
-		)
-	}
-
-
-
-
-	public updateUser(userUpdateObj: UserUpdateObj) {
-		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
-		return combineLatest([
-			this._usersApiService.updateUser(userUpdateObj),
-			of(areUpdateRoles)
-		]).pipe(
-			tap(() => this._stateUpdateUsersTrigger.next(null)),
-			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
-			switchMap(() => {
-				// Возвращаем обновленные данные о пользователе после успешного обновления
-				return this._usersApiService.updateUserRole(userUpdateObj);
-			}),
-			tap(() => this._stateUpdateUsersTrigger.next(null))
+			map(users => users.sort((a, b) => a.email.toLowerCase().localeCompare(b.email.toLowerCase())))
 		);
 	}
+	
+
+	// public updateUser(userUpdateObj: UserUpdateObj) {
+	// 	const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
+	// 	return combineLatest([
+	// 		this._usersApiService.updateUser(userUpdateObj),
+	// 		of(areUpdateRoles)
+	// 	]).pipe(
+	// 		filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
+	// 		switchMap(() => {
+	// 			return this._usersApiService.updateUserRole(userUpdateObj);
+	// 		}),
+	// 	);
+	// }
+	public updateUser(userUpdateObj: UserUpdateObj) {
+    const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
+    return forkJoin([
+        this._usersApiService.updateUser(userUpdateObj),
+        of(areUpdateRoles) // Просто оберните areUpdateRoles в поток
+    ]).pipe(
+        filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
+        switchMap(([updatedUser, _]) => { // Используйте _ для игнорирования второго элемента
+            return this._usersApiService.updateUserRole(userUpdateObj).pipe(
+                map(updatedUserRole => ({ updatedUser, updatedUserRole }))
+            );
+        }),
+        catchError(error => {
+            // Обработка ошибок, если необходимо
+            return throwError(error);
+        })
+    );
+}
+	
 
 
 	public createUser(userCreateObj: UserCreateObj) {

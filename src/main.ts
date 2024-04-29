@@ -19,6 +19,7 @@ import { reducers } from './app/store';
 // import { httpErrorInterceptor } from './app/interceptors/http-error.interceptor';
 import { MeetupsEffects } from './app/store/all-meetups/all-meetups.effects';
 import { MyMeetupsEffects } from './app/store/myMeetups/myMettups.effects';
+import { UsersEffects } from './app/store/users/users.effects';
 
 bootstrapApplication(AppComponent, {
 	providers: [
@@ -26,7 +27,7 @@ bootstrapApplication(AppComponent, {
 		provideHttpClient(withInterceptors([authInterceptor])),
 		
 		provideStore(reducers),
-		provideEffects([AuthEffects, MeetupsEffects, MyMeetupsEffects]),
+		provideEffects([AuthEffects, MeetupsEffects, MyMeetupsEffects, UsersEffects]),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideRouterStore(),
 		importProvidersFrom(TuiRootModule, TuiDialogModule, TuiAlertModule),

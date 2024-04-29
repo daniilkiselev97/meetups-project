@@ -1,20 +1,19 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
-import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { BackendRole } from 'src/app/models/roles.models';
 import { UserBackend } from 'src/app/models/user.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
-import { UsersService } from 'src/app/services/users.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
-
-//prizma
 import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
 import { PrizmCheckboxComponent } from '@prizm-ui/components';
 import { PrizmButtonModule } from '@prizm-ui/components'
+import { UsersState } from 'src/app/store/users/users.model';
+import { Store } from '@ngrx/store';
+import * as UsersActions from '../../store/users/users.actions'
 
 
 @Component({
@@ -50,8 +49,7 @@ export class PopupEditDataUserComponent implements OnInit  {
 		@Inject(POLYMORPH_CONTEXT) readonly context: any,
 		private readonly _rolesApiService: RolesApiService,
 		private readonly _fb: FormBuilder,
-		private readonly _usersService: UsersService,
-		private readonly _destroyRef: DestroyRef,
+		private readonly _store: Store<UsersState>
 	) {
 
 	}
@@ -59,10 +57,6 @@ export class PopupEditDataUserComponent implements OnInit  {
 	ngOnInit(): void {
 		this._setUserToForm(this.user);
 	}
-
-
-
-
 
 	public submitEditUser(): void {
 		const formValues = this.myForm.value as any;
@@ -73,7 +67,6 @@ export class PopupEditDataUserComponent implements OnInit  {
 				rolesToSend.push(this.devideIdAndRole(idAndRole));
 			}
 		}
-
 		const changedUser = {
 			email: formValues.email,
 			password: formValues.password,
@@ -82,16 +75,24 @@ export class PopupEditDataUserComponent implements OnInit  {
 			newRoles: rolesToSend
 		};
 
-		this._usersService.updateUser(changedUser)
-		    .pipe(
-		        takeUntilDestroyed(this._destroyRef),
-		        take(1)
-		    )
-		    .subscribe(() => {
-						this._usersService._stateUpdateUsersTrigger.next(null);
-		        this.context.completeWith();
+		this._store.dispatch(UsersActions.updateUser({userUpdateObj: changedUser}))
+		
+		this.context.completeWith();
 
-		    });
+
+
+
+
+		// this._usersService.updateUser(changedUser)
+		//     .pipe(
+		//         takeUntilDestroyed(this._destroyRef),
+		//         take(1)
+		//     )
+		//     .subscribe(() => {
+		// 				// this._usersService._stateUpdateUsersTrigger.next(null);
+		//         this.context.completeWith();
+
+		//     });
 
 	}
 

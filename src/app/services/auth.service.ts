@@ -24,13 +24,6 @@ export class AuthService {
 	private readonly _stateToken: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 	public readonly authUser$: Observable<User | null> = this._store.select(selectUser)
 
-	// public readonly authUser$: Observable<User | null> = this._stateAuthUser.asObservable();
-	// public readonly isAuth$: Observable<boolean> = this._store.select(selectIsAuth).pipe(
-	// map((user) => {
-	// 	if (user === null) return false;
-	// 	return true;
-	// })
-	// );
 	public readonly isAuth$: Observable<boolean> = this._store.select(selectIsAuth)
 	public token$: Observable<string | null> = this._store.select(selectToken);
 
@@ -52,7 +45,7 @@ export class AuthService {
 		return this._http.post<any>(`${this._baseUrl}/login`, user).pipe(
 			map((authToken: AuthToken) => {
 				const syncLoginInfo = this._syncLogin(authToken.token, true);
-				this._router.navigateByUrl('my-meetups');
+				this._router.navigateByUrl('users');
 				return syncLoginInfo;
 			}),
 			catchError((err) => {
