@@ -31,9 +31,8 @@ export class HeaderComponent {
 
 	}
 
-	public logout(): void {
-		// this._authService.logout()
-		this._store.dispatch(Actions.logout());
+	public logout()  {
+		 this._store.dispatch(Actions.logout());
   }
 
 }

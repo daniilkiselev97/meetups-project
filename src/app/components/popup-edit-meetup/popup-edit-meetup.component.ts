@@ -62,10 +62,10 @@ export class PopupEditMeetupComponent {
 			users: this.meetup.users
 		}
 
-		this._store.dispatch(MeetupsActions.changeMeetup({
-			meetup: savedMeetup,
-			id: savedMeetup.id
-		}));
+		// this._store.dispatch(MeetupsActions.changeMeetup({
+		// 	meetup: savedMeetup,
+		// 	id: savedMeetup.id
+		// }));
 
 		this.context.completeWith();
 	}

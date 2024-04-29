@@ -8,8 +8,10 @@ import { Router } from '@angular/router';
 import { User, UserAuthBackend } from '../models/user.models';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../store/auth/auth.models';
-import * as Actions from '../store/auth/auth.actions'
+import * as AuthActions from '../store/auth/auth.actions'
 import { selectIsAuth, selectToken, selectUser } from '../store/auth/auth.selectors';
+import * as Actions from '../store/auth/auth.actions'
+
 
 
 @Injectable({
@@ -50,7 +52,7 @@ export class AuthService {
 		return this._http.post<any>(`${this._baseUrl}/login`, user).pipe(
 			map((authToken: AuthToken) => {
 				const syncLoginInfo = this._syncLogin(authToken.token, true);
-				this._router.navigateByUrl('my-meetups');
+				this._router.navigateByUrl('all-meetups');
 				return syncLoginInfo;
 			}),
 			catchError((err) => {
@@ -74,12 +76,11 @@ export class AuthService {
 	}
 
 	public logout(): void {
-		this._stateAuthUser.next(null);
-		this._stateToken.next(null);
 		this._localStorageService.delete(this._localStorageKey);
 		this._router.navigateByUrl('login');
 	}
-
+	
+	
 
 
 	private _init(): void {

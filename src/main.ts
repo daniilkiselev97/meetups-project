@@ -9,26 +9,24 @@ import { TUI_SANITIZER, TuiAlertModule, TuiDialogModule, TuiRootModule, } from '
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { importProvidersFrom, isDevMode } from '@angular/core';
-import { authInterceptor } from './app/interceptors/auth.interceptor';
-import { httpErrorInterceptor } from './app/interceptors/http-error.interceptor';
+import {  authInterceptor } from './app/interceptors/auth.interceptor';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideRouterStore } from '@ngrx/router-store';
-import { authReducer } from './app/store/auth/auth.reducers';
 import { AuthEffects } from './app/store/auth/auth.effects';
 import { reducers } from './app/store';
-
-
-
-
+// import { httpErrorInterceptor } from './app/interceptors/http-error.interceptor';
+import { MeetupsEffects } from './app/store/all-meetups/all-meetups.effects';
+import { MyMeetupsEffects } from './app/store/myMeetups/myMettups.effects';
 
 bootstrapApplication(AppComponent, {
 	providers: [
 		provideAnimations(),
-		provideHttpClient(withInterceptors([authInterceptor, httpErrorInterceptor])),
+		provideHttpClient(withInterceptors([authInterceptor])),
+		
 		provideStore(reducers),
-		provideEffects([AuthEffects]),
+		provideEffects([AuthEffects, MeetupsEffects, MyMeetupsEffects]),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideRouterStore(),
 		importProvidersFrom(TuiRootModule, TuiDialogModule, TuiAlertModule),
@@ -42,5 +40,6 @@ bootstrapApplication(AppComponent, {
 			provide: TUI_DIALOG_CLOSES_ON_BACK,
 			useValue: of(true),
 		},
+
 	]
 }).catch(err => console.error(err));

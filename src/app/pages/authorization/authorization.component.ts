@@ -2,17 +2,14 @@ import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
-import { of, take } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { of } from 'rxjs';
+import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 import * as AuthActions from '../../store/auth/auth.actions'
 
-//prizma 
 import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule  } from '@prizm-ui/components'
-import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserLogin } from 'src/app/models/auth.models';
 import { Store } from '@ngrx/store';
@@ -60,9 +57,8 @@ export class AuthorizationComponent {
 	});
 
 	constructor(
-		private _authService: AuthService, 
-		private readonly _destroyRef: DestroyRef,
-		private _store: Store<AuthState>
+		private _store: Store<AuthState>,
+
 
 	) {
 		(window as any).myForm = this.myForm
@@ -91,8 +87,7 @@ export class AuthorizationComponent {
 		// 	takeUntilDestroyed(this._destroyRef),
 		// 	take(1)
 		// ).subscribe();
-		this._store.dispatch(AuthActions.login({userLogin}));
-
+		this._store.dispatch(AuthActions.login({userLogin}))
 	}
 }
 

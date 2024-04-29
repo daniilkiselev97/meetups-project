@@ -68,9 +68,7 @@ export class CardMeetupComponent {
 		public readonly cdRef: ChangeDetectorRef,
 
 		private readonly confirmDialogService: PrizmConfirmDialogService,
-		private readonly destroy$: PrizmDestroyService,
 		private readonly iconRegistry: PrizmIconsSvgRegistry,
-		private readonly _storeAllMeetups: Store<MeetupsState>,
 		private readonly _storeMyMeetups: Store<MyMeetupsState>,
 	) {
 		this.iconRegistry.registerIcons([
@@ -134,23 +132,16 @@ export class CardMeetupComponent {
 	public registerUserForMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
 
-		// this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({ user, meetup }))
+		this._storeMyMeetups.dispatch(MeetupsActions.registerUserForMeetup({ user, meetup }))
 
-		this._meetupsService.registerUserFromMeetup(user, meetup).pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe();
 	}
 
 	public removeUserFromMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
 
-		// this._storeMyMeetups.dispatch(MyMeetupsActions.registerUserForMeetup({ user, meetup }))
+		this._storeMyMeetups.dispatch(MeetupsActions.removeUserFromMeetup({ user, meetup }))
 
-		this._meetupsService.removeUserFromMeetup(user, meetup).pipe(
-			takeUntilDestroyed(this._destroyRef),
-			take(1)
-		).subscribe();
+		
 	}
 
 

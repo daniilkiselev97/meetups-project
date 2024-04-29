@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, exhaustMap, map, of, switchMap, tap, throwError } from "rxjs";
+import { catchError, exhaustMap, map, of, tap, throwError } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 import * as AuthActions from 'src/app/store/auth/auth.actions';
 
@@ -8,7 +8,8 @@ import * as AuthActions from 'src/app/store/auth/auth.actions';
 export class AuthEffects {
 	constructor(
 		private readonly _actions$: Actions,
-		private readonly _authService: AuthService
+		private readonly _authService: AuthService,
+
 	) { }
 
 	public login$ = createEffect(() => (
@@ -22,15 +23,15 @@ export class AuthEffects {
 		)
 	));
 
+
 	public logout$ = createEffect(() => (
 		this._actions$.pipe(
 			ofType(AuthActions.logout),
 			tap(() => this._authService.logout()),
 			map(() => AuthActions.logoutSuccess()),
-			
 		)
 	));
-
+	
 
 	public signup$ = createEffect(() => (
 		this._actions$.pipe(
@@ -39,7 +40,7 @@ export class AuthEffects {
 			map(userInfo => AuthActions.signupSuccess({ userInfo })),
 			catchError(error => throwError(() => of(AuthActions.signupFailed({
 				errorMessage: error.message
-			}))))
+			})))),
 		)
 	));
 }

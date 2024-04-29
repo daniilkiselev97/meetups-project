@@ -8,7 +8,7 @@ import { Meetup } from 'src/app/models/meetup.models';
 
 
 @Injectable()
-export class myMeetupsEffects {
+export class MyMeetupsEffects {
 	constructor(
 		private actions$: Actions,
 		private meetupsService: MeetupsService
@@ -25,25 +25,9 @@ export class myMeetupsEffects {
 
 	));
 
-	registerMeetup$ = createEffect(() => this.actions$.pipe(
-    ofType(myMeetupsActions.registerUserForMeetup),
-		exhaustMap(({user, meetup}) => this.meetupsService.registerUserFromMeetup(user,meetup)),
-		map((registeredMeetup) => myMeetupsActions.userForMeetupRegistered({meetup: registeredMeetup as Meetup})),
-		catchError(error => throwError(() => of(myMeetupsActions.myMeetupsFailed({
-			errorMessage: error.message
-		}))))
-    
-  ));
 
-	removeMeetup$ = createEffect(() => this.actions$.pipe(
-		ofType(myMeetupsActions.removeUserFromMeetup),
-		exhaustMap(({ user, meetup }) => this.meetupsService.removeUserFromMeetup(user, meetup)),
-		map((deletedMeetup) => myMeetupsActions.userFromMeetupRemoved({meetup: deletedMeetup as Meetup})),
-		catchError(error => throwError(() => of(myMeetupsActions.myMeetupsFailed({
-			errorMessage: error.message
-		}))))
 
-	));
+
 
 
 

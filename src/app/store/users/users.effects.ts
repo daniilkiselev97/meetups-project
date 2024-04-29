@@ -24,7 +24,6 @@ export class UsersEffects {
 	updateUser$ = createEffect(() => this.actions$.pipe(
 		ofType(UsersActions.updateUser),
 		exhaustMap(({userUpdateObj}) => this.usersService.updateUser(userUpdateObj)),
-		// map(() => )
 	))
 
 	// deleteUser$ = createEffect(() => this.actions$.pipe(

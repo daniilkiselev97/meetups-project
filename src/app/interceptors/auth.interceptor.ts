@@ -1,13 +1,14 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { switchMap, tap } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const authService = inject(AuthService);
 
 	return authService.token$.pipe(
+		take(1),
 		tap((token) => {
 			const isApiUrl = request.url.startsWith(environment.backendOrigin);
 			if (token && isApiUrl) {
@@ -19,3 +20,16 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
 		switchMap(() => next(request))
 	)
 };
+
+
+
+
+
+
+
+
+
+
+
+
+

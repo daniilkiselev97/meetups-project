@@ -24,24 +24,39 @@ export class MeetupsService {
 	/**
  	* Отдает все митапы. Данные в потоке обновляются каждый раз, когда происходит редактирование, удаление, создание митапов, а также при пойду/не пойду .
  	*/
-	 public getAll(): Observable<Meetup[]> { 
-		return this._stateUpdateMeetupsTrigger.pipe(
-			switchMap(() => this._authService.authUser$),  
-			switchMap((authUser) => combineLatest([ 
-				of(authUser),
-				this._meetupsApiService.getAll(),
-			])),
+	//  public getAll(): Observable<Meetup[]> { 
+	// 	return this._stateUpdateMeetupsTrigger.pipe(
+	// 		switchMap(() => this._authService.authUser$),  
+	// 		switchMap((authUser) => combineLatest([ 
+	// 			of(authUser),
+	// 			this._meetupsApiService.getAll(),
+	// 		])),
 			
-			// withLatestFrom(this._meetupsApiService.getAll())// не работатет, если закомментировать switchMap выше
-			map(([authUser, meetupsForBackend]) =>
-				meetupsForBackend
-				.filter((meetupForBackend) => meetupForBackend.owner !== null)
-				.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
-					authUser, meetupForBackend
-				))
-			)
-		)
-	}
+	// 		map(([authUser, meetupsForBackend]) =>
+	// 			meetupsForBackend
+	// 			.filter((meetupForBackend) => meetupForBackend.owner !== null)
+	// 			.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
+	// 				authUser, meetupForBackend
+	// 			))
+	// 		)
+	// 	)
+	// }
+	public getAll(): Observable<Meetup[]> { 
+    return this._authService.authUser$.pipe(
+        switchMap((authUser) => combineLatest([ 
+            of(authUser),
+            this._meetupsApiService.getAll(),
+        ])),
+        map(([authUser, meetupsForBackend]) =>
+            meetupsForBackend
+            .filter((meetupForBackend) => meetupForBackend.owner !== null)
+            .map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
+                authUser, meetupForBackend
+            ))
+        ),
+    );
+}
+	
 
 	/**
  	* Отдает все созданные митапы авторизованного пользователя.  Данные в потоке обновляются каждый раз, когда происходит редактирование, удаление, создание митапов, а также при пойду/не пойду .
@@ -55,16 +70,14 @@ export class MeetupsService {
 
 	public registerUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
 		return this._meetupsApiService.registerUserFromMeetup(user, meetup)
-		.pipe(
-			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
-		);
+		// .pipe(
+		// 	tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null))
+		// );
 	}
 
 	public removeUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
 		return this._meetupsApiService.removeUserFromMeetup(user, meetup)
-		.pipe(
-			tap(meetupBackend => this._stateUpdateMeetupsTrigger.next(null)) 
-		);
+	
 
 	}
 

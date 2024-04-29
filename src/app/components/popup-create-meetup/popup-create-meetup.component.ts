@@ -66,7 +66,7 @@ export class PopupCreateMeetupComponent {
 		}
 
 		// this._meetupsService.createMeetup(savedMeetup)
-		this._store.dispatch(MeetupsActions.createMeetup({ meetup: savedMeetup }))
+		// this._store.dispatch(MeetupsActions.createMeetup({ meetup: savedMeetup }))
 		this.context.completeWith();
 	}
 

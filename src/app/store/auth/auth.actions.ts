@@ -10,3 +10,4 @@ export const signupSuccess = createAction('[Auth] Signup Success', props<{ userI
 export const signupFailed = createAction('[Auth] Signup Failed', props<{ errorMessage: string }>());
 export const logout = createAction('[Auth] Logout');
 export const logoutSuccess = createAction('[Auth] Logout Success');
+export const logoutFailed = createAction('[Auth] Logout Failed', props<{ errorMessage: string }>());

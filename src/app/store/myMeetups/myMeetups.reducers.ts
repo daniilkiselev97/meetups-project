@@ -3,7 +3,7 @@ import * as MymetupsActions from './myMeetups.actions';
 import { Meetup, MeetupBackend } from 'src/app/models/meetup.models';
 import { MyMeetupsState } from './myMeetups.model';
 
-export const meetupsNode = 'myMeetups';
+export const myMeetupsNode = 'myMeetups';
 
 
 export const initialState: MyMeetupsState = {
@@ -19,15 +19,9 @@ export const myMeetupsReducer = createReducer(
 		}
 	)),
 
-	on(MymetupsActions.userForMeetupRegistered, (state, { meetup }) => ({
-    ...state,
-    myMeetups: [...state.myMeetups, meetup],
-  })),
 
-	on(MymetupsActions.userFromMeetupRemoved, (state, { meetup }) => ({
-    ...state,
-    myMeetups: state.myMeetups.filter(meetupInState => meetupInState.id !== meetup.id)
-  }))
+
+
 
 	
 
