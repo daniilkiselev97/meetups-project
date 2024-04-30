@@ -51,7 +51,8 @@ export class UsersApiService {
 		
 		return this._http.post<AssigningRolesToBackend>(`${this._baseUrl}/role`, {
 			names: rolesNames,
-			userId: userUpdateObj.id
+			userId: userUpdateObj.id,
+			userUpdateObj: userUpdateObj
 		})
 	}
 

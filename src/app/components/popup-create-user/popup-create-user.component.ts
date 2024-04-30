@@ -8,12 +8,14 @@ import { UsersService } from 'src/app/services/users.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
-
-//prizma
 import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
 import { PrizmCheckboxComponent } from '@prizm-ui/components';
 import { PrizmButtonModule } from '@prizm-ui/components'
+import { Store } from '@ngrx/store';
+import { UsersState } from 'src/app/store/users/users.model';
+import * as UsersActions from '../../store/users/users.actions'
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 
 @Component({
@@ -50,7 +52,8 @@ export class PopupCreateUserComponent {
 		private readonly _userService: UsersService,
 		private readonly _fb: FormBuilder,
 		private readonly _destroyRef: DestroyRef,
-		private cdr: ChangeDetectorRef
+		private cdr: ChangeDetectorRef,
+		private readonly _store: Store<UsersState>
 	) { }
 
 
@@ -74,16 +77,17 @@ export class PopupCreateUserComponent {
 			newRoles: rolesBackend
 		};
 
-		this._userService.createUser(creatededUser)
-			.pipe(
-				takeUntilDestroyed(this._destroyRef),
-				take(1)
-			)
-			.subscribe((result) => {
-				// console.log('Результат создания пользователя:', result);
-				// console.log('подписка')
-				this.context.completeWith();
-			});
+		this._store.dispatch(UsersActions.createUser({userCreateObj: creatededUser}))
+		this.context.completeWith()
+
+		// this._userService.createUser(creatededUser)
+		// 	.pipe(
+		// 		takeUntilDestroyed(this._destroyRef),
+		// 		take(1)
+		// 	)
+		// 	.subscribe((result) => {
+		// 		this.context.completeWith();
+		// 	});
 
 	}
 

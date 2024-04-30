@@ -30,6 +30,7 @@ export class PopupEditDataUserComponent implements OnInit  {
 	public user: UserBackend = this.context.data;
 	public allRoles$: Observable<BackendRole[]> = this._rolesApiService.getAll().pipe(
 		tap(roles => this._setRolesToForm(roles)),
+	
 	);
 	public myForm = new FormGroup({
 		email: new FormControl('', [Validators.email]),
@@ -80,20 +81,6 @@ export class PopupEditDataUserComponent implements OnInit  {
 		this.context.completeWith();
 
 
-
-
-
-		// this._usersService.updateUser(changedUser)
-		//     .pipe(
-		//         takeUntilDestroyed(this._destroyRef),
-		//         take(1)
-		//     )
-		//     .subscribe(() => {
-		// 				// this._usersService._stateUpdateUsersTrigger.next(null);
-		//         this.context.completeWith();
-
-		//     });
-
 	}
 
 	public devideIdAndRole(idAndRole: string): BackendRole {
@@ -123,4 +110,5 @@ export class PopupEditDataUserComponent implements OnInit  {
 		this._stateDefaultRoles.next(roles);
 
 	}
+	
 }

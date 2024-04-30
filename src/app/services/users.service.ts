@@ -3,6 +3,7 @@ import { UsersApiService } from './users-api.service';
 import { BehaviorSubject, Observable, catchError, combineLatest, filter, forkJoin, map, of, switchMap, tap, throwError } from 'rxjs';
 import { UserBackend, UserCreateObj, UserUpdateObj } from '../models/user.models';
 import { AuthService } from './auth.service';
+import { AssigningRolesToBackend } from '../models/roles.models';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,23 +19,6 @@ export class UsersService {
 
 	}
 
-	// public getAll(): Observable<UserBackend[]> {
-
-	// 	return this._stateUpdateUsersTrigger.pipe(
-	// 		switchMap(() => this._authService.authUser$),
-	// 		switchMap((authUser) => {
-	// 			if (authUser === null) return of([]); //чтобы не получать всех пользователей если не автаризован
-	// 			return this._usersApiService.getAll()
-	// 		}),
-	// 		map(users => users.sort(function (a, b) {
-	// 			const emailA = a.email.toLowerCase();
-	// 			const emailB = b.email.toLowerCase();
-	// 			if (emailA < emailB) return -1;
-	// 			if (emailA > emailB) return 1;
-	// 			return 0;
-	// 		}))
-	// 	)
-	// }
 
 	public getAll(): Observable<UserBackend[]> {
 		return this._authService.authUser$.pipe(
@@ -50,49 +34,33 @@ export class UsersService {
 	}
 	
 
-	// public updateUser(userUpdateObj: UserUpdateObj) {
-	// 	const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
-	// 	return combineLatest([
-	// 		this._usersApiService.updateUser(userUpdateObj),
-	// 		of(areUpdateRoles)
-	// 	]).pipe(
-	// 		filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
-	// 		switchMap(() => {
-	// 			return this._usersApiService.updateUserRole(userUpdateObj);
-	// 		}),
-	// 	);
-	// }
 	public updateUser(userUpdateObj: UserUpdateObj) {
     const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
     return forkJoin([
         this._usersApiService.updateUser(userUpdateObj),
-        of(areUpdateRoles) // Просто оберните areUpdateRoles в поток
+        of(areUpdateRoles) 
     ]).pipe(
         filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
-        switchMap(([updatedUser, _]) => { // Используйте _ для игнорирования второго элемента
+        switchMap(([updatedUser, _]) => { 
             return this._usersApiService.updateUserRole(userUpdateObj).pipe(
                 map(updatedUserRole => ({ updatedUser, updatedUserRole }))
             );
         }),
         catchError(error => {
-            // Обработка ошибок, если необходимо
             return throwError(error);
         })
     );
 }
 	
-
-
 	public createUser(userCreateObj: UserCreateObj) {
 		const areUpdateRoles = userCreateObj.newRoles.length !== 0;
 		return combineLatest([
 			this._usersApiService.createUser(userCreateObj),
 			of(areUpdateRoles)
 		]).pipe(
-			tap(() => this._stateUpdateUsersTrigger.next(null)),
 			switchMap(([updatedUser, areUpdateRoles]) => {
 				if (!areUpdateRoles) {
-					return of(updatedUser); // Вернуть наблюдаемое с одним значением
+					return of(updatedUser); 
 				}
 				return this.getAll().pipe(
 					switchMap((users) => {
@@ -110,14 +78,14 @@ export class UsersService {
 					})
 				);
 			}),
-			tap(() => this._stateUpdateUsersTrigger.next(null)),
 		);
 	}
+	
+	
+	
 
 
 	public deleteUser(idUser: number) {
-		return this._usersApiService.deleteUser(idUser).pipe(
-			tap(user => this._stateUpdateUsersTrigger.next(null))
-		);
+		return this._usersApiService.deleteUser(idUser)
 	}
 }

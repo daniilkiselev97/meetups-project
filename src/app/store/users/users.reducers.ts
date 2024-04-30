@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as UsersActions from './users.actions';
 import { UserBackend } from '../../models/user.models';
 import { UsersState } from './users.model';
+import { state } from '@angular/animations';
 
 export const usersNode = 'users';
 
@@ -18,14 +19,18 @@ export const usersReducer = createReducer(
 		users,
 	})),
 
-	on(UsersActions.userUpdated, (state, { updatedUser, updatedUserRole }) => {
+	on(UsersActions.userUpdated, (state: UsersState, { updatedUser, updatedUserRole }) => {
+		const newRoles = updatedUserRole.names.map((newRole) => ({
+			name: newRole,
+			id: updatedUserRole.userId
+		}))
 		const updatedUsers = state.users.map(user => {
 			if (user.id === updatedUser.id) {
-				return { 
+				return {
 					...user,
 					...updatedUser,
-					// roles: updatedUserRole
-					};
+					roles: [...newRoles]
+				};
 			}
 			return user;
 		});
@@ -36,9 +41,23 @@ export const usersReducer = createReducer(
 		};
 	}),
 
+	on(UsersActions.userDeleted, (state: UsersState, { userMeetup }) => ({
+		...state,
+		users: state.users.filter((user) => user.id !== userMeetup.id)
+	})),
 
-
-
-
-
+	on(UsersActions.userCreated, (state, { userCreateObj }) => {
+		const newUser: UserBackend = {
+			id: userCreateObj.id,
+			email: userCreateObj.userUpdateObj?.email || userCreateObj.email,
+			fio: userCreateObj.userUpdateObj?.fio || userCreateObj.fio,
+			roles: userCreateObj?.names.map((name: string) => ({ name: name, id: userCreateObj.id })) || [{ name: 'USER' }],
+			password: ''
+		};
+		return {
+			...state,
+			users: [...state.users, newUser]
+		};
+	})
 );
+

@@ -4,8 +4,7 @@ import { PopupEditDataUserComponent } from 'src/app/components/popup-edit-user/p
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize, of, switchMap, take } from 'rxjs';
-import { UsersService } from 'src/app/services/users.service';
+import { take } from 'rxjs';
 import { TuiSvgModule } from '@taiga-ui/core/components/svg';
 import { TuiInputModule } from '@taiga-ui/kit';
 import { NgIf } from '@angular/common';
@@ -20,6 +19,9 @@ import {
 	PrizmIconsSvgRegistry,
 } from '@prizm-ui/icons';
 import { PrizmButtonModule } from '@prizm-ui/components';
+import { Store } from '@ngrx/store';
+import { UsersState } from 'src/app/store/users/users.model';
+import * as UsersActions from '../../store/users/users.actions'
 
 
 
@@ -38,15 +40,15 @@ export class CardUserComponent implements OnChanges {
 	@ViewChild('footerTemp', { read: TemplateRef }) footerTemp!: TemplateRef<any>;
 	@Input({ required: true }) user!: UserBackend;
 	readonly PrizmIconSvgEnum = PrizmIconSvgEnum;
-	dialog: any;
+	// dialog: any;
 
 	constructor(
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _destroyRef: DestroyRef,
-		private readonly _usersService: UsersService,
 		private readonly iconRegistry: PrizmIconsSvgRegistry,
 		private readonly confirmDialogService: PrizmConfirmDialogService,
+		private readonly _store: Store<UsersState>
 	) {
 		this.iconRegistry.registerIcons([
 			prizmIconSvgEditorDecorBroom,
@@ -84,35 +86,18 @@ export class CardUserComponent implements OnChanges {
 
 	public popupDeleteUser(user: UserBackend): void {
 
-		this.dialog = this.confirmDialogService.open(
+		const dialog = this.confirmDialogService.open(
 			new PolymorphComponent(PopupDeleteComponent, this._injector),
 			{
 				footer: this.footerTemp,
 				data: { message: 'Вы действительно хотите удалить пользователя ?' }
 			},
-		)
-		this.dialog.pipe(
-			takeUntilDestroyed(this._destroyRef),
-			switchMap(result => {
-				if (result) {
-					return this._usersService.deleteUser(user.id).pipe(
-						finalize(() => {
-							// Закрываем модальное окно после выполнения операции удаления
-							this.dialog.complete();
-						})
-					);
-				} else {
-					return of(null); // Возвращаем Observable, чтобы цепочка не была оборвана
-				}
-			})
-		).subscribe(
-			() => {
-				// Успешно выполнено
-			},
-			(error: any) => {
-				console.error('Ошибка при удалении митапа:', error);
+		).subscribe((result)=>{
+			if(result) {
+				this._store.dispatch(UsersActions.deleteUser({id: user.id}))
 			}
-		)
+		})
+
 	}
 
 

@@ -12,36 +12,28 @@ export const loadUsersFailure = createAction('[Users] Get Users Failure', props<
 
 export const updateUser = createAction('[Users] Update User', props<{ userUpdateObj: UserUpdateObj }>());
 
-// export const updateUserRole = createAction(
-//   '[User] Update User Role',
-//   props<{ userUpdateObj: UserUpdateObj }>()
-// );
 
-// export const updateUserAndRoleSuccess = createAction(
-//   '[User] Update User and Role Success',
-//   props<{ updatedUser: UserUpdateObj }>()
-// );
+export const userUpdated = createAction('[Users] User Updated ', props<{
+	updatedUser: UserBackendUpdate;
+	updatedUserRole: AssigningRolesToBackend;
+}>());
 
-export const userUpdated = createAction('[Users] User Updated ', props<{ updatedUser: 							 UserBackendUpdate;
-	updatedUserRole: AssigningRolesToBackend; }>());
-		
 export const userFailedInUpdate = createAction('[Users] User Failed And Not Updated', props<{ errorMessage: string }>());
 
+export const deleteUser = createAction('[Users] Delete User', props<{ id: number }>());
+
+export const userDeleted = createAction('[Users] User Deleted', props<{ userMeetup: MeetupBackendUser }>());
+
+export const userFailedinDeletion = createAction('[Users] User Failed And Not Deleted', props<{ errorMessage: string }>());
 
 
 
+export const createUser = createAction('[Users] Create User', props<{ userCreateObj: UserCreateObj }>());
+
+export const userCreated = createAction('[Users] User Created', props<{userCreateObj : any }> () );
+
+export const userFailedinCreation = createAction('[Users] User Failed And Not Created', props<{
+	errorMessage: string
+}>());
 
 
-
-
-// export const updateUserAndRoleFailure = createAction(
-//   '[User] Update User and Role Failure',
-//   props<{ error: any }>()
-// );
-
-// export const createUser = createAction('[Users] Create User', props<{ userCreateObj: UserCreateObj }>());
-// export const userCreared = createAction('[Users] User Created', props<{ userCreateObj: UserCreateObj }>());
-
-// export const deleteUser = createAction('[Users] Delete User', props<{ idUser: number }>());
-
-// export const userDeletd = createAction('[Users] User Deleted ', props<{ user: Observable<MeetupBackendUser> }>());

@@ -121,7 +121,7 @@ export class AuthService {
 			id: userBackend.id,
 			email: userBackend.email,
 			rolesObj: rolesObj,
-			rolesArr: userBackend.roles
+			// rolesArr: userBackend.roles
 		};
 	}
 

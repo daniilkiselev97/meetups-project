@@ -1,44 +1,46 @@
 <div class="section-form bg-color-main">
-	<form [formGroup]="myForm" class="container edit-user ">
-		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Email:</span>
-			<div class="b-form">
-				<prizm-input-layout>
-					<input prizmInput [formControl]="myForm.controls.email" type="email" />
-				</prizm-input-layout>
-			</div> <!--.b-form-->
-		</div> <!--.edit-user__item-->
-
-		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Пароль:</span>
-			<div class="b-form">
-
-				<prizm-input-layout>
-					<input prizmInput [formControl]="myForm.controls.password" type="password" />
-				</prizm-input-layout>
-
-			</div> <!--.b-form-->
-		</div> <!--.edit-user__item-->
-
-		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Имя:</span>
-			<div class="b-form">
-
-				<prizm-input-layout>
-					<input prizmInput [formControl]="myForm.controls.fio" type="password" type="text" />
-				</prizm-input-layout>
-
-			</div> <!--.b-form-->
-		</div> <!--.edit-user__item-->
-
-		<ng-container *ngIf="allRoles$ | async as roles">
-			<div [formGroup]="myForm.controls.roles" class="edit-user__item">
-				<ng-container *ngFor="let role of roles">
-					<prizm-checkbox [formControlName]="role.id + '-' + role.name " [size]="'l'">{{role.name}}</prizm-checkbox>
-				</ng-container>
-			</div>
-		</ng-container>
-	</form>
+	<!-- <ng-container *ngIf="isDataLoaded"> -->
+		<form [formGroup]="myForm" class="container edit-user ">
+			<div class="edit-user__item">
+				<span class="tui-text_body-l-2">Email:</span>
+				<div class="b-form">
+					<prizm-input-layout>
+						<input prizmInput [formControl]="myForm.controls.email" type="email" />
+					</prizm-input-layout>
+				</div> <!--.b-form-->
+			</div> <!--.edit-user__item-->
+	
+			<div class="edit-user__item">
+				<span class="tui-text_body-l-2">Пароль:</span>
+				<div class="b-form">
+	
+					<prizm-input-layout>
+						<input prizmInput [formControl]="myForm.controls.password" type="password" />
+					</prizm-input-layout>
+	
+				</div> <!--.b-form-->
+			</div> <!--.edit-user__item-->
+	
+			<div class="edit-user__item">
+				<span class="tui-text_body-l-2">Имя:</span>
+				<div class="b-form">
+	
+					<prizm-input-layout>
+						<input prizmInput [formControl]="myForm.controls.fio" type="password" type="text" />
+					</prizm-input-layout>
+	
+				</div> <!--.b-form-->
+			</div> <!--.edit-user__item-->
+	
+			<ng-container *ngIf="allRoles$ | async as roles">
+				<div [formGroup]="myForm.controls.roles" class="edit-user__item">
+					<ng-container *ngFor="let role of roles">
+						<prizm-checkbox [formControlName]="role.id + '-' + role.name " [size]="'l'">{{role.name}}</prizm-checkbox>
+					</ng-container>
+				</div>
+			</ng-container>
+		</form>
+	<!-- </ng-container> -->
 
 	<div class="form-container__btn">
 		<button class="btn_border" type="button" [disabled]="disabledForm" (click)="submitEditUser()" prizmButton appearance="primary" size="l">Подтвердить</button>

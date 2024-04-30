@@ -4,14 +4,14 @@ export interface User  {
   id: number;
   email: string;
   rolesObj: UserRoles;
-	rolesArr: UserBackendRoleItem[];
+	rolesArr?: UserBackendRoleItem[] ;
 }
 
 
 export interface MeetupBackendUser {
 	id: number;
 	email: string;
-	password: string;
+	password?: string;
 	fio: string;
 }
 
@@ -28,19 +28,19 @@ export interface UserAuthBackend {
 
 
 export interface UserBackendAuthRoleItem {
-  UserRole: UserBackendAuthRole;
-  createdAt: Date;
+  UserRole?: UserBackendAuthRole;
+  createdAt?: Date;
   id: number;
   name: string;
   updatedAt: Date;
 }
 
 export interface UserBackendAuthRole {
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   id: number;
-  roleId: number;
-  userId: number
+  roleId?: number;
+  userId?: number
 }
 
 export interface UserBackend {
@@ -52,18 +52,18 @@ export interface UserBackend {
 }
 
 export interface UserBackendRoleItem {
-	UserRole: UserBackendRole;
-  createdAt: Date;
+	UserRole?: UserBackendRole;
+  createdAt?: Date;
   id: number;
   name: string;
-  updatedAt: Date;
+  updatedAt?: Date;
 
 }
 
 export interface UserBackendRole {
-	createdAt: Date;
-  updatedAt: Date;
-  id: number;
+	createdAt?: Date;
+  updatedAt?: Date;
+  id?: number;
   roleId: number;
   userId: number
 }

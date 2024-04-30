@@ -24,16 +24,27 @@ export class UsersEffects {
 	updateUser$ = createEffect(() => this.actions$.pipe(
 		ofType(UsersActions.updateUser),
 		exhaustMap(({userUpdateObj}) => this.usersService.updateUser(userUpdateObj)),
-		tap(console.log),
 		map((userUpdateObj) => UsersActions.userUpdated(userUpdateObj))),
-		// catchError(error => of(UsersActions.userFailedInUpdate({ errorMessage: error.message })))
+		
 	)
 
-	// deleteUser$ = createEffect(() => this.actions$.pipe(
-	// 	ofType(UsersActions.deleteUser),
-	// 	exhaustMap(({idUser}) => this.usersService.deleteUser(idUser)),
-	// 	map(() => UsersActions.userDeletd({ idUser })),
-	// ))
+	deleteUser$ = createEffect(() => this.actions$.pipe(
+		ofType(UsersActions.deleteUser),
+		exhaustMap(({id}) => this.usersService.deleteUser(id)),
+		map((userMeetup) => UsersActions.userDeleted({userMeetup})),
+		tap(console.log),
+		catchError(error => of(UsersActions.userFailedinDeletion({ errorMessage: error.message })))
+	))
+
+	createUser$ = createEffect(() => this.actions$.pipe(
+		ofType(UsersActions.createUser),
+		exhaustMap(({ userCreateObj }) => this.usersService.createUser(userCreateObj)),
+		tap(console.log),
+		map(userCreateObj => UsersActions.userCreated({userCreateObj})),
+		catchError(error => of(UsersActions.userFailedinDeletion({ errorMessage: error.message })))
+	));
+
+	
 
 
 

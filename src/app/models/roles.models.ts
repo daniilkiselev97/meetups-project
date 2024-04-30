@@ -6,4 +6,5 @@ export interface BackendRole {
 export interface AssigningRolesToBackend {
 	names: string[];
 	userId: number;
+	userUpdateObj?: string
 }
