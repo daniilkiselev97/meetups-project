@@ -113,12 +113,8 @@ export class CardMeetupComponent {
 
 	public removeUserFromMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
-
+		
 		this._storeMyMeetups.dispatch(MeetupsActions.removeUserFromMeetup({ user, meetup }))
-
-
 	}
-
-
 }
 
