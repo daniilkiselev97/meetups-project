@@ -45,7 +45,7 @@ export class AuthService {
 		return this._http.post<any>(`${this._baseUrl}/login`, user).pipe(
 			map((authToken: AuthToken) => {
 				const syncLoginInfo = this._syncLogin(authToken.token, true);
-				this._router.navigateByUrl('users');
+				this._router.navigateByUrl('my-meetups');
 				return syncLoginInfo;
 			}),
 			catchError((err) => {
@@ -121,7 +121,6 @@ export class AuthService {
 			id: userBackend.id,
 			email: userBackend.email,
 			rolesObj: rolesObj,
-			// rolesArr: userBackend.roles
 		};
 	}
 

@@ -1,30 +1,65 @@
 import { createAction, props } from '@ngrx/store';
-import { Meetup, MeetupBackend, MeetupCreated } from 'src/app/models/meetup.models';
+import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 
-export const loadMeetups = createAction('[AllMeetups] Get AllMeetups');
+export enum MeetupActionTypes {
+  LoadMeetups = '[AllMeetups] Get AllMeetups',
+  MeetupsLoaded = '[AllMeetups] Get All Meetups Success',
+  MeetupsFailed = '[AllMeetups] Get All Meetups Failure',
+  RegisterUserForMeetup = '[AllMeetups] Register User For Meetup',
+  UserForMeetupRegistered = '[AllMeetups] User For Meetup Registered',
+  UserForMeetupFailed = '[AllMeetups] User For Meetup Failed',
+  RemoveUserFromMeetup = '[AllMeetups] Remove User From Meetup',
+  UserFromMeetupRemoved = '[AllMeetups] User From Meetup Removed',
+  UserFromMeetupRemovedFailed = '[AllMeetups] User From Meetup Removed Failed',
+  SetFilters = '[AllMeetups] Set Filters',
+}
 
-export const meetupsLoaded = createAction('[AllMeetups] Get All Meetups Success', props<{ meetups: Meetup[] }>());
-export const meetupsFailed = createAction('[AllMeetups] Get All Meetups Failure', props<{ errorMessage: string }>());
+export const loadMeetups = createAction(MeetupActionTypes.LoadMeetups);
 
+export const meetupsLoaded = createAction(
+  MeetupActionTypes.MeetupsLoaded,
+  props<{ meetups: Meetup[] }>()
+);
 
+export const meetupsFailed = createAction(
+  MeetupActionTypes.MeetupsFailed,
+  props<{ errorMessage: string }>()
+);
 
-export const registerUserForMeetup = createAction('[AllMeetups] Register User For Meetup', props<{ user: User, meetup: Meetup }>());
+export const registerUserForMeetup = createAction(
+  MeetupActionTypes.RegisterUserForMeetup,
+  props<{ user: User; meetup: Meetup }>()
+);
 
-export const userForMeetupRegistered = createAction('[AllMeetups] User For Meetup Registered', props<{ meetup: Meetup }>());
+export const userForMeetupRegistered = createAction(
+  MeetupActionTypes.UserForMeetupRegistered,
+  props<{ meetup: Meetup }>()
+);
 
-export const userForMeetupFailed = createAction('[AllMeetups] User For Meetup Failed', props<{ errorMessage: string }>());
+export const userForMeetupFailed = createAction(
+  MeetupActionTypes.UserForMeetupFailed,
+  props<{ errorMessage: string }>()
+);
 
+export const removeUserFromMeetup = createAction(
+  MeetupActionTypes.RemoveUserFromMeetup,
+  props<{ user: User; meetup: Meetup }>()
+);
 
+export const userFromMeetupRemoved = createAction(
+  MeetupActionTypes.UserFromMeetupRemoved,
+  props<{ meetup: Meetup }>()
+);
 
+export const userFromMeetupRemovedFailed = createAction(
+  MeetupActionTypes.UserFromMeetupRemovedFailed,
+  props<{ errorMessage: string }>()
+);
 
-export const removeUserFromMeetup = createAction('[AllMeetups] Remove User From Meetup', props<{ user: User, meetup: Meetup }>());
+export const setFilters = createAction(
+  MeetupActionTypes.SetFilters,
+  props<{ meetupName: string | null; ownerFio: string | null }>()
+);
 
-export const userFromMeetupRemoved = createAction('[AllMeetups] User From Meetup Removed', props<{ meetup: Meetup }>());
-
-export const userFromMeetupRemovedFailed = createAction('[AllMeetups] User From Meetup Removed Failed', props<{ errorMessage: string }>());
-
-
-
-export const setFilters = createAction('[AllMeetups] Set Filters', props<{ meetupName: string | null, ownerFio: string | null }>());
 
