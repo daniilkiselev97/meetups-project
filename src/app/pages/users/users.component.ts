@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Inject, Injector } from '@angular/core';
+import { Component, DestroyRef, Inject } from '@angular/core';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { UsersService } from 'src/app/services/users.service';
 import {  UserBackend } from 'src/app/models/user.models';
@@ -25,7 +25,6 @@ export class UsersComponent {
 
 	constructor(
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
-		@Inject(Injector) private readonly _injector: Injector,
 		private _userService: UsersService,
 		private readonly _destroyRef: DestroyRef,
 		private readonly _store: Store<UsersState>
@@ -35,15 +34,15 @@ export class UsersComponent {
 
 	popupCreateUser(): void {
 		const dialog = this.dialogService.open(
-			new PolymorphComponent(PopupCreateUserComponent, this._injector),
+			new PolymorphComponent(PopupCreateUserComponent),
 			{ 
 				size: 'l',
 				width: 1000
 			},
 		)
 		dialog.pipe(
+			take(1),
 			takeUntilDestroyed(this._destroyRef),
-			take(1)
 		).subscribe();
 	}
 

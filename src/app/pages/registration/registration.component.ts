@@ -69,12 +69,6 @@ export class RegistrationComponent {
 		};
 		this._store.dispatch(Actions.signup({ userSignup }));
 
-
-		// this._authService.signup(userLogin).pipe(
-		// 	takeUntilDestroyed(this._destroyRef),
-		// 	take(1)
-		// ).subscribe(() => {
-		// });
 	}
 
 }

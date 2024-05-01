@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
 import { TuiButtonModule } from '@taiga-ui/core';
@@ -32,7 +32,6 @@ export class MyMeetupsComponent implements OnInit {
 	constructor(
 		private readonly _store: Store<MyMeetupsState>,
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
-		@Inject(Injector) private readonly _injector: Injector,
 	){}
 
 	ngOnInit(): void {
@@ -49,7 +48,7 @@ export class MyMeetupsComponent implements OnInit {
 
 		openCreatePopup(): void {
 		this.dialogService.open(
-			new PolymorphComponent(PopupCreateMeetupComponent, this._injector),
+			new PolymorphComponent(PopupCreateMeetupComponent),
 			{ 
 				size: 'l'
 			},

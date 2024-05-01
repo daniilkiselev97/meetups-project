@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
-import { Observable, take, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { BackendRole } from 'src/app/models/roles.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
-import { UsersService } from 'src/app/services/users.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
@@ -15,7 +13,6 @@ import { PrizmButtonModule } from '@prizm-ui/components'
 import { Store } from '@ngrx/store';
 import { UsersState } from 'src/app/store/users/users.model';
 import * as UsersActions from '../../store/users/users.actions'
-import { Action } from 'rxjs/internal/scheduler/Action';
 
 
 @Component({
@@ -49,10 +46,7 @@ export class PopupCreateUserComponent {
 	constructor(
 		@Inject(POLYMORPH_CONTEXT) readonly context: any,
 		private readonly _rolesApiService: RolesApiService,
-		private readonly _userService: UsersService,
 		private readonly _fb: FormBuilder,
-		private readonly _destroyRef: DestroyRef,
-		private cdr: ChangeDetectorRef,
 		private readonly _store: Store<UsersState>
 	) { }
 
@@ -66,7 +60,7 @@ export class PopupCreateUserComponent {
 		for (const roleName in rolesFormGroup.controls) {
 			const roleControl = rolesFormGroup.get(roleName) as FormControl;
 			if (roleControl.value === true) {
-				const roleParts = roleName.split('-'); // Split based on hyphen
+				const roleParts = roleName.split('-'); 
 				rolesBackend.push({ id: +roleParts[0], name: roleParts[1] });
 			}
 		}
@@ -80,26 +74,11 @@ export class PopupCreateUserComponent {
 		this._store.dispatch(UsersActions.createUser({userCreateObj: creatededUser}))
 		this.context.completeWith()
 
-		// this._userService.createUser(creatededUser)
-		// 	.pipe(
-		// 		takeUntilDestroyed(this._destroyRef),
-		// 		take(1)
-		// 	)
-		// 	.subscribe((result) => {
-		// 		this.context.completeWith();
-		// 	});
+		
 
 	}
 
 
-
-	// public devideIdAndRole(idAndRole: string): BackendRole {
-	// 	const resOfSeparation: RegExpMatchArray = Array.from((idAndRole.matchAll(/(\d+)(-)(.+)/gi)))[0];
-	// 	return {
-	// 		id: +resOfSeparation[1],
-	// 		name: resOfSeparation[3]
-	// 	}
-	// }
 
 
 	private _setRolesToForm(roles: BackendRole[]): void {
@@ -107,7 +86,7 @@ export class PopupCreateUserComponent {
 		const rolesGroup: Record<string, FormControl<boolean | null>> = {};
 
 		for (const role of roles) {
-			rolesGroup[`${role.id}-${role.name}`] = this._fb.control(false); // You can set initial value if needed
+			rolesGroup[`${role.id}-${role.name}`] = this._fb.control(false); 
 		}
 
 		this.myForm.setControl('roles', this._fb.group(rolesGroup));

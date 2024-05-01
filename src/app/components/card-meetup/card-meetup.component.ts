@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Inject, Injector, ChangeDetectorRef, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Inject, ChangeDetectorRef, } from '@angular/core';
 import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 
@@ -55,7 +55,6 @@ export class CardMeetupComponent {
 	public open: boolean = false;
 
 	constructor(
-		@Inject(Injector) private readonly _injector: Injector,
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 		public readonly cdRef: ChangeDetectorRef,
 
@@ -70,7 +69,7 @@ export class CardMeetupComponent {
 
 	public openDeletePopup(meetup: Meetup): void {
 		this.confirmDialogService.open(
-			new PolymorphComponent(PopupDeleteComponent, this._injector),
+			new PolymorphComponent(PopupDeleteComponent),
 			{
 				footer: this.footerTemp,
 				data: { message: 'Вы действительно хотите удалить митап ?' }
@@ -86,7 +85,7 @@ export class CardMeetupComponent {
 
 	public openEditPopup(meetup: Meetup): void {
 		this.dialogService.open(
-			new PolymorphComponent(PopupEditMeetupComponent, this._injector),
+			new PolymorphComponent(PopupEditMeetupComponent),
 			{
 				data: meetup,
 				size: 'l'

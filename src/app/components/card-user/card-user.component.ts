@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, Inject, Injector, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { UserBackend } from 'src/app/models/user.models';
 import { PopupEditDataUserComponent } from 'src/app/components/popup-edit-user/popup-edit-user.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -40,11 +40,9 @@ export class CardUserComponent implements OnChanges {
 	@ViewChild('footerTemp', { read: TemplateRef }) footerTemp!: TemplateRef<any>;
 	@Input({ required: true }) user!: UserBackend;
 	readonly PrizmIconSvgEnum = PrizmIconSvgEnum;
-	// dialog: any;
 
 	constructor(
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
-		@Inject(Injector) private readonly _injector: Injector,
 		private readonly _destroyRef: DestroyRef,
 		private readonly iconRegistry: PrizmIconsSvgRegistry,
 		private readonly confirmDialogService: PrizmConfirmDialogService,
@@ -70,7 +68,7 @@ export class CardUserComponent implements OnChanges {
 
 	public popupEditUser(): void {
 		const dialog = this.dialogService.open(
-			new PolymorphComponent(PopupEditDataUserComponent, this._injector),
+			new PolymorphComponent(PopupEditDataUserComponent),
 			{
 				data: this.user,
 				size: 'm',
@@ -78,16 +76,16 @@ export class CardUserComponent implements OnChanges {
 			},
 		)
 		dialog.pipe(
+			take(1),
 			takeUntilDestroyed(this._destroyRef),
-			take(1)
 		).subscribe();
 
 	}
 
 	public popupDeleteUser(user: UserBackend): void {
 
-		const dialog = this.confirmDialogService.open(
-			new PolymorphComponent(PopupDeleteComponent, this._injector),
+		this.confirmDialogService.open(
+			new PolymorphComponent(PopupDeleteComponent),
 			{
 				footer: this.footerTemp,
 				data: { message: 'Вы действительно хотите удалить пользователя ?' }

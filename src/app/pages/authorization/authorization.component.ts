@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
 import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { of } from 'rxjs';
-import { RouterLinkActive, RouterLink, Router } from '@angular/router';
+import { RouterLinkActive, RouterLink } from '@angular/router';
 import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
 import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
@@ -68,10 +67,7 @@ export class AuthorizationComponent {
 			email: 'adminadminadmin@yandex.ru',
 			password: 'adminadminadmin'
 		})
-		// this.myForm.patchValue({
-		// 	email: 'newUser123@mail.ru',
-		// 	password: 'newUser123'
-		// })
+	
 
 	}
 
@@ -83,10 +79,6 @@ export class AuthorizationComponent {
 			password: this.myForm.controls.password.value
 		};
 
-		// this._authService.login(userLogin).pipe(
-		// 	takeUntilDestroyed(this._destroyRef),
-		// 	take(1)
-		// ).subscribe();
 		this._store.dispatch(AuthActions.login({userLogin}))
 	}
 }
