@@ -75,6 +75,7 @@ export class CardMeetupComponent {
 				footer: this.footerTemp,
 				data: { message: 'Вы действительно хотите удалить митап ?' }
 			},
+			
 		).subscribe((result) => {
 			if(result) {
 				this._storeMyMeetups.dispatch(MyMeetupsActions.deleteMyMeetup({ id: meetup.id }))
