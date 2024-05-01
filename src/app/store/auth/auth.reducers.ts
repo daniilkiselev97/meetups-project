@@ -18,8 +18,8 @@ export const authReducer = createReducer(
 		AuthActions.loginSuccess,
 		(state: AuthState, { userInfo: { user, token } }) => ({
 			...state,
-			token: token,
-			user: user,
+			token,
+			user,
 			isAuth: true
 		})
 	),
@@ -27,38 +27,29 @@ export const authReducer = createReducer(
 	on(
 		AuthActions.loginFailed,
 		(state: AuthState) => ({
-			...state,
-			token: null,
-			user: null,
-			isAuth: false
+			...initialState
 		})
 	),
 
 	on(
 		AuthActions.logoutSuccess,
 		(state: AuthState) => ({
-			...state,
-			user: null,
-			token: null,
-			isAuth: false,
+			...initialState
 		})
 	),
 	on(
 		AuthActions.signupSuccess,
 		(state: AuthState, { userInfo: { user, token } }) => ({
 			...state,
-			token: token,
-			user: user,
+			token,
+			user,
 			isAuth: false
 		})
 	),
 	on(
 		AuthActions.signupFailed,
 		(state: AuthState) => ({
-			...state,
-			token: null,
-			user: null,
-			isAuth: false
+			...initialState
 		})
 	),
 );
