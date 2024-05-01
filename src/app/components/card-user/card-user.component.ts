@@ -82,6 +82,7 @@ export class CardUserComponent implements OnChanges {
 
 	public popupDeleteUser(user: UserBackend): void {
 
+		
 		this.confirmDialogService.open(
 			new PolymorphComponent(PopupDeleteComponent),
 			{
@@ -92,6 +93,7 @@ export class CardUserComponent implements OnChanges {
 			if(result) {
 				this._store.dispatch(UsersActions.deleteUser({id: user.id}))
 			}
+
 		})
 
 	}

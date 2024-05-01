@@ -50,11 +50,7 @@
             "inlineStyleLanguage": "css",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*"
-                
-              }
+              "src/assets"
             ],
             "styles": [
 							"src/styles/styles.css",
@@ -122,6 +118,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+							
             ],
             "styles": [
               "src/styles/styles.css",
