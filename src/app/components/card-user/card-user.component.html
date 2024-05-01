@@ -4,7 +4,7 @@
 		<div class="user-card__item">
 		
 			<prizm-input-layout>
-				<input class="edit-meetup-item-input" type="text"  prizmInput [formControl]="myForm.controls.email"/>
+				<input class="edit-meetup-item-input" type="email"  prizmInput [formControl]="myForm.controls.email"/>
 			</prizm-input-layout>
 
 		</div>
@@ -14,14 +14,14 @@
 			
 
 			<prizm-input-layout>
-				<input class="edit-meetup-item-input" value="******" type="email"  prizmInput [formControl]="myForm.controls.password"/>
+				<input class="edit-meetup-item-input" value="******" type="password"  prizmInput [formControl]="myForm.controls.password"/>
 			</prizm-input-layout>
 
 		</div>
 	
 		<div class="b-form user-card__item">
 			<prizm-input-layout>
-					<input class="edit-meetup-item-input" type="email" [value]="user.roles && user.roles.length > 0 ? user.roles[0].name : ''" prizmInput [formControl]="myForm.controls.role"/>
+					<input class="edit-meetup-item-input" type="text" [value]="user.roles && user.roles.length > 0 ? user.roles[0].name : ''" prizmInput [formControl]="myForm.controls.role"/>
 			</prizm-input-layout>
 	</div>
 	

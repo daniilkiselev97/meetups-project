@@ -3,7 +3,7 @@
 		<div class="form__item">
 
 			<prizm-input-layout label="Email">
-				<input type="text" prizmInput [formControl]="myForm.controls.email" />
+				<input type="email" prizmInput [formControl]="myForm.controls.email" />
 			</prizm-input-layout>
 
 			<div class="error" *ngIf="myForm.controls.email.hasError('email')">
