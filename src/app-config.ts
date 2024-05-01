@@ -18,7 +18,6 @@ import { TUI_DIALOG_CLOSES_ON_BACK } from "@taiga-ui/cdk";
 import { of } from "rxjs";
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-
 export interface EnvironmentProviders {
   providers: (Provider | InjectionToken<Sanitizer> | any)[];
 }
