@@ -1,7 +1,4 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { TuiTextfieldControllerModule, TuiPrimitiveTextfieldModule, TuiErrorModule, TuiButtonModule } from '@taiga-ui/core';
-import { TuiInputModule, TuiInputDateModule, TuiInputTimeModule, TuiTextareaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { MeetupCreated } from 'src/app/models/meetup.models';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule, UntypedFormControl } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
@@ -20,7 +17,7 @@ import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule, TuiTextfieldControllerModule, TuiInputModule, TuiPrimitiveTextfieldModule, TuiInputDateModule, TuiErrorModule, TuiInputTimeModule, TuiTextareaModule, TuiButtonModule, AsyncPipe, TuiFieldErrorPipeModule, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
 })
 export class PopupCreateMeetupComponent {
 

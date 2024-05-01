@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 import { Observable, tap } from 'rxjs';
 import { BackendRole } from 'src/app/models/roles.models';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { TuiInputModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
 import { PrizmCheckboxComponent } from '@prizm-ui/components';
@@ -21,7 +19,7 @@ import * as UsersActions from '../../store/users/users.actions'
 	styleUrls: ['./popup-create-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, NgFor, TuiCheckboxLabeledModule, TuiButtonModule, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, NgIf, NgFor,  AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
 export class PopupCreateUserComponent {
 

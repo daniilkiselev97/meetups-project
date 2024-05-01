@@ -1,11 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { of } from 'rxjs';
 import { RouterLinkActive, RouterLink } from '@angular/router';
-import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
-import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 import * as AuthActions from '../../store/auth/auth.actions'
 
 import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule  } from '@prizm-ui/components'
@@ -19,29 +16,12 @@ import { AuthState } from 'src/app/store/auth/auth.models';
     templateUrl: './authorization.component.html',
     styleUrls: ['./authorization.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        tuiInputPasswordOptionsProvider({
-            icons: {
-                hide: 'tuiIconEyeOffLarge',
-                show: 'tuiIconEyeLarge',
-            },
-        }),
-        {
-            provide: TUI_PASSWORD_TEXTS,
-            useValue: of(['']),
-        },
-    ],
     standalone: true,
     imports: [
         ReactiveFormsModule,
-        TuiInputModule,
-        TuiPrimitiveTextfieldModule,
         NgIf,
-        TuiInputPasswordModule,
-        TuiLinkModule,
         RouterLinkActive,
         RouterLink,
-        TuiButtonModule,
 				PrizmButtonModule, 
 				PrizmInputTextModule,
 				FormsModule,

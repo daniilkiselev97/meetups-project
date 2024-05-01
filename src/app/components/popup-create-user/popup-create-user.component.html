@@ -1,7 +1,7 @@
 <div class="section-form bg-color-main">
 	<form [formGroup]="myForm" class="container edit-user ">
 		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Email:</span>
+			<span>Email:</span>
 			<div class="b-form">
 				<prizm-input-layout>
 					<input prizmInput [formControl]="myForm.controls.email" type="email" />
@@ -10,7 +10,7 @@
 		</div> <!--.edit-user__item-->
 
 		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Пароль:</span>
+			<span>Пароль:</span>
 			<div class="b-form">
 				<prizm-input-layout>
 					<input prizmInput [formControl]="myForm.controls.password" type="password" />
@@ -19,7 +19,7 @@
 		</div> <!--.edit-user__item-->
 
 		<div class="edit-user__item">
-			<span class="tui-text_body-l-2">Имя:</span>
+			<span>Имя:</span>
 			<div class="b-form">
 				<prizm-input-layout>
 					<input prizmInput [formControl]="myForm.controls.fio" type="password" type="text" />

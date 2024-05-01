@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input, Inject, ChangeDetectorRef, }
 import { Meetup } from 'src/app/models/meetup.models';
 import { User } from 'src/app/models/user.models';
 
-import { TuiButtonModule, TuiExpandModule } from '@taiga-ui/core';
 
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
@@ -33,7 +32,7 @@ import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
 	styleUrls: ['./card-meetup.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [TuiButtonModule, NgIf, TuiExpandModule, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule, PrizmIconsSvgModule],
+	imports: [ NgIf, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule, PrizmIconsSvgModule],
 	providers: [PrizmDestroyService]
 })
 export class CardMeetupComponent {
@@ -49,8 +48,6 @@ export class CardMeetupComponent {
 
 	private _chevronDown: string = 'chevrons-dropdown';
 	private _chevronUp: string = 'chevrons-dropup';
-
-	public userIcon: string = 'tuiIconUserLarge';
 
 	public open: boolean = false;
 

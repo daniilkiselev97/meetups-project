@@ -3,25 +3,17 @@
 	<div class="container">
 
 		<div class="section-cards__inputs">
-			<!-- <div class="text-field">
-					<label class="text-field__label tui-text_body-m" for="login">Фильтр по автору:</label>
-					<input prizmInput  (input)="onInputOwnerFioChange($event)" type="text" placeholder="OwnerFio">
-			</div> -->
 			<div class="text-field">
-				<label class="text-field__label tui-text_body-m" for="ownerFio">Фильтр по автору:</label>
+				<label class="text-field__label" for="ownerFio">Фильтр по автору:</label>
 				<input id="ownerFio" type="text" [formControl]="ownerFioFilter" placeholder="OwnerFio" (input)="applyFilters()">
 			</div>
 
 
 			<div class="text-field">
-				<label class="text-field__label tui-text_body-m" for="meetupName">Фильтр по митапу:</label>
+				<label class="text-field__label" for="meetupName">Фильтр по митапу:</label>
 				<input id="meetupName" type="text" [formControl]="meetupNameFilter" placeholder="MeetupName" (input)="applyFilters()">
 			</div>
 
-			<!-- <div class="text-field">
-				<label class="text-field__label tui-text_body-m" for="login">Фильтр по митапу:</label>
-				<input prizmInput (input)="onInputMeetupNameChange($event)" type="text" placeholder="MeetupName">
-			</div> -->
 			
 		</div>
 

@@ -1,6 +1,6 @@
 <form  (submit)="saveMeetup()" [formGroup]="myForm"
 	class="bg-color-main container edit-meetup">
-	<h3 class="edit-meetup-item-title tui-text_h1">Редактирование митапа</h3>
+	<h3 class="edit-meetup-item-title">Редактирование митапа</h3>
 
 	<div class="edit-meetup-item">
 		<span class="edit-meetup-item__info">Название:</span>
@@ -19,7 +19,6 @@
 			<prizm-input-layout label="Выберите дату">
 				<prizm-input-layout-date [formControl]="myForm.controls.date"></prizm-input-layout-date>
 			</prizm-input-layout>
-			<tui-error [formControl]="myForm.controls.date" [error]="[] | tuiFieldError | async"></tui-error>
 		</div> <!--.b-form-->
 	</div> <!--.edit-meetup-item-->
 

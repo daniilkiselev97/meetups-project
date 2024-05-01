@@ -52,14 +52,12 @@
               "src/favicon.ico",
               "src/assets",
               {
-                "glob": "**/*",
-                "input": "node_modules/@taiga-ui/icons/src",
-                "output": "assets/taiga-ui/icons"
+                "glob": "**/*"
+                
               }
             ],
             "styles": [
 							"src/styles/styles.css",
-							"src/styles/taiga.less",
 							"node_modules/@prizm-ui/theme/src/styles/styles.less",
 							"node_modules/@prizm-ui/components/src/styles/styles.less",
 							"node_modules/@prizm-ui/components/src/styles/icons/icons.less",
@@ -127,7 +125,6 @@
             ],
             "styles": [
               "src/styles/styles.css",
-							"src/styles/taiga.less",
 							"node_modules/@prizm-ui/theme/src/styles/styles.less",
 							"node_modules/@prizm-ui/components/src/styles/styles.less",
 							"node_modules/@prizm-ui/components/src/styles/icons/icons.less",

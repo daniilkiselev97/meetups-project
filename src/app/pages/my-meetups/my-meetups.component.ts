@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { PolymorphComponent, PrizmButtonModule, PrizmDialogService } from '@prizm-ui/components';
@@ -20,7 +19,7 @@ import { PopupCreateMeetupComponent } from 'src/app/components/popup-create-meet
     styleUrls: ['./my-meetups.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, CardMeetupComponent, TuiButtonModule, AsyncPipe, PrizmButtonModule, PrizmDialogModule, ReactiveFormsModule, FormsModule,]
+    imports: [NgIf, NgFor, CardMeetupComponent, AsyncPipe, PrizmButtonModule, PrizmDialogModule, ReactiveFormsModule, FormsModule,]
 })
 
 

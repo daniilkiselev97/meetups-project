@@ -1,5 +1,4 @@
 import { Component, DestroyRef, Inject } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { UsersService } from 'src/app/services/users.service';
 import {  UserBackend } from 'src/app/models/user.models';
 import { Observable, take } from 'rxjs';
@@ -18,7 +17,7 @@ import { selectAllUsers } from 'src/app/store/users/users.selectors';
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.css'],
     standalone: true,
-    imports: [NgIf, TuiButtonModule, NgFor, CardUserComponent, AsyncPipe, PrizmButtonModule]
+    imports: [NgIf, NgFor, CardUserComponent, AsyncPipe, PrizmButtonModule]
 })
 export class UsersComponent {
 	public users$: Observable<UserBackend[]> = this._store.pipe(select(selectAllUsers));

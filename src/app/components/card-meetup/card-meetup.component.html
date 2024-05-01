@@ -3,7 +3,7 @@
 		<div class="card-meetup__header bg-color-main">
 			<div class="card-meetup__header-info">
 				<div class="card-meetup__header-info-item">
-					<span class="card-meetup__header-info-title card-meetup__header-item_color tui-text_h6">{{meetup.name}}</span>
+					<span class="card-meetup__header-info-title card-meetup__header-item_color">{{meetup.name}}</span>
 					<span class="card-meetup__header-info-followers">{{meetup.users ? meetup.users.length : 0}} подписчик</span>
 				</div>
 				<div class="card-meetup__header-info-item">
@@ -46,12 +46,12 @@
 								<div class="delete-meetup__actions-wrapper">
 
 									<button appearance="warning" (click)="completeWith(false)" prizmButton size="l" type="submit"
-										class="btn_border tui-space_top-3 tui-space_bottom-3">
+										class="btn_border">
 										Отменить
 									</button>
 
 									<button appearance="warning" (click)="completeWith(true)" prizmButton size="l" type="submit"
-										class="btn_border tui-space_top-3 tui-space_bottom-3">
+										class="btn_border">
 										Удалить
 									</button>
 								</div>
@@ -86,7 +86,7 @@
 				<div class="card-meetup__content-info">
 					<div class="card-meetup__content-info-item">
 						<span
-							class="card-meetup__content-info-title card-meetup__content-item_color tui-text_body-xl">{{meetup.name}}</span>
+							class="card-meetup__content-info-title card-meetup__content-item_color">{{meetup.name}}</span>
 						<span class="card-meetup__content-info-followers">{{meetup.users ? meetup.users.length : 0}} подписчик</span>
 					</div>
 					<div class="card-meetup__content-info-item">

@@ -5,8 +5,6 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
-import { TuiSvgModule } from '@taiga-ui/core/components/svg';
-import { TuiInputModule } from '@taiga-ui/kit';
 import { NgIf } from '@angular/common';
 
 
@@ -32,7 +30,7 @@ import * as UsersActions from '../../store/users/users.actions'
 	styleUrls: ['./card-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [NgIf, ReactiveFormsModule, TuiInputModule, TuiSvgModule, ReactiveFormsModule,
+	imports: [NgIf, ReactiveFormsModule, ReactiveFormsModule,
 		FormsModule,
 		PrizmInputTextModule, PrizmIconsSvgModule, PrizmButtonModule]
 })

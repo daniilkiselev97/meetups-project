@@ -14,7 +14,7 @@
 	border: none;
 }
 
-root, tui-root {
+root {
 	display: block;
 	height: 100%;
 }
@@ -53,35 +53,13 @@ root, tui-root {
 
 }
 
-/* Taiga UI */
-.tui-btn_icon .t-left {
-	margin-right: 0 !important;
-}
 
-.tui-btn_title .t-left {
-	display: none !important;
-}
-
-.tui-btn_red [tuiWrapper] {
-	background-color: #c82333 !important;
-}
-
-.tui-btn_red [tuiWrapper]:hover:not(._no-hover) {
-	background-color: rgb(255, 141, 141) !important;
-}
-
-.t-content[_ngcontent-ng-c1591437670]{
-	padding: 15px !important;
-}
-
-/* Taiga UI */
 
 .bg-color-main {
 	background-color: #f2f2f2;
 }
 
 .error {
-	color: var(--tui-negative, red);
 	margin-top: 0.25rem;
 	white-space: pre-line;
 }

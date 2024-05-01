@@ -1,5 +1,5 @@
-<form  [tuiTextfieldCleaner]="true" (submit)="createMeetup()"  [formGroup]="myForm" class="bg-color-main container edit-meetup">
-	<h3 class="edit-meetup-item-title tui-text_h1">Создание митапа</h3>
+<form  (submit)="createMeetup()"  [formGroup]="myForm" class="bg-color-main container edit-meetup">
+	<h3 class="edit-meetup-item-title">Создание митапа</h3>
 
 	<div class="edit-meetup-item">
 		<span class="edit-meetup-item__info">Название:</span>
@@ -18,7 +18,6 @@
 				<prizm-input-layout-date [formControl]="myForm.controls.date"></prizm-input-layout-date>
 			</prizm-input-layout>
 
-			<tui-error [formControl]="myForm.controls.date" [error]="[] | tuiFieldError | async"></tui-error>
 		</div> <!--.b-form-->
 	</div> <!--.edit-meetup-item-->
 

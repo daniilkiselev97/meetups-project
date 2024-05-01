@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { TuiTextfieldControllerModule, TuiButtonModule } from '@taiga-ui/core';
 import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
 
 @Component({
@@ -8,7 +7,6 @@ import { POLYMORPH_CONTEXT } from '@prizm-ui/components';
     styleUrls: ['./popup-delete.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [TuiTextfieldControllerModule, TuiButtonModule]
 })
 export class PopupDeleteComponent {
 

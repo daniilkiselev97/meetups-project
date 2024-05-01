@@ -1,23 +1,17 @@
 import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { TUI_PASSWORD_TEXTS, tuiInputPasswordOptionsProvider, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
-import { of, take } from 'rxjs';
+import { of } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { RouterLinkActive, RouterLink } from '@angular/router';
-import { TuiLinkModule } from '@taiga-ui/core/components/link';
 import { NgIf } from '@angular/common';
-import { TuiPrimitiveTextfieldModule, TuiButtonModule } from '@taiga-ui/core';
 import * as Actions from '../../store/auth/auth.actions'
 
 
 //prizma
-import { NgModule } from '@angular/core';
 import { PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule   } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthState } from 'src/app/store/auth/auth.models';
-import { UserRegistration } from 'src/app/models/auth.models';
 
 
 @Component({
@@ -25,20 +19,8 @@ import { UserRegistration } from 'src/app/models/auth.models';
     templateUrl: './registration.component.html',
     styleUrls: ['./registration.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        tuiInputPasswordOptionsProvider({
-            icons: {
-                hide: 'tuiIconEyeOffLarge',
-                show: 'tuiIconEyeLarge',
-            },
-        }),
-        {
-            provide: TUI_PASSWORD_TEXTS,
-            useValue: of(['']),
-        },
-    ],
     standalone: true,
-    imports: [ReactiveFormsModule, TuiInputModule, TuiPrimitiveTextfieldModule, NgIf, TuiInputPasswordModule, TuiLinkModule, RouterLinkActive, RouterLink, TuiButtonModule, ReactiveFormsModule,
+    imports: [ReactiveFormsModule, NgIf,  RouterLinkActive, RouterLink, ReactiveFormsModule,
 			FormsModule,
 			PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule]
 })
