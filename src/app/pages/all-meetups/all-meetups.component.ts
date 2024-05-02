@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
@@ -26,23 +26,35 @@ import { selectAllMeetupsWithFilters } from 'src/app/store/all-meetups/all-meetu
 
 export class AllMeetupsComponent implements OnInit {
 	meetupNameFilter = new FormControl('');
-  ownerFioFilter = new FormControl('');
+	ownerFioFilter = new FormControl('');
 	allMeetups$: Observable<Meetup[]> = new Observable<Meetup[]>();
 
-	constructor(private readonly _store: Store<MeetupsState>){}
+	constructor(private readonly _store: Store<MeetupsState>) {
+	 }
 
-	ngOnInit(): void {
-		this._store.dispatch(MeetupsActions.loadMeetups());
-		this.allMeetups$ = this._store.select(selectAllMeetupsWithFilters);
-
-	}
-
-	applyFilters(): void {
-		const meetupName = this.meetupNameFilter.value;
-    const ownerFio = this.ownerFioFilter.value;
-    this._store.dispatch(MeetupsActions.setFilters({ meetupName, ownerFio }));
-  }
-
+ngOnInit(): void {
+	this._store.dispatch(MeetupsActions.loadMeetups());
+	this.allMeetups$ = combineLatest([
+		this.meetupNameFilter.valueChanges.pipe(startWith(''),debounceTime(500), distinctUntilChanged()),
+		this.ownerFioFilter.valueChanges.pipe(startWith(''),debounceTime(500), distinctUntilChanged())
+	])
+	.pipe(
+		switchMap(([meetupName, ownerFio]) => {
+			this.applyFilters(meetupName, ownerFio);
+			return this._store.select(selectAllMeetupsWithFilters, { meetupName, ownerFio });
+		})
+	);
 }
+
+applyFilters(meetupName: string | null, ownerFio: string | null): void {
+	this._store.dispatch(MeetupsActions.setFilters({ meetupName, ownerFio }));
+}
+}
+
+	
+
+
+
+
 
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs';
 import { Meetup } from 'src/app/models/meetup.models';
 import { CardMeetupComponent } from '../../components/card-meetup/card-meetup.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
@@ -33,17 +33,26 @@ export class MyMeetupsComponent implements OnInit {
 		@Inject(PrizmDialogService) private readonly dialogService: PrizmDialogService,
 	){}
 
+
+
 	ngOnInit(): void {
 		this._store.dispatch(MyMeetupsActions.loadMyMeetups());
-		this.myMeetups$ = this._store.select(selectMyMeetupsWithFilters);
-
+		this.myMeetups$ = combineLatest([
+			this.meetupNameFilter.valueChanges.pipe(startWith(''),debounceTime(500), distinctUntilChanged()),
+			this.ownerFioFilter.valueChanges.pipe(startWith(''),debounceTime(500), distinctUntilChanged())
+		])
+		.pipe(
+			switchMap(([meetupName, ownerFio]) => {
+				this.applyFilters(meetupName, ownerFio);
+				return this._store.select(selectMyMeetupsWithFilters, { meetupName, ownerFio });
+			})
+		);
+	}
+	
+	applyFilters(meetupName: string | null, ownerFio: string | null): void {
+		this._store.dispatch(MyMeetupsActions.setFilters({ meetupName, ownerFio }));
 	}
 
-	applyFilters(): void {
-		const meetupName = this.meetupNameFilter.value;
-    const ownerFio = this.ownerFioFilter.value;
-    this._store.dispatch(MyMeetupsActions.setFilters({ meetupName, ownerFio }));
-  }
 
 		openCreatePopup(): void {
 		this.dialogService.open(

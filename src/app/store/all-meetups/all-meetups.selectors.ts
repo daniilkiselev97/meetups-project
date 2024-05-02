@@ -8,8 +8,6 @@ export const selectMeetupsState = createFeatureSelector<MeetupsState>(allMeetups
 export const selectAllMeetups = createSelector(
 	selectMeetupsState,
 	(state: MeetupsState) => state.meetups
-
-
 );
 
 export const selectFilters = createSelector(
