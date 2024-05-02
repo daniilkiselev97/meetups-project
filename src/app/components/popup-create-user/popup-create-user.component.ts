@@ -76,18 +76,14 @@ export class PopupCreateUserComponent {
 
 	}
 
-
-
-
 	private _setRolesToForm(roles: BackendRole[]): void {
-
-		const rolesGroup: Record<string, FormControl<boolean | null>> = {};
-
-		for (const role of roles) {
-			rolesGroup[`${role.id}-${role.name}`] = this._fb.control(false); 
-		}
-
-		this.myForm.setControl('roles', this._fb.group(rolesGroup));
-	}
-
+    const rolesFormGroup = this.myForm.get('roles') as FormGroup;
+    roles.forEach(role => {
+        rolesFormGroup.addControl(`${role.id}-${role.name}`, this._fb.control(false));
+    });
 }
+}
+
+
+
+
