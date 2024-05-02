@@ -1,20 +1,20 @@
 import { createAction, props } from '@ngrx/store';
-import { Meetup, MeetupBackend, MeetupCreated } from 'src/app/models/meetup.models';
+import { Meetup, MeetupBackend, MeetupCreated } from 'src/shared/models/meetup.models';
 
 export enum MyMeetupsActionTypes {
-  LoadMyMeetups = '[MyMeetups] Get MyMeetups',
-  MyMeetupsLoaded = '[MyMeetups] Get My Meetups Success',
-  MyMeetupsFailed = '[MyMeetups] Get My Meetups Failure',
-  CreateMyMeetup = '[MyMeetups] Create My Meetup',
-  MyMeetupCreated = '[MyMeetups] My Meetup Created',
-  MyMeetupFailed = '[MyMeetups] My Meetup Failed And Not Created',
-  DeleteMyMeetup = '[MyMeetups] Delete My Meetup',
-  MyMeetupDeleted = '[MyMeetups] My Meetup Deleted',
-  MyMeetupFailedinDeletion = '[MyMeetups] My Meetup Failed And Not Deleted',
-  ChangeMyMeetup = '[MyMeetups] Change My Meetup',
-  MyMeetupChanged = '[MyMeetups] My Meetup Changed',
-  MyMeetupFailedInChanging = '[MyMeetups] My Meetup Failed And Not Changed',
-  SetFilters = '[MyMeetups] Set Filters',
+	LoadMyMeetups = '[MyMeetups] Get MyMeetups',
+	MyMeetupsLoaded = '[MyMeetups] Get My Meetups Success',
+	MyMeetupsFailed = '[MyMeetups] Get My Meetups Failure',
+	CreateMyMeetup = '[MyMeetups] Create My Meetup',
+	MyMeetupCreated = '[MyMeetups] My Meetup Created',
+	MyMeetupFailed = '[MyMeetups] My Meetup Failed And Not Created',
+	DeleteMyMeetup = '[MyMeetups] Delete My Meetup',
+	MyMeetupDeleted = '[MyMeetups] My Meetup Deleted',
+	MyMeetupFailedinDeletion = '[MyMeetups] My Meetup Failed And Not Deleted',
+	ChangeMyMeetup = '[MyMeetups] Change My Meetup',
+	MyMeetupChanged = '[MyMeetups] My Meetup Changed',
+	MyMeetupFailedInChanging = '[MyMeetups] My Meetup Failed And Not Changed',
+	SetFilters = '[MyMeetups] Set Filters',
 }
 
 export const loadMyMeetups = createAction(MyMeetupsActionTypes.LoadMyMeetups);

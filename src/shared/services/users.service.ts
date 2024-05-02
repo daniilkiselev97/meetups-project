@@ -24,7 +24,7 @@ export class UsersService {
 		return this._authService.authUser$.pipe(
 			switchMap((authUser) => {
 				if (authUser === null) {
-					return of([]); 
+					return of([]);
 				} else {
 					return this._usersApiService.getAll();
 				}
@@ -32,26 +32,26 @@ export class UsersService {
 			map(users => users.sort((a, b) => a.email.toLowerCase().localeCompare(b.email.toLowerCase())))
 		);
 	}
-	
+
 
 	public updateUser(userUpdateObj: UserUpdateObj) {
-    const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
-    return forkJoin([
-        this._usersApiService.updateUser(userUpdateObj),
-        of(areUpdateRoles) 
-    ]).pipe(
-        filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
-        switchMap(([updatedUser, _]) => { 
-            return this._usersApiService.updateUserRole(userUpdateObj).pipe(
-                map(updatedUserRole => ({ updatedUser, updatedUserRole }))
-            );
-        }),
-        catchError(error => {
-            return throwError(error);
-        })
-    );
-}
-	
+		const areUpdateRoles = userUpdateObj.newRoles.length !== 0;
+		return forkJoin([
+			this._usersApiService.updateUser(userUpdateObj),
+			of(areUpdateRoles)
+		]).pipe(
+			filter(([updatedUser, areUpdateRoles]) => areUpdateRoles),
+			switchMap(([updatedUser, _]) => {
+				return this._usersApiService.updateUserRole(userUpdateObj).pipe(
+					map(updatedUserRole => ({ updatedUser, updatedUserRole }))
+				);
+			}),
+			catchError(error => {
+				return throwError(error);
+			})
+		);
+	}
+
 	public createUser(userCreateObj: UserCreateObj) {
 		const areUpdateRoles = userCreateObj.newRoles.length !== 0;
 		return combineLatest([
@@ -60,7 +60,7 @@ export class UsersService {
 		]).pipe(
 			switchMap(([updatedUser, areUpdateRoles]) => {
 				if (!areUpdateRoles) {
-					return of(updatedUser); 
+					return of(updatedUser);
 				}
 				return this.getAll().pipe(
 					switchMap((users) => {
@@ -80,9 +80,9 @@ export class UsersService {
 			}),
 		);
 	}
-	
-	
-	
+
+
+
 
 
 	public deleteUser(idUser: number) {

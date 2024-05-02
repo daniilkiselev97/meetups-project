@@ -1,20 +1,20 @@
 import { createAction, props } from '@ngrx/store';
-import { MeetupBackendUser, UserBackend, UserBackendUpdate, UserCreateObj, UserUpdateObj } from '../../models/user.models';
-import { AssigningRolesToBackend } from 'src/app/models/roles.models';
+import { MeetupBackendUser, UserBackend, UserBackendUpdate, UserCreateObj, UserUpdateObj } from '../../../shared/models/user.models';
+import { AssigningRolesToBackend } from 'src/shared/models/roles.models';
 
 export enum UsersActionTypes {
-  LoadUsers = '[Users] Get Users',
-  LoadUsersSuccess = '[Users] Get Users Success',
-  LoadUsersFailure = '[Users] Get Users Failure',
-  UpdateUser = '[Users] Update User',
-  UserUpdated = '[Users] User Updated',
-  UserFailedInUpdate = '[Users] User Failed And Not Updated',
-  DeleteUser = '[Users] Delete User',
-  UserDeleted = '[Users] User Deleted',
-  UserFailedInDeletion = '[Users] User Failed And Not Deleted',
-  CreateUser = '[Users] Create User',
-  UserCreated = '[Users] User Created',
-  UserFailedInCreation = '[Users] User Failed And Not Created',
+	LoadUsers = '[Users] Get Users',
+	LoadUsersSuccess = '[Users] Get Users Success',
+	LoadUsersFailure = '[Users] Get Users Failure',
+	UpdateUser = '[Users] Update User',
+	UserUpdated = '[Users] User Updated',
+	UserFailedInUpdate = '[Users] User Failed And Not Updated',
+	DeleteUser = '[Users] Delete User',
+	UserDeleted = '[Users] User Deleted',
+	UserFailedInDeletion = '[Users] User Failed And Not Deleted',
+	CreateUser = '[Users] Create User',
+	UserCreated = '[Users] User Created',
+	UserFailedInCreation = '[Users] User Failed And Not Created',
 }
 
 export const loadUsers = createAction(UsersActionTypes.LoadUsers);
@@ -23,8 +23,8 @@ export const loadUsersFailure = createAction(UsersActionTypes.LoadUsersFailure, 
 
 export const updateUser = createAction(UsersActionTypes.UpdateUser, props<{ userUpdateObj: UserUpdateObj }>());
 export const userUpdated = createAction(UsersActionTypes.UserUpdated, props<{
-  updatedUser: UserBackendUpdate;
-  updatedUserRole: AssigningRolesToBackend;
+	updatedUser: UserBackendUpdate;
+	updatedUserRole: AssigningRolesToBackend;
 }>());
 export const userFailedInUpdate = createAction(UsersActionTypes.UserFailedInUpdate, props<{ errorMessage: string }>());
 

@@ -5,7 +5,7 @@ import { switchMap, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
-  const authService = inject(AuthService);
+	const authService = inject(AuthService);
 
 	return authService.token$.pipe(
 		take(1),

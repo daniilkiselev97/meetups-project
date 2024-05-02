@@ -3,8 +3,8 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as MeetupsActions from './all-meetups.actions';
 import { catchError, exhaustMap, map, mergeMap, tap } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
-import { MeetupsService } from 'src/app/services/meetups.service';
-import { Meetup } from 'src/app/models/meetup.models';
+import { MeetupsService } from 'src/shared/services/meetups.service';
+import { Meetup } from 'src/shared/models/meetup.models';
 
 
 @Injectable()
@@ -23,19 +23,19 @@ export class MeetupsEffects {
 		}))))
 	));
 
-		registerMeetup$ = createEffect(() => this.actions$.pipe(
-    ofType(MeetupsActions.registerUserForMeetup),
-		exhaustMap(({user, meetup}) => this.meetupsService.registerUserFromMeetup(user,meetup)),
-		map((registeredMeetup) => MeetupsActions.userForMeetupRegistered({meetup: registeredMeetup as Meetup})),
+	registerMeetup$ = createEffect(() => this.actions$.pipe(
+		ofType(MeetupsActions.registerUserForMeetup),
+		exhaustMap(({ user, meetup }) => this.meetupsService.registerUserFromMeetup(user, meetup)),
+		map((registeredMeetup) => MeetupsActions.userForMeetupRegistered({ meetup: registeredMeetup as Meetup })),
 		catchError(error => throwError(() => of(MeetupsActions.userForMeetupFailed({
 			errorMessage: error.message
 		}))))
-  ));
+	));
 
-		removeMeetup$ = createEffect(() => this.actions$.pipe(
+	removeMeetup$ = createEffect(() => this.actions$.pipe(
 		ofType(MeetupsActions.removeUserFromMeetup),
 		exhaustMap(({ user, meetup }) => this.meetupsService.removeUserFromMeetup(user, meetup)),
-		map((deletedMeetup) => MeetupsActions.userFromMeetupRemoved({meetup: deletedMeetup as Meetup})),
+		map((deletedMeetup) => MeetupsActions.userFromMeetupRemoved({ meetup: deletedMeetup as Meetup })),
 		catchError(error => throwError(() => of(MeetupsActions.userFromMeetupRemovedFailed({
 			errorMessage: error.message
 		}))))

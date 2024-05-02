@@ -5,15 +5,15 @@ import { AuthService } from '../services/auth.service';
 
 export const adminGuard: CanActivateFn = (route, state) => {
 	const authService = inject(AuthService);
-  const router = inject(Router);
+	const router = inject(Router);
 
-  return authService.authUser$.pipe(
+	return authService.authUser$.pipe(
 		map((user) => {
-			if(user === null) return false
+			if (user === null) return false
 			return user.rolesObj.isAdmin
 		}),
 		tap(isAdmin => {
-      if (isAdmin === false) router.navigateByUrl('login');
-    })
+			if (isAdmin === false) router.navigateByUrl('login');
+		})
 	)
 };

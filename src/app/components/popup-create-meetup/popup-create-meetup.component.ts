@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MeetupCreated } from 'src/app/models/meetup.models';
+import { MeetupCreated } from 'src/shared/models/meetup.models';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule, UntypedFormControl } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule, POLYMORPH_CONTEXT, PrizmDay, PrizmTime } from '@prizm-ui/components';

@@ -1,28 +1,28 @@
 import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/shared/services/auth.service';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import * as Actions from '../../store/auth/auth.actions'
+import * as Actions from '../../../app/store/auth/auth.actions'
 
 
 //prizma
-import { PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule   } from '@prizm-ui/components';
+import { PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthState } from 'src/app/store/auth/auth.models';
 
 
 @Component({
-    selector: 'registration',
-    templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, NgIf,  RouterLinkActive, RouterLink, ReactiveFormsModule,
-			FormsModule,
-			PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule]
+	selector: 'registration',
+	templateUrl: './registration.component.html',
+	styleUrls: ['./registration.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [ReactiveFormsModule, NgIf, RouterLinkActive, RouterLink, ReactiveFormsModule,
+		FormsModule,
+		PrizmInputTextModule, PrizmInputPasswordModule, PrizmButtonModule]
 })
 export class RegistrationComponent {
 
@@ -40,7 +40,7 @@ export class RegistrationComponent {
 		private _store: Store<AuthState>
 
 	) {
-	
+
 	}
 
 	public handleSubmit(): void {

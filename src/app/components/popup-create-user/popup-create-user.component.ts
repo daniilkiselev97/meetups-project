@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
-import { BackendRole } from 'src/app/models/roles.models';
-import { RolesApiService } from 'src/app/services/roles-api.service';
+import { BackendRole } from 'src/shared/models/roles.models';
+import { RolesApiService } from 'src/shared/services/roles-api.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import * as UsersActions from '../../store/users/users.actions'
 	styleUrls: ['./popup-create-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule, NgIf, NgFor,  AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, NgIf, NgFor, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
 export class PopupCreateUserComponent {
 
@@ -58,7 +58,7 @@ export class PopupCreateUserComponent {
 		for (const roleName in rolesFormGroup.controls) {
 			const roleControl = rolesFormGroup.get(roleName) as FormControl;
 			if (roleControl.value === true) {
-				const roleParts = roleName.split('-'); 
+				const roleParts = roleName.split('-');
 				rolesBackend.push({ id: +roleParts[0], name: roleParts[1] });
 			}
 		}
@@ -69,19 +69,19 @@ export class PopupCreateUserComponent {
 			newRoles: rolesBackend
 		};
 
-		this._store.dispatch(UsersActions.createUser({userCreateObj: creatededUser}))
+		this._store.dispatch(UsersActions.createUser({ userCreateObj: creatededUser }))
 		this.context.completeWith()
 
-		
+
 
 	}
 
 	private _setRolesToForm(roles: BackendRole[]): void {
-    const rolesFormGroup = this.myForm.get('roles') as FormGroup;
-    roles.forEach(role => {
-        rolesFormGroup.addControl(`${role.id}-${role.name}`, this._fb.control(false));
-    });
-}
+		const rolesFormGroup = this.myForm.get('roles') as FormGroup;
+		roles.forEach(role => {
+			rolesFormGroup.addControl(`${role.id}-${role.name}`, this._fb.control(false));
+		});
+	}
 }
 
 

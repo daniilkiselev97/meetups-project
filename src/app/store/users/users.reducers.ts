@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as UsersActions from './users.actions';
-import { UserBackend } from '../../models/user.models';
+import { UserBackend } from '../../../shared/models/user.models';
 import { UsersState } from './users.model';
 import { state } from '@angular/animations';
 

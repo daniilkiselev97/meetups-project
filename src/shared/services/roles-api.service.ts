@@ -5,13 +5,13 @@ import { Observable, map } from 'rxjs';
 import { BackendRole } from '../models/roles.models';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class RolesApiService {
 
 	private readonly _baseUrl: string = `${environment.backendOrigin}/role`;
 
-  constructor(
+	constructor(
 		private readonly _http: HttpClient
 	) { }
 
@@ -21,5 +21,5 @@ export class RolesApiService {
 		)
 	}
 
-	
+
 }

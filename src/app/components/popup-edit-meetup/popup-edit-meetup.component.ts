@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Meetup, MeetupBackend } from 'src/app/models/meetup.models';
-import { MeetupsService } from 'src/app/services/meetups.service';
+import { Meetup, MeetupBackend } from 'src/shared/models/meetup.models';
+import { MeetupsService } from 'src/shared/services/meetups.service';
 import { AsyncPipe } from '@angular/common';
 import { PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmDay, PrizmInputLayoutTimeComponent, PrizmTime, PrizmButtonModule } from '@prizm-ui/components';
 import { FormsModule, UntypedFormControl } from '@angular/forms';
@@ -16,7 +16,7 @@ import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
 	styleUrls: ['./popup-edit-meetup.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule,AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmInputLayoutDateComponent, PrizmInputLayoutTimeComponent, PrizmButtonModule]
 })
 export class PopupEditMeetupComponent {
 	public meetup: Meetup = this.context.data;

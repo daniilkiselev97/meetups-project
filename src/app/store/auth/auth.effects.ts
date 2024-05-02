@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of, tap, throwError } from "rxjs";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/shared/services/auth.service";
 import * as AuthActions from 'src/app/store/auth/auth.actions';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class AuthEffects {
 			map(() => AuthActions.logoutSuccess()),
 		)
 	));
-	
+
 
 	public signup$ = createEffect(() => (
 		this._actions$.pipe(

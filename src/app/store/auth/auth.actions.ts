@@ -1,16 +1,16 @@
 import { createAction, props } from '@ngrx/store';
-import { UserLogin, UserRegistrationData, UserInfo } from '../../models/auth.models';
+import { UserLogin, UserRegistrationData, UserInfo } from '../../../shared/models/auth.models';
 
 export enum AuthActionTypes {
-  Login = '[Auth] Login',
-  LoginSuccess = '[Auth] Login Success',
-  LoginFailed = '[Auth] Login Failed',
-  Signup = '[Auth] Register',
-  SignupSuccess = '[Auth] Signup Success',
-  SignupFailed = '[Auth] Signup Failed',
-  Logout = '[Auth] Logout',
-  LogoutSuccess = '[Auth] Logout Success',
-  LogoutFailed = '[Auth] Logout Failed',
+	Login = '[Auth] Login',
+	LoginSuccess = '[Auth] Login Success',
+	LoginFailed = '[Auth] Login Failed',
+	Signup = '[Auth] Register',
+	SignupSuccess = '[Auth] Signup Success',
+	SignupFailed = '[Auth] Signup Failed',
+	Logout = '[Auth] Logout',
+	LogoutSuccess = '[Auth] Logout Success',
+	LogoutFailed = '[Auth] Logout Failed',
 }
 
 export const login = createAction(AuthActionTypes.Login, props<{ userLogin: UserLogin }>());

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { BackendRole } from 'src/app/models/roles.models';
-import { UserBackend } from 'src/app/models/user.models';
-import { RolesApiService } from 'src/app/services/roles-api.service';
+import { BackendRole } from 'src/shared/models/roles.models';
+import { UserBackend } from 'src/shared/models/user.models';
+import { RolesApiService } from 'src/shared/services/roles-api.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { POLYMORPH_CONTEXT, PrizmInputTextModule } from '@prizm-ui/components';
 import { FormsModule } from '@angular/forms';
@@ -20,15 +20,15 @@ import * as UsersActions from '../../store/users/users.actions'
 	styleUrls: ['./popup-edit-user.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ReactiveFormsModule, NgIf, NgFor,  AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
+	imports: [ReactiveFormsModule, NgIf, NgFor, AsyncPipe, ReactiveFormsModule, FormsModule, PrizmInputTextModule, PrizmCheckboxComponent, PrizmButtonModule]
 })
-export class PopupEditDataUserComponent implements OnInit  {
+export class PopupEditDataUserComponent implements OnInit {
 	private _stateDefaultRoles = new BehaviorSubject<BackendRole[]>([]);
 
 	public user: UserBackend = this.context.data;
 	public allRoles$: Observable<BackendRole[]> = this._rolesApiService.getAll().pipe(
 		tap(roles => this._setRolesToForm(roles)),
-	
+
 	);
 	public myForm = new FormGroup({
 		email: new FormControl('', [Validators.email]),
@@ -74,8 +74,8 @@ export class PopupEditDataUserComponent implements OnInit  {
 			newRoles: rolesToSend
 		};
 
-		this._store.dispatch(UsersActions.updateUser({userUpdateObj: changedUser}))
-		
+		this._store.dispatch(UsersActions.updateUser({ userUpdateObj: changedUser }))
+
 		this.context.completeWith();
 
 
@@ -108,5 +108,5 @@ export class PopupEditDataUserComponent implements OnInit  {
 		this._stateDefaultRoles.next(roles);
 
 	}
-	
+
 }

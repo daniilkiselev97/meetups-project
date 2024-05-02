@@ -3,8 +3,8 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as myMeetupsActions from './myMeetups.actions';
 import { catchError, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
-import { MeetupsService } from 'src/app/services/meetups.service';
-import { Meetup } from 'src/app/models/meetup.models';
+import { MeetupsService } from 'src/shared/services/meetups.service';
+import { Meetup } from 'src/shared/models/meetup.models';
 
 
 @Injectable()
@@ -24,16 +24,16 @@ export class MyMeetupsEffects {
 		}))))
 	));
 
-		createMeetup$ = createEffect(() => this.actions$.pipe(
+	createMeetup$ = createEffect(() => this.actions$.pipe(
 		ofType(myMeetupsActions.createMyMeetup),
 		exhaustMap(({ meetup }) => this.meetupsService.createMeetup(meetup)),
-		map(createdMeetup => myMeetupsActions.myMeetupCreated({meetup: createdMeetup as Meetup})),
+		map(createdMeetup => myMeetupsActions.myMeetupCreated({ meetup: createdMeetup as Meetup })),
 		catchError(error => throwError(() => of(myMeetupsActions.myMeetupFailed({
 			errorMessage: error.message
 		})))),
 	));
 
-		deleteMeetup$ = createEffect(() => this.actions$.pipe(
+	deleteMeetup$ = createEffect(() => this.actions$.pipe(
 		ofType(myMeetupsActions.deleteMyMeetup),
 		exhaustMap(({ id }) => this.meetupsService.deleteMeetup(id)),
 		map(meetupBackend => myMeetupsActions.myMeetupDeleted(meetupBackend)),

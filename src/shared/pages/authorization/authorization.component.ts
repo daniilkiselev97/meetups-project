@@ -3,30 +3,30 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { of } from 'rxjs';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import * as AuthActions from '../../store/auth/auth.actions'
+import * as AuthActions from '../../../app/store/auth/auth.actions'
 
-import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule  } from '@prizm-ui/components'
+import { PrizmButtonModule, PrizmInputTextModule, PrizmInputPasswordModule } from '@prizm-ui/components'
 import { FormsModule } from '@angular/forms';
-import { UserLogin } from 'src/app/models/auth.models';
+import { UserLogin } from 'src/shared/models/auth.models';
 import { Store } from '@ngrx/store';
 import { AuthState } from 'src/app/store/auth/auth.models';
 
 @Component({
-    selector: 'authorization',
-    templateUrl: './authorization.component.html',
-    styleUrls: ['./authorization.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        NgIf,
-        RouterLinkActive,
-        RouterLink,
-				PrizmButtonModule, 
-				PrizmInputTextModule,
-				FormsModule,
-				PrizmInputPasswordModule
-    ],
+	selector: 'authorization',
+	templateUrl: './authorization.component.html',
+	styleUrls: ['./authorization.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	standalone: true,
+	imports: [
+		ReactiveFormsModule,
+		NgIf,
+		RouterLinkActive,
+		RouterLink,
+		PrizmButtonModule,
+		PrizmInputTextModule,
+		FormsModule,
+		PrizmInputPasswordModule
+	],
 })
 export class AuthorizationComponent {
 
@@ -41,13 +41,13 @@ export class AuthorizationComponent {
 
 	) {
 		(window as any).myForm = this.myForm
-		
-	
+
+
 		this.myForm.patchValue({
 			email: 'adminadminadmin@yandex.ru',
 			password: 'adminadminadmin'
 		})
-	
+
 
 	}
 
@@ -59,7 +59,7 @@ export class AuthorizationComponent {
 			password: this.myForm.controls.password.value
 		};
 
-		this._store.dispatch(AuthActions.login({userLogin}))
+		this._store.dispatch(AuthActions.login({ userLogin }))
 	}
 }
 

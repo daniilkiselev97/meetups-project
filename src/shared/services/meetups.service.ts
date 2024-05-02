@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable,  combineLatest, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
 import { MeetupBackend, Meetup, MeetupCreated } from '../models/meetup.models';
 import { AuthService } from './auth.service';
 import { User } from '../models/user.models';
@@ -16,22 +16,22 @@ export class MeetupsService {
 	) {
 	}
 
-	public getAll(): Observable<Meetup[]> { 
-    return this._authService.authUser$.pipe(
-        switchMap((authUser) => combineLatest([ 
-            of(authUser),
-            this._meetupsApiService.getAll(),
-        ])),
-        map(([authUser, meetupsForBackend]) =>
-            meetupsForBackend
-            .filter((meetupForBackend) => meetupForBackend.owner !== null)
-            .map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
-                authUser, meetupForBackend
-            ))
-        ),
-    );
-}
-	
+	public getAll(): Observable<Meetup[]> {
+		return this._authService.authUser$.pipe(
+			switchMap((authUser) => combineLatest([
+				of(authUser),
+				this._meetupsApiService.getAll(),
+			])),
+			map(([authUser, meetupsForBackend]) =>
+				meetupsForBackend
+					.filter((meetupForBackend) => meetupForBackend.owner !== null)
+					.map((meetupForBackend) => this._convertMeetupForBackendToMeetupForAuthUser(
+						authUser, meetupForBackend
+					))
+			),
+		);
+	}
+
 
 	public getAllMy(): Observable<Meetup[]> {
 		return this.getAll().pipe(
@@ -46,7 +46,7 @@ export class MeetupsService {
 
 	public removeUserFromMeetup(user: User, meetup: Meetup): Observable<MeetupBackend> {
 		return this._meetupsApiService.removeUserFromMeetup(user, meetup)
-	
+
 
 	}
 
@@ -56,7 +56,7 @@ export class MeetupsService {
 
 	public createMeetup(meetup: MeetupCreated): Observable<MeetupBackend> {
 		return this._meetupsApiService.createMeetup(meetup)
-		
+
 	}
 
 	public deleteMeetup(idMeetup: number): Observable<MeetupBackend> {

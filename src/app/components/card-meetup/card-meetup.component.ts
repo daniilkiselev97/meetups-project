@@ -1,19 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, Inject, ChangeDetectorRef, } from '@angular/core';
-import { Meetup } from 'src/app/models/meetup.models';
-import { User } from 'src/app/models/user.models';
-
-
+import { Meetup } from 'src/shared/models/meetup.models';
+import { User } from 'src/shared/models/user.models';
 import { PopupEditMeetupComponent } from 'src/app/components/popup-edit-meetup/popup-edit-meetup.component';
 import { PopupDeleteComponent } from '../popup-delete/popup-delete.component';
-import { CardDatePipe } from '../../pipes/card-date.pipe';
+import { CardDatePipe } from '../../../shared/pipes/card-date.pipe';
 import { NgIf } from '@angular/common';
-
-
-import {
-	PrizmIconSvgEnum,
-	PrizmIconsSvgRegistry,
-	prizmIconSvgUserAccountUser,
-} from '@prizm-ui/icons';
 import { PrizmButtonComponent, PrizmButtonModule, PrizmDataListModule, PrizmDropdownHostModule, PrizmConfirmDialogModule, PolymorphComponent } from '@prizm-ui/components';
 import { CommonModule } from '@angular/common';
 import { PolymorphModule } from '@prizm-ui/components'
@@ -25,6 +16,7 @@ import { Store } from '@ngrx/store';
 import * as MeetupsActions from '../../store/all-meetups/all-meetups.actions'
 import * as MyMeetupsActions from '../../store/myMeetups/myMeetups.actions'
 import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
+import { UtilIconsModule } from 'src/shared/utils/utils-icons/utils-icons.module';
 
 @Component({
 	selector: 'card-meetup',
@@ -32,11 +24,10 @@ import { MyMeetupsState } from 'src/app/store/myMeetups/myMeetups.model';
 	styleUrls: ['./card-meetup.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
-	imports: [ NgIf, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule, PrizmIconsSvgModule],
+	imports: [NgIf, CardDatePipe, PrizmButtonComponent, CommonModule, PrizmButtonModule, PrizmDropdownHostModule, PrizmDataListModule, PrizmConfirmDialogModule, PolymorphModule, UtilIconsModule, PrizmIconsSvgModule],
 	providers: [PrizmDestroyService]
 })
 export class CardMeetupComponent {
-	readonly PrizmIconSvgEnum = PrizmIconSvgEnum;
 
 	@ViewChild('footerTemp', { read: TemplateRef }) footerTemp!: TemplateRef<any>;
 	@Input({ required: true }) public meetup!: Meetup;
@@ -56,12 +47,9 @@ export class CardMeetupComponent {
 		public readonly cdRef: ChangeDetectorRef,
 
 		private readonly confirmDialogService: PrizmConfirmDialogService,
-		private readonly iconRegistry: PrizmIconsSvgRegistry,
 		private readonly _storeMyMeetups: Store<MyMeetupsState>,
 	) {
-		this.iconRegistry.registerIcons([
-			prizmIconSvgUserAccountUser
-		]);
+
 	}
 
 	public openDeletePopup(meetup: Meetup): void {
@@ -71,13 +59,13 @@ export class CardMeetupComponent {
 				footer: this.footerTemp,
 				data: { message: 'Вы действительно хотите удалить митап ?' }
 			},
-			
+
 		).subscribe((result) => {
-			if(result) {
+			if (result) {
 				this._storeMyMeetups.dispatch(MyMeetupsActions.deleteMyMeetup({ id: meetup.id }))
 			}
 		})
-		
+
 	}
 
 	public openEditPopup(meetup: Meetup): void {
@@ -110,7 +98,7 @@ export class CardMeetupComponent {
 
 	public removeUserFromMeetup(user: User | null, meetup: Meetup): void {
 		if (user === null) return;
-		
+
 		this._storeMyMeetups.dispatch(MeetupsActions.removeUserFromMeetup({ user, meetup }))
 	}
 }

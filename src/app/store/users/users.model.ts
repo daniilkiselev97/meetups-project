@@ -1,5 +1,5 @@
-import { UserBackend } from "src/app/models/user.models";
+import { UserBackend } from "src/shared/models/user.models";
 
 export interface UsersState {
-  users: UserBackend[];
+	users: UserBackend[];
 }

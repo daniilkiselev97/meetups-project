@@ -7,10 +7,10 @@ import { LocalStorageService } from './local-storage.service';
 import { Router } from '@angular/router';
 import { User, UserAuthBackend } from '../models/user.models';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../store/auth/auth.models';
-import * as AuthActions from '../store/auth/auth.actions'
-import { selectIsAuth, selectToken, selectUser } from '../store/auth/auth.selectors';
-import * as Actions from '../store/auth/auth.actions'
+import { AuthState } from '../../app/store/auth/auth.models';
+import * as AuthActions from '../../app/store/auth/auth.actions'
+import { selectIsAuth, selectToken, selectUser } from '../../app/store/auth/auth.selectors';
+import * as Actions from '../../app/store/auth/auth.actions'
 
 
 
@@ -72,8 +72,8 @@ export class AuthService {
 		this._localStorageService.delete(this._localStorageKey);
 		this._router.navigateByUrl('login');
 	}
-	
-	
+
+
 
 
 	private _init(): void {
