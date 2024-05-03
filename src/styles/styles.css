@@ -113,5 +113,19 @@ margin-bottom: 7px;
 /* prizma */
 
 
+.link {
+	color: #08a873d7; 
+  text-decoration: none; 
+  transition: color 0.3s ease; 
+	font-size: 17px;
+}
+
+.link:hover{
+	color: #0cc185af;
+}
+
+
+
+
 
 

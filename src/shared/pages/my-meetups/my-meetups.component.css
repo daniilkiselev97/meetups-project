@@ -1,4 +1,7 @@
+.section {
+	height: 100vh
 
+}
 
 .cards-wrapper {
 	display: flex;
@@ -16,6 +19,8 @@
 	flex-direction: column;
 	gap: 30px;
 }
+
+
 
 .section-cards {
 	padding-top: 30px;
