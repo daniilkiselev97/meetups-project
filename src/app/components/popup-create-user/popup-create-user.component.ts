@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormRecord } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 import { BackendRole } from 'src/shared/models/roles.models';
 import { RolesApiService } from 'src/shared/services/roles-api.service';
@@ -33,8 +33,7 @@ export class PopupCreateUserComponent {
 		email: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl('', []),
 		fio: new FormControl('', [Validators.required]),
-		roles: new FormGroup({
-		}),
+		roles: new FormRecord({})
 	});
 
 	get disabledForm(): boolean {
@@ -76,14 +75,12 @@ export class PopupCreateUserComponent {
 
 	}
 
+
 	private _setRolesToForm(roles: BackendRole[]): void {
-		const rolesFormGroup = this.myForm.get('roles') as FormGroup;
-		roles.forEach(role => {
-			rolesFormGroup.addControl(`${role.id}-${role.name}`, this._fb.control(false));
-		});
+		for (const role of roles) {
+			this.myForm.controls['roles'].addControl(`${role.id}-${role.name}`, new FormControl(false))
+		}
 	}
 }
-
-
 
 
