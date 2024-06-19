@@ -3,7 +3,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { MyMeetupsState } from './myMeetups.model';
 import { myMeetupsNode } from './myMeetups.reducers';
 
-
+//Базовые селекторы
 export const selectMeetupsState = createFeatureSelector<MyMeetupsState>(myMeetupsNode);
 
 export const selectMyMeetups = createSelector(
@@ -16,9 +16,10 @@ export const selectFilters = createSelector(
   selectMeetupsState,
   (state: MyMeetupsState) => state.filters
 );
+//Базовые селекторы
 
 
-
+//Составные селекторы
 export const selectMyMeetupsWithFilters = createSelector(
 	selectMyMeetups,
 	selectFilters,
@@ -39,5 +40,6 @@ export const selectMyMeetupsWithFilters = createSelector(
   } 
 	
 )
+//Составные селекторы
 
 

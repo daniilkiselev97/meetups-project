@@ -1,8 +1,9 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { MeetupsState } from './all-meetups.model';
 import { allMeetupsNode } from './all-meetups.reducers';
+import { selectAllUsers } from '../users/users.selectors';
 
-
+//Базовые селекторы
 export const selectMeetupsState = createFeatureSelector<MeetupsState>(allMeetupsNode);
 
 export const selectAllMeetups = createSelector(
@@ -14,9 +15,9 @@ export const selectFilters = createSelector(
   selectMeetupsState,
   (state: MeetupsState) => state.filters
 );
+//Базовые селекторы
 
-
-
+//Составные селекторы
 export const selectAllMeetupsWithFilters = createSelector(
 	selectAllMeetups,
 	selectFilters,
@@ -35,7 +36,18 @@ export const selectAllMeetupsWithFilters = createSelector(
 
     return filteredMeetups;
   } 
-	
 )
+
+export const selectMeetupsWithOwnerDetails = createSelector(
+  selectAllMeetups,
+  selectAllUsers,
+  (meetups, users) => {
+    return meetups.map(meetup => ({
+      ...meetup,
+      ownerDetails: users.find(user => user.id === meetup.owner.id)
+    }));
+  }
+);
+//Составные селекторы
 
 
